@@ -1,17 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="397.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane prefHeight="59.0" prefWidth="139.0" style="-fx-background-color: orange;" />
-      <Pane layoutY="59.0" prefHeight="337.0" prefWidth="139.0" style="-fx-background-color: lightgray;" />
-      <Pane layoutX="139.0" prefHeight="59.0" prefWidth="333.0" style="-fx-background-color: white;" />
-      <Pane layoutX="472.0" prefHeight="59.0" prefWidth="130.0" style="-fx-background-color: darkblue;" />
-      <Pane layoutX="139.0" layoutY="59.0" prefHeight="168.0" prefWidth="333.0" style="-fx-background-color: lightblue;" />
-      <Pane layoutX="472.0" layoutY="59.0" prefHeight="279.0" prefWidth="130.0" style="-fx-background-color: blue;" />
-      <Pane layoutX="472.0" layoutY="338.0" prefHeight="59.0" prefWidth="130.0" style="-fx-background-color: darkblue;" />
+      <Pane id="Account" prefHeight="59.0" prefWidth="139.0" style="-fx-background-color: orange;">
+         <children>
+            <ImageView id="info" fitHeight="32.0" fitWidth="32.0" layoutX="15.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Icons/PNG/System/Blue/MB_0023_home2.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="53.0" layoutY="22.0" text="Account Name" textFill="#a29af5">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="10.0" />
+               </font>
+            </Label>
+         </children></Pane>
+      <Pane id="Menu" layoutY="59.0" prefHeight="337.0" prefWidth="139.0" style="-fx-background-color: lightgray;">
+         <children>
+            <Button id="Info" layoutX="33.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="My Info" textFill="#7c7474">
+               <font>
+                  <Font name="Gill Sans MT" size="12.0" />
+               </font>
+            </Button>
+            <ImageView id="info" fitHeight="23.0" fitWidth="21.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Icons/PNG/System/Blue/MB_0012_info2.png" />
+               </image>
+            </ImageView>
+            <ImageView id="setting" fitHeight="23.0" fitWidth="21.0" layoutX="9.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Icons/PNG/System/Blue/MB_0020_sett-big.png" />
+               </image>
+            </ImageView>
+            <Button id="Setting" layoutX="33.0" layoutY="37.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="Setting" textFill="#7c7474">
+               <font>
+                  <Font name="Gill Sans MT" size="12.0" />
+               </font>
+            </Button>
+            <ImageView id="favorites" fitHeight="23.0" fitWidth="21.0" layoutX="10.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Icons/PNG/Others/Blue/MB_0003_Favs1.png" />
+               </image>
+            </ImageView>
+            <Button id="Favorites" layoutX="33.0" layoutY="74.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="Favorites" textFill="#7c7474">
+               <font>
+                  <Font name="Gill Sans MT" size="12.0" />
+               </font>
+            </Button>
+            <ImageView id="history" fitHeight="23.0" fitWidth="21.0" layoutX="10.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Icons/PNG/Others/Blue/MB_0002_Visitors.png" />
+               </image>
+            </ImageView>
+            <Button id="History" layoutX="33.0" layoutY="111.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="History" textFill="#7c7474">
+               <font>
+                  <Font name="Gill Sans MT" size="12.0" />
+               </font>
+            </Button>
+         </children></Pane>
+      <Pane id="Title" layoutX="139.0" prefHeight="59.0" prefWidth="333.0" style="-fx-background-color: white;">
+         <children>
+            <TextArea layoutX="195.0" layoutY="22.0" prefHeight="15.0" prefWidth="91.0" />
+            <Button layoutX="292.0" layoutY="21.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="32.0" text="Go">
+               <font>
+                  <Font size="7.0" />
+               </font>
+            </Button>
+            <Label layoutX="15.0" layoutY="20.0" text="RecipEasy" textFill="#380beb">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="16.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane id="Others" layoutX="472.0" prefHeight="59.0" prefWidth="130.0" style="-fx-background-color: darkblue;" />
+      <Pane id="RecipePic" layoutX="139.0" layoutY="59.0" prefHeight="168.0" prefWidth="333.0" style="-fx-background-color: lightblue;" />
+      <Pane id="Recommendation" layoutX="472.0" layoutY="59.0" prefHeight="279.0" prefWidth="130.0" style="-fx-background-color: blue;" />
+      <Pane id="SocialMedia" layoutX="472.0" layoutY="338.0" prefHeight="59.0" prefWidth="130.0" style="-fx-background-color: darkblue;" />
+      <Pane id="RecipeTxt" layoutX="139.0" layoutY="227.0" prefHeight="170.0" prefWidth="333.0" />
+      <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="10.0" layoutY="216.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/PNG/System/Blue/MB_0012_info2.png" />
+         </image>
+      </ImageView>
+      <Button id="Info" layoutX="33.0" layoutY="207.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="Untitled" textFill="#7c7474">
+         <font>
+            <Font name="Gill Sans MT" size="12.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="10.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/PNG/System/Blue/MB_0012_info2.png" />
+         </image>
+      </ImageView>
+      <Button id="Info" layoutX="33.0" layoutY="244.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="Untitled" textFill="#7c7474">
+         <font>
+            <Font name="Gill Sans MT" size="12.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="10.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/PNG/System/Blue/MB_0012_info2.png" />
+         </image>
+      </ImageView>
+      <Button id="Info" layoutX="33.0" layoutY="281.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="Untitled" textFill="#7c7474">
+         <font>
+            <Font name="Gill Sans MT" size="12.0" />
+         </font>
+      </Button>
+      <Button id="Info" layoutX="33.0" layoutY="318.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="Untitled" textFill="#7c7474">
+         <font>
+            <Font name="Gill Sans MT" size="12.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="10.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/PNG/System/Blue/MB_0012_info2.png" />
+         </image>
+      </ImageView>
+      <Button id="Info" layoutX="33.0" layoutY="355.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="106.0" text="Untitled" textFill="#7c7474">
+         <font>
+            <Font name="Gill Sans MT" size="12.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="23.0" fitWidth="21.0" layoutX="10.0" layoutY="364.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Icons/PNG/System/Blue/MB_0012_info2.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
