@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="397.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="59.0" prefWidth="139.0" style="-fx-background-color: orange;" />
+      <Pane layoutY="59.0" prefHeight="337.0" prefWidth="139.0" style="-fx-background-color: lightgray;" />
+      <Pane layoutX="139.0" prefHeight="59.0" prefWidth="333.0" style="-fx-background-color: white;" />
+      <Pane layoutX="472.0" prefHeight="59.0" prefWidth="130.0" style="-fx-background-color: darkblue;" />
+      <Pane layoutX="139.0" layoutY="59.0" prefHeight="168.0" prefWidth="333.0" style="-fx-background-color: lightblue;" />
+      <Pane layoutX="472.0" layoutY="59.0" prefHeight="279.0" prefWidth="130.0" style="-fx-background-color: blue;" />
+      <Pane layoutX="472.0" layoutY="338.0" prefHeight="59.0" prefWidth="130.0" style="-fx-background-color: darkblue;" />
+   </children>
+</Pane>
