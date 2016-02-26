@@ -8,9 +8,9 @@ public class Recipe
 	private String address;
 	private String category;
 	private String picAddress;
-	private int prepTime;
-	private int totalTime;
-	private int servings;
+	private String prepTime;
+	private String totalTime;
+	private String servings;
 	private String summary;
 	private String author;
 	private String servingSize;
@@ -39,91 +39,55 @@ public class Recipe
 		title = n;
 	}
 	
-	public String getTitle() 
+	public String[] getDetails() 
 	{
-		return title;
+		String[] details = {title, address, category, picAddress,
+			prepTime, totalTime, servings, summary, author};
+		return details;
 	}
 
-	public void setTitle(String title) 
+	public void setDetails(String title, String address, String category,
+			String picAddress, String prepTime, String totalTime, String 
+			servings, String summary, String author) 
 	{
 		this.title = title;
-	}
-
-	public String getAddress() 
-	{
-		return address;
-	}
-
-	public void setAddress(String address) 
-	{
 		this.address = address;
-	}
-
-	public String getCategory() 
-	{
-		return category;
-	}
-
-	public void setCategory(String category) 
-	{
 		this.category = category;
-	}
-
-	public String getPicAddress() 
-	{
-		return picAddress;
-	}
-
-	public void setPicAddress(String picAddress) 
-	{
 		this.picAddress = picAddress;
-	}
-
-	public int getPrepTime() 
-	{
-		return prepTime;
-	}
-
-	public void setPrepTime(int prepTime) 
-	{
 		this.prepTime = prepTime;
-	}
-
-	public int getTotalTime() {
-		return totalTime;
-	}
-
-	public void setTotalTime(int totalTime) 
-	{
 		this.totalTime = totalTime;
-	}
-
-	public int getServings() {
-		return servings;
-	}
-
-	public void setServings(int servings) 
-	{
 		this.servings = servings;
-	}
-
-	public String getSummary() {
-		return summary;
-	}
-
-	public void setSummary(String summary) 
-	{
 		this.summary = summary;
-	}
-
-	public String getAuthor() 
-	{
-		return author;
-	}
-
-	public void setAuthor(String author) 
-	{
 		this.author = author;
+	}
+
+	public int[] getNutrition() 
+	{
+		int[] nutrition = {calories, calFat, totFat, satFat, transFat, 
+			cholesterol, sodium, carbs, fiber, sugar, protein, vitA, 
+			vitC, calcium, iron};
+		return nutrition;
+	}
+
+	public void setNutrition(int calories, int calFat, int totFat, int satFat, 
+			int transFat, int cholesterol, int sodium, int carbs, int fiber,
+			int sugar, int protein, int vitA, int vitC, int calcium, int iron) 
+	{
+		this.calories = calories;
+		this.calFat = calFat;
+		this.totFat = totFat;
+		this.satFat = satFat;
+		this.transFat = transFat;
+		this.cholesterol = cholesterol;
+		this.sodium = sodium;
+		this.carbs = carbs;
+		this.fiber = fiber;
+		this.sugar = sugar;
+		this.protein = protein;
+		this.vitA = vitA;
+		this.vitC = vitC;
+		this.calcium = calcium;
+		this.iron = iron;
 	}
 
 	public String getServingSize() 
@@ -136,155 +100,7 @@ public class Recipe
 		this.servingSize = servingSize;
 	}
 
-	public int getCalories() 
-	{
-		return calories;
-	}
-
-	public void setCalories(int calories) 
-	{
-		this.calories = calories;
-	}
-
-	public int getCalFat() {
-		return calFat;
-	}
-
-	public void setCalFat(int calFat) 
-	{
-		this.calFat = calFat;
-	}
-
-	public int getTotFat() 
-	{
-		return totFat;
-	}
-
-	public void setTotFat(int totFat) 
-	{
-		this.totFat = totFat;
-	}
-
-	public int getSatFat() 
-	{
-		return satFat;
-	}
-
-	public void setSatFat(int satFat) 
-	{
-		this.satFat = satFat;
-	}
-
-	public int getTransFat() 
-	{
-		return transFat;
-	}
-
-	public void setTransFat(int transFat) 
-	{
-		this.transFat = transFat;
-	}
-
-	public int getCholesterol() 
-	{
-		return cholesterol;
-	}
-
-	public void setCholesterol(int cholesterol) 
-	{
-		this.cholesterol = cholesterol;
-	}
-
-	public int getSodium() 
-	{
-		return sodium;
-	}
-
-	public void setSodium(int sodium) 
-	{
-		this.sodium = sodium;
-	}
-
-	public int getCarbs() 
-	{
-		return carbs;
-	}
-
-	public void setCarbs(int carbs) 
-	{
-		this.carbs = carbs;
-	}
-
-	public int getFiber() 
-	{
-		return fiber;
-	}
-
-	public void setFiber(int fiber) 
-	{
-		this.fiber = fiber;
-	}
-
-	public int getSugar() 
-	{
-		return sugar;
-	}
-
-	public void setSugar(int sugar)
-	{
-		this.sugar = sugar;
-	}
-
-	public int getProtein() 
-	{
-		return protein;
-	}
-
-	public void setProtein(int protein) 
-	{
-		this.protein = protein;
-	}
-
-	public int getVitA() 
-	{
-		return vitA;
-	}
-
-	public void setVitA(int vitA) 
-	{
-		this.vitA = vitA;
-	}
-
-	public int getVitC() 
-	{
-		return vitC;
-	}
-
-	public void setVitC(int vitC) 
-	{
-		this.vitC = vitC;
-	}
-
-	public int getCalcium() 
-	{
-		return calcium;
-	}
-
-	public void setCalcium(int calcium) 
-	{
-		this.calcium = calcium;
-	}
-
-	public int getIron() 
-	{
-		return iron;
-	}
-
-	public void setIron(int iron) 
-	{
-		this.iron = iron;
-	}
-
+	
 	public ArrayList<String> getIngredients() 
 	{
 		return ingredients;
@@ -317,21 +133,22 @@ public class Recipe
 	
 	public void addIngredient(String ingredient)
 	{
-		
+		ingredients.add(ingredient);
 	}
 	
 	public void addIngredient(String amt, String amtType, String ingredient)
 	{
-		
+		String ingred = amt + " " + amtType + " " + ingredient;
+		addIngredient(ingred);
 	}
 	
 	public void addDirection(String direction)
 	{
-		
+		directions.add(direction);
 	}
 	
 	public void addTip(String tip)
 	{
-		
+		tips.add(tip);
 	}
 }
