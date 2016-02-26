@@ -2,11 +2,8 @@ package modifydb;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import data.Recipe;
@@ -96,13 +93,12 @@ public class Scraper
 				return e.get(i).text();
 			}
 		}
-		
 		return null;
 	}
 	
 	//serialize the ArrayList of recipes for use in the interface
 	private static void serialize(ArrayList<Recipe> recipes)
 	{
-		
+		//create a file that can be used by UI team consisting of serialized Recipe objects
 	}
 }
