@@ -19,73 +19,90 @@ import data.Recipe;
  */
 public class Scraper 
 {
-	//array of recipe objects to be acted on and commited to the database.
-	private Recipe[] recipe;
 	
 	/*main method
-	 * args: web address linking to webpage containing categorized recipe links.
+	 * args:[in final draft] web address linking to webpage containing categorized recipe links.
 	 * This method takes the input address and creates an array of recipe addresses
 	 * to loop through to create each recipe object. 
 	 */
 	public static void main(String[] args)
 	{
-		//String url = args[0];
-		ArrayList<String> urls = new ArrayList<String>();
-			
-				urls.add("http://www.bettycrocker.com/recipes/make-ahead-cheeseburger-lasagna/122c69cd-e318-406f-b5e7-67d93d899537");
-				urls.add("http://www.bettycrocker.com/recipes/sweet-potato-coconut-and-gingerroot-soup/37e846bc-53cf-4615-9377-d2456511da5c");
-				urls.add("http://www.bettycrocker.com/recipes/tropical-smoothie-bowls/8e5666f0-6796-4db1-9e56-022760a97d8c");
-				urls.add("http://www.bettycrocker.com/recipes/gluten-free-best-ever-banana-bread/85ebf86a-972e-4768-b759-32191f5e8a4f");
-				urls.add("http://www.bettycrocker.com/recipes/teenage-mutant-ninja-turtles-cupcakes/007bfa56-e876-4c26-ac3e-985a6b5ea466");
+		//An ArrayList of test recipe URLs
+		ArrayList<String> urls = new ArrayList<String>();		
+		urls.add("http://www.bettycrocker.com/recipes/make-ahead-cheeseburger-lasagna/122c69cd-e318-406f-b5e7-67d93d899537");
+		urls.add("http://www.bettycrocker.com/recipes/sweet-potato-coconut-and-gingerroot-soup/37e846bc-53cf-4615-9377-d2456511da5c");
+		urls.add("http://www.bettycrocker.com/recipes/tropical-smoothie-bowls/8e5666f0-6796-4db1-9e56-022760a97d8c");
+		urls.add("http://www.bettycrocker.com/recipes/gluten-free-best-ever-banana-bread/85ebf86a-972e-4768-b759-32191f5e8a4f");
+		urls.add("http://www.bettycrocker.com/recipes/teenage-mutant-ninja-turtles-cupcakes/007bfa56-e876-4c26-ac3e-985a6b5ea466");
 				
+		//An ArrayList of recipes used for testing this class
+		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+		
+		//placeholder URL to be updated with the URL of the recipe
 		String url = "";
+		//placeholder jsoup Document to be updated with the html from the URL
 		Document html = new Document("temp");
 		
+		//Loop through the URLs, creating Recipe objects
 		for (int i = 0; i < urls.size(); i++)
 		{
 			url = urls.get(i);
 			
+			//Attempt to download the html from the URL using jsoup
 			try 
 			{
 	            //Connect to website
 	            html = Jsoup.connect(url).get();
-
-	            if (html != null && html.toString().length() > 0) 
-	            {
-	               System.out.println("success for recipe number: " + (i + 1));
-	            }
 	        } 
 			catch (IOException e) 
 			{
 	            e.printStackTrace();
 	        }
 			
-			head(html);
-			times(html);
-			//System.out.println(html);
+			//Get the title of the recipe from the html
+			String title = head(html);
+			
+			//Get the summary of the recipe
+			String summary = summary(html);
+			
+			//Create the Recipe object with the information found and add to the ArrayList
+			Recipe recipe = new Recipe(url, title);
+			recipes.add(recipe);
+			
+			//Output the data to check for consistency
+			System.out.println(recipes.get(i).getDetails()[0]);
 		}
+		
+		//Send data to be serialized for use in the user interface
+		serialize(recipes);
 	}
 	
-	private static void head(Document html)
+	//Parse the html to get the title as a String
+	private static String head(Document html)
 	{
 		String head = html.head().text();
 		String[] trimmed = head.split(" recipe from Betty Crocker");
-		System.out.println(trimmed[0]);
+		return trimmed[0];
 	}
 	
-	private static void times(Document html)
+	//Parse the html to get the summary as a String
+	private static String summary(Document html)
 	{
 		Elements e = html.getAllElements();
 		for (int i = 0; i < e.size(); i++)
 		{
 			if(e.get(i).className().equalsIgnoreCase("recipePartDescriptionText"))
 			{
-				System.out.println(e.get(i).text());
+				return e.get(i).text();
 			}
 		}
-		//String body = html.text();
-		//String[] trimmed = body.split("<span class=\"attributeName\">Prep Time</span>");
-		//trimmed = trimmed[1].split("</span>");
-		//System.out.println("Prep time: " + trimmed[0]);
+		
+		return null;
+	}
+	
+	//serialize the ArrayList of recipes for use in the interface
+	private static void serialize(ArrayList<Recipe> recipes)
+	{
+		
 	}
 }
