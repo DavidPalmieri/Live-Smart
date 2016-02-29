@@ -1,8 +1,9 @@
 package data;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Recipe 
+public class Recipe implements Serializable
 {
 	//The ID number of the recipe in the database
 	private Integer recipeID;
