@@ -1,7 +1,12 @@
 package modifydb;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -99,6 +104,50 @@ public class Scraper
 	//serialize the ArrayList of recipes for use in the interface
 	private static void serialize(ArrayList<Recipe> recipes)
 	{
-		//create a file that can be used by UI team consisting of serialized Recipe objects
+		//Temporary folder for files to be held on the computer that this is run on
+		String tmpDir = System.getProperty("java.io.tmpdir");
+		
+		//Loop through the ArrayList of Recipes
+		for (int i = 1; i <= recipes.size(); i++)
+		{
+			//Set the filename of the serialized Recipe object
+			String filename = tmpDir + "recipe" + i + ".ser";
+			
+			//Serialize the Recipe, and output the file location
+			try 
+			{
+				FileOutputStream fileOut = new FileOutputStream(filename);
+				ObjectOutputStream out = new ObjectOutputStream(fileOut);
+				out.writeObject(recipes.get(i-1));
+				out.close();
+				fileOut.close();
+				System.out.println("Serialized data is saved in " + filename);
+			} 
+			catch (IOException j) 
+			{
+				j.printStackTrace();
+			}
+			//Serialization is complete for this Recipe
+			
+			//To convert from serialized data file to usable object, follow these steps:
+			
+			//String filename = (local directory address and name of file)
+			FileInputStream fis = null;
+			ObjectInputStream in = null;
+			
+			try 
+			{
+				fis = new FileInputStream(filename);
+				in = new ObjectInputStream(fis);
+				recipes.set(i-1, (Recipe) in.readObject());
+				in.close();
+
+			} 
+			catch (Exception ex) 
+			{
+				ex.printStackTrace();
+			}
+		}
+		
 	}
 }
