@@ -101,6 +101,36 @@ public class Scraper
 		return null;
 	}
 	
+	//Parse the html to get the prep time, total time, and total servings of the recipe
+	private static String[] timeServings()
+	{
+		return null;
+	}
+	
+	//Parse the html to get the trademark information of the recipe
+	private static String trademark()
+	{
+		return null;
+	}
+	
+	//Parse the html to get the serving size of the recipe
+	private static String servingSize()
+	{
+		return null;
+	}
+	
+	//Parse the html for all of the nutrition information of the recipe
+	private static Integer[] nutrition()
+	{
+		return null;
+	}
+	
+	//Parse the html to find the address of the picture and download it to the computer
+	private static String picture()
+	{
+		return null;
+	}
+	
 	//serialize the ArrayList of recipes for use in the interface
 	private static void serialize(ArrayList<Recipe> recipes)
 	{
