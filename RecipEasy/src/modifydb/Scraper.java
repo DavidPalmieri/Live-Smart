@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import data.Recipe;
@@ -32,10 +33,10 @@ public class Scraper
 		//An ArrayList of test recipe URLs
 		ArrayList<String> urls = new ArrayList<String>();		
 		urls.add("http://www.bettycrocker.com/recipes/make-ahead-cheeseburger-lasagna/122c69cd-e318-406f-b5e7-67d93d899537");
-		urls.add("http://www.bettycrocker.com/recipes/sweet-potato-coconut-and-gingerroot-soup/37e846bc-53cf-4615-9377-d2456511da5c");
-		urls.add("http://www.bettycrocker.com/recipes/tropical-smoothie-bowls/8e5666f0-6796-4db1-9e56-022760a97d8c");
-		urls.add("http://www.bettycrocker.com/recipes/gluten-free-best-ever-banana-bread/85ebf86a-972e-4768-b759-32191f5e8a4f");
-		urls.add("http://www.bettycrocker.com/recipes/teenage-mutant-ninja-turtles-cupcakes/007bfa56-e876-4c26-ac3e-985a6b5ea466");
+		//urls.add("http://www.bettycrocker.com/recipes/sweet-potato-coconut-and-gingerroot-soup/37e846bc-53cf-4615-9377-d2456511da5c");
+		//urls.add("http://www.bettycrocker.com/recipes/tropical-smoothie-bowls/8e5666f0-6796-4db1-9e56-022760a97d8c");
+		//urls.add("http://www.bettycrocker.com/recipes/gluten-free-best-ever-banana-bread/85ebf86a-972e-4768-b759-32191f5e8a4f");
+		//urls.add("http://www.bettycrocker.com/recipes/teenage-mutant-ninja-turtles-cupcakes/007bfa56-e876-4c26-ac3e-985a6b5ea466");
 				
 		//An ArrayList of recipes used for testing this class
 		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
@@ -67,6 +68,9 @@ public class Scraper
 			//Get the summary of the recipe
 			String summary = summary(html);
 			
+			//Get the prep time, total time, and servings
+			String[] timeServings = timeServings(html);
+			
 			//Create the Recipe object with the information found and add to the ArrayList
 			Recipe recipe = new Recipe(url, title);
 			recipes.add(recipe);
@@ -76,7 +80,7 @@ public class Scraper
 		}
 		
 		//Send data to be serialized for use in the user interface
-		serialize(recipes);
+		//serialize(recipes);
 	}
 	
 	//Parse the html to get the title as a String
@@ -101,34 +105,115 @@ public class Scraper
 		return null;
 	}
 	
-	//Parse the html to get the prep time, total time, and total servings of the recipe
-	private static String[] timeServings()
+	//Parse the html to get the prep time, total time, and total servings
+	private static String[] timeServings(Document html)
+	{
+		String[] output = new String[3];
+		
+		Elements e = html.getAllElements();
+		Elements f = new Elements();
+		
+		for (int i = 0; i < e.size(); i++)
+		{
+			if (e.get(i).tag().toString().equalsIgnoreCase("meta"))
+			{
+				f.add(e.get(i));
+			}
+		}
+		
+		for (int i = 0; i < f.size(); i++)
+		{
+			if (f.get(i).toString().contains("prepTime"))
+			{
+				output[0] = convertTime(parseContents(f.get(i).toString()));
+			}
+			
+			if (f.get(i).toString().contains("totalTime"))
+			{
+				output[1] = convertTime(parseContents(f.get(i).toString()));
+			}
+			
+			if (f.get(i).toString().contains("recipeYield"))
+			{
+				output[2] = parseContents(f.get(i).toString());
+			}
+		}
+		
+		return output;
+	}
+	
+	//Parse the html to get the trademark information
+	private static String trademark(Document html)
 	{
 		return null;
 	}
 	
-	//Parse the html to get the trademark information of the recipe
-	private static String trademark()
+	//Parse the html to get the serving size
+	private static String servingSize(Document html)
 	{
 		return null;
 	}
 	
-	//Parse the html to get the serving size of the recipe
-	private static String servingSize()
-	{
-		return null;
-	}
-	
-	//Parse the html for all of the nutrition information of the recipe
-	private static Integer[] nutrition()
+	//Parse the html for all of the nutrition information
+	private static Integer[] nutrition(Document html)
 	{
 		return null;
 	}
 	
 	//Parse the html to find the address of the picture and download it to the computer
-	private static String picture()
+	private static String picture(Document html)
 	{
 		return null;
+	}
+	
+	//Parse the contents text out of a tag by splitting the input String into 3 pieces
+	private static String parseContents(String input)
+	{
+		String[] piece = input.split("content=\"");
+		piece = piece[1].split("\"");
+		return piece[0];
+	}
+	
+	//Convert the input String from form: PT#H##M to form: ## Hours ## Minutes
+	private static String convertTime(String input)
+	{
+		String output = "";		
+		String[] piece = input.split("H");
+		int hours = Integer.parseInt(piece[0].substring(2));
+		
+		if (hours != 0)
+		{
+			output += hours;
+			
+			if (hours > 1)
+			{
+				output += " Hours and ";
+			}
+			else
+			{
+				output += " Hour and ";
+			}
+		}
+		
+		piece = piece[1].split("M");
+		int min = Integer.parseInt(piece[0]);
+		
+		if (min != 0)
+		{
+			output +=  + min;
+			
+			if (min > 1)
+			{
+				output += " Minutes";
+			}
+			else
+			{
+				output += " Minute";
+			}
+		}
+		
+		System.out.println("Time check: " + input + " = " + output);
+		return output;
 	}
 	
 	//serialize the ArrayList of recipes for use in the interface
