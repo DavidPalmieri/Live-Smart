@@ -224,22 +224,52 @@ public class Recipe implements Serializable
 	public void printRecipe()
 	{		
 		System.out.println("Recipe: " + title);
+		System.out.println();
 		System.out.println("Description: " + summary);
 		System.out.println("Category: " + category);
 		System.out.println();
 		System.out.println("Prep Time: " + prepTime);
 		System.out.println("Total Time: " + totalTime);
 		System.out.println("Total Servings: " + servings);
+		
 		System.out.println();
+		
+		System.out.println("Ingredients:");
+		for(int i = 0; i < ingredients.size(); i++)
+		{
+			System.out.println(ingredients.get(i));
+		}
+		
+		System.out.println();
+		
+		System.out.println("Directions:");
+		for(int i = 0; i < directions.size(); i++)
+		{
+			System.out.println(directions.get(i));
+		}
+		
+		System.out.println();
+		
 		System.out.println("Serving Size: " + servingSize);
 		System.out.println("Calories: " + calories + ", Calories from Fat: " + calFat + ", Total Fat: " + totFat + ", Saturated Fat: " + satFat + ",");
 		System.out.println("Trans Fat: " + transFat + ", Cholesterol: " + cholesterol + ", Sodium: " + sodium + ", Total Carbohydrates: " + carbs + ",");
 		System.out.println("Dietary Fiber: " + fiber + ", Sugars: " + sugar + ", Protein: " + protein + ", Vitamin A: " + vitA + ", Vitamin C: " + vitC + ",");
 		System.out.println("Calcium: " + calcium + ", Iron: " + iron);
+		
 		System.out.println();
+		
+		System.out.println("Tips:");
+		for(int i = 0; i < tips.size(); i++)
+		{
+			System.out.println(tips.get(i));
+		}
+		
+		System.out.println();
+		
 		System.out.println("Web Address: " + address);
 		System.out.println("Picture Address: " + picAddress);
 		System.out.println("Copyright Information: " + trademark);
-		System.out.println("\n\n");
+		
+		System.out.println("\n==========================================================================================================================\n");
 	}
 }

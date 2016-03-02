@@ -79,12 +79,24 @@ public class Scraper
 			//Get all of the nutrition information
 			String[] nutrition = nutrition(elements);
 			
+			//Get the ingredients
+			ArrayList<String> ingredients = ingredients(elements);
+			
+			//Get the instructions
+			ArrayList<String> directions = directions(elements);
+			
+			//Get the tips
+			ArrayList<String> tips = tips(elements);
+			
 			//Get the copyright information
 			String trademark = trademark(elements);
 			
 			//Create the Recipe object with the information found and add to the ArrayList
 			Recipe recipe = new Recipe(url, title);
 			recipe.setDetails("Withheld", picture, timeServings[0], timeServings[1], timeServings[2], summary, trademark);
+			recipe.setTips(tips);
+			recipe.setDirections(directions);
+			recipe.setIngredients(ingredients);
 			recipe.setNutritionInfo(nutrition[0], nutrition[1], nutrition[2], nutrition[3], nutrition[4], nutrition[5],
 									nutrition[6], nutrition[7], nutrition[8], nutrition[9], nutrition[10], nutrition[11], 
 									nutrition[12], nutrition[13], nutrition[14], nutrition[15]);
@@ -93,7 +105,7 @@ public class Scraper
 		}
 		
 		//Send data to be serialized for use in the user interface
-		//serialize(recipes);
+		serialize(recipes);
 	}
 	
 	//Parse the html to get the title as a String
@@ -190,6 +202,77 @@ public class Scraper
 	private static String picture(Elements e)
 	{
 		return parseContent(tagSearch(e, "meta", "image"));
+	}
+	
+	//Parse the html and get all directions
+	private static ArrayList<String> directions(Elements e)
+	{
+		ArrayList<String> directions = new ArrayList<String>();
+		
+		for (int i = 0; i < e.size(); i++)
+		{
+			if(e.get(i).className().equalsIgnoreCase("recipePartStepDescription"))
+			{
+				directions.add(e.get(i).text());
+			}
+		}
+		
+		return directions;
+	}
+	
+	//Parse the html and get all ingredients
+		private static ArrayList<String> ingredients(Elements e)
+		{
+			ArrayList<String> ingredients = new ArrayList<String>();
+			
+			for (int i = 0; i < e.size(); i++)
+			{
+				if(e.get(i).className().equalsIgnoreCase("recipePartIngredient"))
+				{
+					ingredients.add(e.get(i).text());
+				}
+			}
+			
+			return ingredients;
+		}
+	
+	//Parse the html and get all "Expert tips"
+	private static ArrayList<String> tips(Elements e)
+	{
+		ArrayList<String> tips = new ArrayList<String>();
+		for (int i = 0; i < e.size(); i++)
+		{
+			if(e.get(i).className().equalsIgnoreCase("recipePartTipsInfo"))
+			{
+				String html = e.get(i).html();
+				
+				boolean a = true;
+				int counter = 1;
+				while (a)
+				{
+					if (html.contains("gmi_rp_expertTips_tip_" + counter))
+					{
+						String[] text = html.split("gmi_rp_expertTips_tip_" + counter + "\">");
+						text = text[1].split("</p");
+						String tip = text[0].replaceAll("<i>", "");
+						tip = tip.replaceAll("</i>", "");
+						tip = tip.replaceAll("<b>", "");
+						tip = tip.replaceAll("</b>", "");
+						tip = tip.replaceAll("<u>", "");
+						tip = tip.replaceAll("</u>", "");
+						tips.add(tip);
+					}
+					else
+					{
+						a = false;
+					}
+					
+					counter++;
+				}
+				
+			}
+		}
+		return tips;
 	}
 	
 	//Search through the html for a specific class and text content
