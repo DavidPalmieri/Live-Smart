@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import data.Recipe;
@@ -67,35 +66,30 @@ public class Scraper
 			
 			//Get the title of the recipe from the html
 			String title = title(html);
-			System.out.println(title);
 			
 			//Get the summary of the recipe
 			String summary = summary(elements);
-			System.out.println(summary);
 			
 			//Get the picture address (and later dl the image nd save address)
 			String picture = picture(elements);
-			System.out.println(picture);
 			
 			//Get the prep time, total time, and servings
 			String[] timeServings = timeServings(elements);
-			System.out.println("Prep Time: " + timeServings[0]);
-			System.out.println("Total time: " + timeServings[1]);
-			System.out.println("Servings: " + timeServings[2]);
 			
 			//Get all of the nutrition information
 			String[] nutrition = nutrition(elements);
 			
 			//Get the copyright information
 			String trademark = trademark(elements);
-			System.out.println(trademark);
-			
 			
 			//Create the Recipe object with the information found and add to the ArrayList
 			Recipe recipe = new Recipe(url, title);
+			recipe.setDetails("Withheld", picture, timeServings[0], timeServings[1], timeServings[2], summary, trademark);
+			recipe.setNutritionInfo(nutrition[0], nutrition[1], nutrition[2], nutrition[3], nutrition[4], nutrition[5],
+									nutrition[6], nutrition[7], nutrition[8], nutrition[9], nutrition[10], nutrition[11], 
+									nutrition[12], nutrition[13], nutrition[14], nutrition[15]);
 			recipes.add(recipe);
-			
-			System.out.println();
+			recipe.printRecipe();
 		}
 		
 		//Send data to be serialized for use in the user interface
@@ -157,32 +151,62 @@ public class Scraper
 	private static String[] nutrition(Elements e)
 	{
 		String[] output = new String[16];
-		//serving size, calories, calFat, totFat, satFat, transFat, cholesterol,
+		String className = "nutrition-fact-title";
+		
+		//serving size
+		output[0] = "";
+		
+		for (int i = 0; i < e.size(); i++)
+		{
+			if(e.get(i).className().equalsIgnoreCase("nutrition-serving-size"))
+			{
+				String[] text = e.get(i).text().split("Serving Size: ");
+					output[0] = text[1];
+			}
+		}
+		
+		//calories, calFat, totFat, satFat, transFat, cholesterol,
 		//sodium, carbs, fiber, sugar, protein, vitA, vitC, calcium, iron
-		output[0] = parseContent(tagSearch(e, "meta", "servingSize"));
-		output[1] = parseContent(tagSearch(e, "meta", "calories"));
-		output[2] = parseContent(tagSearch(e, "meta", ""));
-		output[3] = parseContent(tagSearch(e, "meta", ""));
-		output[4] = parseContent(tagSearch(e, "meta", "saturatedFatContent"));
-		output[5] = parseContent(tagSearch(e, "meta", "transFatContent"));
-		output[6] = parseContent(tagSearch(e, "meta", "cholesterolContent"));
-		output[7] = parseContent(tagSearch(e, "meta", "sodiumContent"));
-		output[8] = parseContent(tagSearch(e, "meta", "carbohydrateContent"));
-		output[9] = parseContent(tagSearch(e, "meta", "fiberContent"));
-		output[10] = parseContent(tagSearch(e, "meta", "sugarContent"));
-		output[11] = parseContent(tagSearch(e, "meta", "proteinContent"));
-		output[12] = parseContent(tagSearch(e, "meta", ""));
-		output[13] = parseContent(tagSearch(e, "meta", ""));
-		output[14] = parseContent(tagSearch(e, "meta", ""));
-		output[14] = parseContent(tagSearch(e, "meta", ""));
+		output[1] = classSearch(e, className, "Calories");
+		output[2] = classSearch(e, className, "Calories from Fat");
+		output[3] = classSearch(e, className, "Total Fat");
+		output[4] = classSearch(e, className, "Saturated Fat");
+		output[5] = classSearch(e, className, "Trans Fat");
+		output[6] = classSearch(e, className, "Cholesterol");
+		output[7] = classSearch(e, className, "Sodium");
+		output[8] = classSearch(e, className, "Total Carbohydrate");
+		output[9] = classSearch(e, className, "Dietary Fiber");
+		output[10] = classSearch(e, className, "Sugars");
+		output[11] = classSearch(e, className, "Protein");
+		output[12] = classSearch(e, className, "Vitamin A");
+		output[13] = classSearch(e, className, "Vitamin C");
+		output[14] = classSearch(e, className, "Calcium");
+		output[15] = classSearch(e, className, "Iron");
 				
 		return output;
 	}
 	
-	//Parse the html to find the address of the picture and download it to the computer
+	//Parse the html to find the address of the picture (and download it to the computer)
 	private static String picture(Elements e)
 	{
 		return parseContent(tagSearch(e, "meta", "image"));
+	}
+	
+	//Search through the html for a specific class and text content
+	private static String classSearch(Elements e, String className, String text)
+	{
+		for (int i = 0; i < e.size(); i++)
+		{
+			if(e.get(i).className().equalsIgnoreCase(className))
+			{
+				String allText = e.get(i).text();
+				if (allText.equalsIgnoreCase(text))
+				{
+					return e.get(i + 1).text();
+				}
+			}
+		}
+		return null;
 	}
 	
 	//Search through the html for a specific tag type and tag contents
@@ -217,7 +241,7 @@ public class Scraper
 		return piece[0];
 	}
 	
-	//Convert the input String from form: PT#H##M to form: ## Hours ## Minutes
+	//Convert the input String from form: PT#H##M to form: ## Hours and ## Minutes
 	private static String convertTime(String input)
 	{
 		String output = "";		
@@ -259,7 +283,6 @@ public class Scraper
 			}
 		}
 		
-		System.out.println("Time check: " + input + " = " + output);
 		return output;
 	}
 	

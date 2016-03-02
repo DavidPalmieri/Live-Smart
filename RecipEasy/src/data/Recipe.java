@@ -18,27 +18,24 @@ public class Recipe implements Serializable
 	private String servings;
 	private String summary;
 	private String trademark;
-	
-	//Serving Size
-	private String servingSize;
-	
+
 	//Nutrition Information
-	//	Primitives not used to allow for Null values
-	private Integer calories;
-	private Integer calFat;
-	private Integer totFat;
-	private Integer satFat;
-	private Integer transFat;
-	private Integer cholesterol;
-	private Integer sodium;
-	private Integer carbs;
-	private Integer fiber;
-	private Integer sugar;
-	private Integer protein;
-	private Integer vitA;
-	private Integer vitC;
-	private Integer calcium;
-	private Integer iron;
+	private String servingSize;
+	private String calories;
+	private String calFat;
+	private String totFat;
+	private String satFat;
+	private String transFat;
+	private String cholesterol;
+	private String sodium;
+	private String carbs;
+	private String fiber;
+	private String sugar;
+	private String protein;
+	private String vitA;
+	private String vitC;
+	private String calcium;
+	private String iron;
 	
 	//Ingredients, Directions, and Tips
 	private ArrayList<String> ingredients;
@@ -66,21 +63,21 @@ public class Recipe implements Serializable
 		summary = "";
 		trademark = "";
 		servingSize = "";
-		calories = null;
-		calFat = null;
-		totFat = null;
-		satFat = null;
-		transFat = null;
-		cholesterol = null;
-		sodium = null;
-		carbs = null;
-		fiber = null;
-		sugar = null;
-		protein = null;
-		vitA = null;
-		vitC = null;
-		calcium = null;
-		iron = null;
+		calories = "";
+		calFat = "";
+		totFat = "";
+		satFat = "";
+		transFat = "";
+		cholesterol = "";
+		sodium = "";
+		carbs = "";
+		fiber = "";
+		sugar = "";
+		protein = "";
+		vitA = "";
+		vitC = "";
+		calcium = "";
+		iron = "";
 		
 		//Initialize ArrayLists
 		ingredients = new ArrayList<String>();
@@ -95,7 +92,7 @@ public class Recipe implements Serializable
 	}
 	
 	//Get the recipeID for quick database querying.
-		public Integer getID()
+		public int getID()
 		{
 			return recipeID;
 		}
@@ -111,12 +108,9 @@ public class Recipe implements Serializable
 	/*Setting the information stored as Strings.
 	 *Null values are acceptable.
 	 */
-	public void setDetails(String title, String address, String category,
-			String picAddress, String prepTime, String totalTime, String 
-			servings, String summary, String trademark, String servingSize) 
+	public void setDetails(String category,String picAddress, String prepTime, 
+			String totalTime, String servings, String summary, String trademark) 
 	{
-		this.title = title;
-		this.address = address;
 		this.category = category;
 		this.picAddress = picAddress;
 		this.prepTime = prepTime;
@@ -124,13 +118,12 @@ public class Recipe implements Serializable
 		this.servings = servings;
 		this.summary = summary;
 		this.trademark = trademark;
-		this.servingSize = servingSize;
 	}
 
 	//Information stored as Integers.
-	public int[] getNutritionInfo() 
+	public String[] getNutritionInfo() 
 	{
-		int[] nutrition = {calories, calFat, totFat, satFat, transFat, 
+		String[] nutrition = {calories, calFat, totFat, satFat, transFat, 
 			cholesterol, sodium, carbs, fiber, sugar, protein, vitA, 
 			vitC, calcium, iron};
 		return nutrition;
@@ -139,10 +132,11 @@ public class Recipe implements Serializable
 	/*Setting the information stored as Integers.
 	 *Null values are acceptable.
 	 */
-	public void setNutritionInfo(int calories, int calFat, int totFat, int satFat, 
-			int transFat, int cholesterol, int sodium, int carbs, int fiber,
-			int sugar, int protein, int vitA, int vitC, int calcium, int iron) 
+	public void setNutritionInfo(String servingSize, String calories, String calFat, String totFat, String 
+			satFat, String transFat, String cholesterol, String sodium, String carbs, String fiber,
+			String sugar, String protein, String vitA, String vitC, String calcium, String iron) 
 	{
+		this.servingSize = servingSize;
 		this.calories = calories;
 		this.calFat = calFat;
 		this.totFat = totFat;
@@ -225,5 +219,27 @@ public class Recipe implements Serializable
 	public void addTip(String tip)
 	{
 		tips.add(tip);
+	}
+	
+	public void printRecipe()
+	{		
+		System.out.println("Recipe: " + title);
+		System.out.println("Description: " + summary);
+		System.out.println("Category: " + category);
+		System.out.println();
+		System.out.println("Prep Time: " + prepTime);
+		System.out.println("Total Time: " + totalTime);
+		System.out.println("Total Servings: " + servings);
+		System.out.println();
+		System.out.println("Serving Size: " + servingSize);
+		System.out.println("Calories: " + calories + ", Calories from Fat: " + calFat + ", Total Fat: " + totFat + ", Saturated Fat: " + satFat + ",");
+		System.out.println("Trans Fat: " + transFat + ", Cholesterol: " + cholesterol + ", Sodium: " + sodium + ", Total Carbohydrates: " + carbs + ",");
+		System.out.println("Dietary Fiber: " + fiber + ", Sugars: " + sugar + ", Protein: " + protein + ", Vitamin A: " + vitA + ", Vitamin C: " + vitC + ",");
+		System.out.println("Calcium: " + calcium + ", Iron: " + iron);
+		System.out.println();
+		System.out.println("Web Address: " + address);
+		System.out.println("Picture Address: " + picAddress);
+		System.out.println("Copyright Information: " + trademark);
+		System.out.println("\n\n");
 	}
 }
