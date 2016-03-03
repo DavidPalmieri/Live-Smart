@@ -1,10 +1,15 @@
 package modifydb;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
@@ -67,7 +72,7 @@ public class Scraper
 			String summary = summary(elements);
 			
 			//Get the picture address (and later dl the image nd save address)
-			String picture = picture(elements);
+			String picture = picture(elements, title);
 			
 			//Get the prep time, total time, and servings
 			String[] timeServings = timeServings(elements);
@@ -195,9 +200,25 @@ public class Scraper
 	}
 	
 	//Parse the html to find the address of the picture (and download it to the computer)
-	private static String picture(Elements e)
+	private static String picture(Elements e, String imageName) throws IOException
 	{
-		return parseContent(tagSearch(e, "meta", "image"));
+		String imagePath = "src/modifydb/RecipePictures/" + imageName + ".jpg";
+		String imageURL = parseContent(tagSearch(e, "meta", "image"));
+		URL url = new URL(imageURL);
+		InputStream is = url.openStream();
+		OutputStream os = new FileOutputStream(new File(imagePath));
+
+		byte[] b = new byte[2048];
+		int length;
+
+		while ((length = is.read(b)) != -1) 
+		{
+			os.write(b, 0, length);
+		}
+
+		is.close();
+		os.close();
+		return imagePath;
 	}
 	
 	//Parse the html and get all directions
