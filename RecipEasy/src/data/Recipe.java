@@ -11,7 +11,6 @@ public class Recipe implements Serializable
 	//Recipe Details
 	private String title;
 	private String address;
-	private String category;
 	private String picAddress;
 	private String prepTime;
 	private String totalTime;
@@ -37,7 +36,8 @@ public class Recipe implements Serializable
 	private String calcium;
 	private String iron;
 	
-	//Ingredients, Directions, and Tips
+	//Categories, Ingredients, Directions, and Tips
+	private ArrayList<String> categories;
 	private ArrayList<String> ingredients;
 	private ArrayList<String> directions;
 	private ArrayList<String> tips;
@@ -55,7 +55,6 @@ public class Recipe implements Serializable
 
 		//Initialize all other information
 		recipeID = null;
-		category = "";
 		picAddress = "";
 		prepTime = "";
 		totalTime = "";
@@ -80,6 +79,7 @@ public class Recipe implements Serializable
 		iron = "";
 		
 		//Initialize ArrayLists
+		categories = new ArrayList<String>();
 		ingredients = new ArrayList<String>();
 		directions = new ArrayList<String>();
 		tips = new ArrayList<String>();
@@ -100,7 +100,7 @@ public class Recipe implements Serializable
 	//Recipe information stored as Strings.
 	public String[] getDetails() 
 	{
-		String[] details = {title, address, category, picAddress,
+		String[] details = {title, address, picAddress,
 			prepTime, totalTime, servings, summary, trademark, servingSize};
 		return details;
 	}
@@ -108,10 +108,9 @@ public class Recipe implements Serializable
 	/*Setting the information stored as Strings.
 	 *Null values are acceptable.
 	 */
-	public void setDetails(String category,String picAddress, String prepTime, 
-			String totalTime, String servings, String summary, String trademark) 
+	public void setDetails(String picAddress, String prepTime, String 
+			totalTime, String servings, String summary, String trademark) 
 	{
-		this.category = category;
 		this.picAddress = picAddress;
 		this.prepTime = prepTime;
 		this.totalTime = totalTime;
@@ -153,12 +152,30 @@ public class Recipe implements Serializable
 		this.calcium = calcium;
 		this.iron = iron;
 	}
-
-	//An ArrayList of all ingredients in the recipe
-	public ArrayList<String> getIngredients() 
+	
+	//An ArrayList of all categories in the recipe
+	public ArrayList<String> getCategories() 
 	{
-		return ingredients;
+		return categories;
 	}
+
+	//Set the ArrayList of ingredients used in the recipe.
+	public void setCategories(ArrayList<String> categories)
+	{
+		this.categories = categories;
+	}
+	
+	//Add a category to the ArrayList
+	public void addCategory(String category)
+	{
+		categories.add(category);
+	}
+	
+	//An ArrayList of all ingredients in the recipe
+		public ArrayList<String> getIngredients() 
+		{
+			return ingredients;
+		}
 
 	//Set the ArrayList of ingredients used in the recipe.
 	public void setIngredients(ArrayList<String> ingredients)
@@ -224,10 +241,26 @@ public class Recipe implements Serializable
 	public void printRecipe()
 	{		
 		System.out.println("Recipe: " + title);
+		
 		System.out.println();
+		
 		System.out.println("Description: " + summary);
-		System.out.println("Category: " + category + " Recipes");
+		
+		System.out.print("Categories: ");
+		for(int i = 0; i < categories.size(); i++)
+		{
+			if (i == categories.size()-1)
+			{
+				System.out.print(categories.get(i) + " Recipes");
+			}
+			else
+			{
+				System.out.print(categories.get(i) + " Recipes,");
+			}		
+		}
+		
 		System.out.println();
+		
 		System.out.println("Prep Time: " + prepTime);
 		System.out.println("Total Time: " + totalTime);
 		System.out.println("Total Servings: " + servings);

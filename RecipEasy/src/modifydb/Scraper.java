@@ -35,7 +35,12 @@ public class Scraper
 	public static void main(String[] args) throws IOException
 	{
 		URLGrabber linkGrabber = new URLGrabber("Apple.txt");
+		
+		//Start an ArrayList of categories, with the category that this recipe currently falls under
 		String category = linkGrabber.getCategory();
+		ArrayList<String> categories = new ArrayList<String>();
+		categories.add(category);
+		
 		ArrayList<String> urls = linkGrabber.getLinks();
 				
 		//An ArrayList of recipes used for testing this class
@@ -94,7 +99,8 @@ public class Scraper
 			
 			//Create the Recipe object with the information found and add to the ArrayList
 			Recipe recipe = new Recipe(url, title);
-			recipe.setDetails(category, picture, timeServings[0], timeServings[1], timeServings[2], summary, trademark);
+			recipe.setDetails(picture, timeServings[0], timeServings[1], timeServings[2], summary, trademark);
+			recipe.setCategories(categories);
 			recipe.setTips(tips);
 			recipe.setDirections(directions);
 			recipe.setIngredients(ingredients);
