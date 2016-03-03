@@ -226,7 +226,7 @@ public class Recipe implements Serializable
 		System.out.println("Recipe: " + title);
 		System.out.println();
 		System.out.println("Description: " + summary);
-		System.out.println("Category: " + category);
+		System.out.println("Category: " + category + " Recipes");
 		System.out.println();
 		System.out.println("Prep Time: " + prepTime);
 		System.out.println("Total Time: " + totalTime);
