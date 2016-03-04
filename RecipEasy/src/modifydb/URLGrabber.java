@@ -26,8 +26,8 @@ public class URLGrabber
 	{
 		ArrayList<String> links = new ArrayList<String>();
 		
-		InputStream in =  getClass().getResourceAsStream("/modifydb/CategoryLinks/" + fileName);
-		BufferedReader br = new BufferedReader( new InputStreamReader(in, "utf-8"));
+		InputStream in =  URLGrabber.class.getResourceAsStream("/modifydb/CategoryLinks/" + fileName);		
+		BufferedReader br = new BufferedReader( new InputStreamReader(in));
 	 
 		String line = null;
 		while ((line = br.readLine()) != null) 
