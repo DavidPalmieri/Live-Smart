@@ -22,7 +22,7 @@ public class HtmlParser
 		try 
 		{
             //Connect to website using Jsoup 'browser' and get html as Jsoup Document
-            html = Jsoup.connect(url).get();
+            html = Jsoup.connect(url).timeout(30000).get();
         } 
 		catch (IOException e) 
 		{

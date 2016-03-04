@@ -97,7 +97,10 @@ public class Scraper
 			URLGrabber linkGrabber = new URLGrabber(fileName);
 			
 			//Populate the MasterList.txt document with every recipe URL under each category
-			linkGrabber.populateMasterList();
+			if (!fileName.equalsIgnoreCase("MasterList.txt") && !fileName.equalsIgnoreCase("ErrorList.txt"))
+			{
+				linkGrabber.populateMasterList();		
+			}
 		}
 	}
 	

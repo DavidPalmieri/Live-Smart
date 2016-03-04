@@ -38,6 +38,7 @@ public class URLGrabber
 		String line = null;
 		while ((line = br.readLine()) != null) 
 		{
+			
 			if (line.charAt(line.length() - 13) == '-' && line.charAt(line.length() - 18) == '-' && 
 					line.charAt(line.length() - 23) == '-' && line.charAt(line.length() - 28) == '-' && 
 					line.charAt(line.length() - 37) == '/')
