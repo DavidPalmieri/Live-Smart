@@ -1,21 +1,11 @@
 package modifydb;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.URL;
 import java.util.ArrayList;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 import data.Recipe;
 
 /*Scraper class
@@ -48,58 +38,32 @@ public class Scraper
 		
 		//placeholder URL to be updated with the URL of the recipe
 		String url = "";
-		//placeholder jsoup Document to be updated with the html from the URL
-		Document html = new Document("temp");
 		
 		//Loop through the URLs, creating Recipe objects
 		for (int i = 0; i < urls.size(); i++)
 		{
 			url = urls.get(i);
 			
-			//Attempt to download the html from the URL using jsoup
-			try 
-			{
-	            //Connect to website
-	            html = Jsoup.connect(url).get();
-	        } 
-			catch (IOException e) 
-			{
-	            e.printStackTrace();
-	        }
+			//Create a new HtmlParserObject to search the HTML
+			HtmlParser parser = new HtmlParser(url);
 			
-			//Get the set of html Elements that will be searched for data
-			Elements elements = html.getAllElements();
+			//Get all data of the recipe
+			String title = parser.getTitle();
+			String summary = parser.getSummary();
+			String prepTime = parser.getPrepTime();
+			String totalTime = parser.getTotalTime();
+			String servings = parser.getServings();
+			String[] nutrition = parser.getNutrition();
+			ArrayList<String> ingredients = parser.getIngredients();
+			ArrayList<String> directions = parser.getDirections();
+			ArrayList<String> tips = parser.getTips();		
 			
-			//Get the title of the recipe from the html
-			String title = title(html);
-			
-			//Get the summary of the recipe
-			String summary = summary(elements);
-			
-			//Get the picture address (and later dl the image nd save address)
-			String picture = picture(elements, title);
-			
-			//Get the prep time, total time, and servings
-			String[] timeServings = timeServings(elements);
-			
-			//Get all of the nutrition information
-			String[] nutrition = nutrition(elements);
-			
-			//Get the ingredients
-			ArrayList<String> ingredients = ingredients(elements);
-			
-			//Get the instructions
-			ArrayList<String> directions = directions(elements);
-			
-			//Get the tips
-			ArrayList<String> tips = tips(elements);
-			
-			//Get the copyright information
-			String trademark = trademark(elements);
+			//Download the recipe image to the package directory "RecipePictures"
+			parser.getPicture(title);
 			
 			//Create the Recipe object with the information found and add to the ArrayList
 			Recipe recipe = new Recipe(url, title);
-			recipe.setDetails(picture, timeServings[0], timeServings[1], timeServings[2], summary, trademark);
+			recipe.setDetails(prepTime, totalTime, servings, summary);
 			recipe.setCategories(categories);
 			recipe.setTips(tips);
 			recipe.setDirections(directions);
@@ -113,283 +77,6 @@ public class Scraper
 		
 		//Send data to be serialized for use in the user interface
 		serialize(recipes);
-	}
-	
-	//Parse the html to get the title as a String
-	private static String title(Document html)
-	{
-		String head = html.head().text();
-		String[] trimmed = head.split(" recipe from Betty Crocker");
-		return trimmed[0];
-	}
-	
-	//Parse the html to get the summary as a String
-	private static String summary(Elements e)
-	{
-		for (int i = 0; i < e.size(); i++)
-		{
-			if(e.get(i).className().equalsIgnoreCase("recipePartDescriptionText"))
-			{
-				return e.get(i).text();
-			}
-		}
-		return null;
-	}
-	
-	//Parse the html to get the prep time, total time, and total servings
-	private static String[] timeServings(Elements e)
-	{
-		String[] output = new String[3];
-		
-		//prep time: find the element, parse the content, convert to our time format
-		output[0] = convertTime(parseContent(tagSearch(e, "meta", "prepTime")));
-		
-		//total time: find the element, parse the content, convert to our time format
-		output[1] = convertTime(parseContent(tagSearch(e, "meta", "totalTime")));
-		
-		//servings: find the element, parse the content
-		output[2] = parseContent(tagSearch(e, "meta", "recipeYield"));
-		
-		return output;
-	}
-	
-	//Parse the html to get the trademark information
-	private static String trademark(Elements e)
-	{
-		for (int i = 0; i < e.size(); i++)
-		{
-			if(e.get(i).className().equalsIgnoreCase("recipePartCopyRightText"))
-			{
-				return e.get(i).text();
-			}
-		}
-		return null;
-	}
-	
-	//Parse the html for all of the nutrition information
-	private static String[] nutrition(Elements e)
-	{
-		String[] output = new String[16];
-		String className = "nutrition-fact-title";
-		
-		//serving size
-		output[0] = "";
-		
-		for (int i = 0; i < e.size(); i++)
-		{
-			if(e.get(i).className().equalsIgnoreCase("nutrition-serving-size"))
-			{
-				String[] text = e.get(i).text().split("Serving Size: ");
-					output[0] = text[1];
-			}
-		}
-		
-		//calories, calFat, totFat, satFat, transFat, cholesterol,
-		//sodium, carbs, fiber, sugar, protein, vitA, vitC, calcium, iron
-		output[1] = classSearch(e, className, "Calories");
-		output[2] = classSearch(e, className, "Calories from Fat");
-		output[3] = classSearch(e, className, "Total Fat");
-		output[4] = classSearch(e, className, "Saturated Fat");
-		output[5] = classSearch(e, className, "Trans Fat");
-		output[6] = classSearch(e, className, "Cholesterol");
-		output[7] = classSearch(e, className, "Sodium");
-		output[8] = classSearch(e, className, "Total Carbohydrate");
-		output[9] = classSearch(e, className, "Dietary Fiber");
-		output[10] = classSearch(e, className, "Sugars");
-		output[11] = classSearch(e, className, "Protein");
-		output[12] = classSearch(e, className, "Vitamin A");
-		output[13] = classSearch(e, className, "Vitamin C");
-		output[14] = classSearch(e, className, "Calcium");
-		output[15] = classSearch(e, className, "Iron");
-				
-		return output;
-	}
-	
-	//Parse the html to find the address of the picture (and download it to the computer)
-	private static String picture(Elements e, String imageName) throws IOException
-	{
-		String imagePath = "src/modifydb/RecipePictures/" + imageName + ".jpg";
-		String imageURL = parseContent(tagSearch(e, "meta", "image"));
-		URL url = new URL(imageURL);
-		InputStream is = url.openStream();
-		OutputStream os = new FileOutputStream(new File(imagePath));
-
-		byte[] b = new byte[2048];
-		int length;
-
-		while ((length = is.read(b)) != -1) 
-		{
-			os.write(b, 0, length);
-		}
-
-		is.close();
-		os.close();
-		return imagePath;
-	}
-	
-	//Parse the html and get all directions
-	private static ArrayList<String> directions(Elements e)
-	{
-		ArrayList<String> directions = new ArrayList<String>();
-		
-		for (int i = 0; i < e.size(); i++)
-		{
-			if(e.get(i).className().equalsIgnoreCase("recipePartStepDescription"))
-			{
-				directions.add(e.get(i).text());
-			}
-		}
-		
-		return directions;
-	}
-	
-	//Parse the html and get all ingredients
-		private static ArrayList<String> ingredients(Elements e)
-		{
-			ArrayList<String> ingredients = new ArrayList<String>();
-			
-			for (int i = 0; i < e.size(); i++)
-			{
-				if(e.get(i).className().equalsIgnoreCase("recipePartIngredient"))
-				{
-					ingredients.add(e.get(i).text());
-				}
-			}
-			
-			return ingredients;
-		}
-	
-	//Parse the html and get all "Expert tips"
-	private static ArrayList<String> tips(Elements e)
-	{
-		ArrayList<String> tips = new ArrayList<String>();
-		for (int i = 0; i < e.size(); i++)
-		{
-			if(e.get(i).className().equalsIgnoreCase("recipePartTipsInfo"))
-			{
-				String html = e.get(i).html();
-				
-				boolean a = true;
-				int counter = 1;
-				while (a)
-				{
-					if (html.contains("gmi_rp_expertTips_tip_" + counter))
-					{
-						String[] text = html.split("gmi_rp_expertTips_tip_" + counter + "\">");
-						text = text[1].split("</p");
-						String tip = text[0].replaceAll("<i>", "");
-						tip = tip.replaceAll("</i>", "");
-						tip = tip.replaceAll("<b>", "");
-						tip = tip.replaceAll("</b>", "");
-						tip = tip.replaceAll("<u>", "");
-						tip = tip.replaceAll("</u>", "");
-						tips.add(tip);
-					}
-					else
-					{
-						a = false;
-					}
-					
-					counter++;
-				}
-				
-			}
-		}
-		return tips;
-	}
-	
-	//Search through the html for a specific class and text content
-	private static String classSearch(Elements e, String className, String text)
-	{
-		for (int i = 0; i < e.size(); i++)
-		{
-			if(e.get(i).className().equalsIgnoreCase(className))
-			{
-				String allText = e.get(i).text();
-				if (allText.equalsIgnoreCase(text))
-				{
-					return e.get(i + 1).text();
-				}
-			}
-		}
-		return null;
-	}
-	
-	//Search through the html for a specific tag type and tag contents
-	private static String tagSearch(Elements e, String tag, String contents)
-	{
-		Elements matchElements = new Elements();
-		
-		for (int i = 0; i < e.size(); i++)
-		{
-			if (e.get(i).tag().toString().equalsIgnoreCase(tag))
-			{
-				matchElements.add(e.get(i));
-			}
-		}
-		
-		for (int i = 0; i < matchElements.size(); i++)
-		{
-			if (matchElements.get(i).toString().contains(contents))
-			{
-				return matchElements.get(i).toString();
-			}
-		}
-		
-		return null;	
-	}
-	
-	//Parse the contents text out of a tag by splitting the input String into 3 pieces
-	private static String parseContent(String input)
-	{
-		String[] piece = input.split("content=\"");
-		piece = piece[1].split("\"");
-		return piece[0];
-	}
-	
-	//Convert the input String from form: PT#H##M to form: ## Hours and ## Minutes
-	private static String convertTime(String input)
-	{
-		String output = "";		
-		String[] piece = input.split("H");
-		int hours = Integer.parseInt(piece[0].substring(2));
-		
-		if (hours != 0)
-		{
-			output += hours;
-			
-			if (hours > 1)
-			{
-				output += " Hours ";
-			}
-			else
-			{
-				output += " Hour ";
-			}
-		}
-		
-		piece = piece[1].split("M");
-		int min = Integer.parseInt(piece[0]);
-		
-		if (min != 0)
-		{
-			if(hours != 0 )
-			{
-				output += "and ";
-			}
-			output +=  + min;
-			
-			if (min > 1)
-			{
-				output += " Minutes";
-			}
-			else
-			{
-				output += " Minute";
-			}
-		}
-		
-		return output;
 	}
 	
 	//serialize the ArrayList of recipes for use in the interface

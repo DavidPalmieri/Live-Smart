@@ -11,12 +11,10 @@ public class Recipe implements Serializable
 	//Recipe Details
 	private String title;
 	private String address;
-	private String picAddress;
 	private String prepTime;
 	private String totalTime;
 	private String servings;
 	private String summary;
-	private String trademark;
 
 	//Nutrition Information
 	private String servingSize;
@@ -55,12 +53,10 @@ public class Recipe implements Serializable
 
 		//Initialize all other information
 		recipeID = null;
-		picAddress = "";
 		prepTime = "";
 		totalTime = "";
 		servings = "";
 		summary = "";
-		trademark = "";
 		servingSize = "";
 		calories = "";
 		calFat = "";
@@ -100,40 +96,37 @@ public class Recipe implements Serializable
 	//Recipe information stored as Strings.
 	public String[] getDetails() 
 	{
-		String[] details = {title, address, picAddress,
-			prepTime, totalTime, servings, summary, trademark, servingSize};
+		String[] details = {title, address, prepTime, totalTime, servings, summary};
 		return details;
 	}
 
 	/*Setting the information stored as Strings.
 	 *Null values are acceptable.
 	 */
-	public void setDetails(String picAddress, String prepTime, String 
-			totalTime, String servings, String summary, String trademark) 
+	public void setDetails(String prepTime, String totalTime, String servings, String summary) 
 	{
-		this.picAddress = picAddress;
 		this.prepTime = prepTime;
 		this.totalTime = totalTime;
 		this.servings = servings;
 		this.summary = summary;
-		this.trademark = trademark;
 	}
 
 	//Information stored as Integers.
 	public String[] getNutritionInfo() 
 	{
-		String[] nutrition = {calories, calFat, totFat, satFat, transFat, 
-			cholesterol, sodium, carbs, fiber, sugar, protein, vitA, 
-			vitC, calcium, iron};
+		String[] nutrition = {servingSize, calories, calFat, totFat, satFat, transFat, 
+							  cholesterol, sodium, carbs, fiber, sugar, protein, vitA, 
+							  vitC, calcium, iron};
 		return nutrition;
 	}
 
 	/*Setting the information stored as Integers.
 	 *Null values are acceptable.
 	 */
-	public void setNutritionInfo(String servingSize, String calories, String calFat, String totFat, String 
-			satFat, String transFat, String cholesterol, String sodium, String carbs, String fiber,
-			String sugar, String protein, String vitA, String vitC, String calcium, String iron) 
+	public void setNutritionInfo(String servingSize, String calories, String calFat, String totFat, 
+								 String satFat, String transFat, String cholesterol, String sodium, 
+								 String carbs, String fiber, String sugar, String protein, String vitA, 
+								 String vitC, String calcium, String iron) 
 	{
 		this.servingSize = servingSize;
 		this.calories = calories;
@@ -300,9 +293,6 @@ public class Recipe implements Serializable
 		System.out.println();
 		
 		System.out.println("Web Address: " + address);
-		System.out.println("Picture Address: " + picAddress);
-		System.out.println("Copyright Information: " + trademark);
-		
 		System.out.println("\n==========================================================================================================================\n");
 	}
 }

@@ -9,7 +9,7 @@ public class UserInterface {
 		String tmpDir = System.getProperty("java.io.tmpdir");
 		String filename = tmpDir + "recipe1.ser";
 		Recipe recipe1 = new Recipe("www.test.com", "recipe1");
-		recipe1.setDetails("http://images.edge-generalmills.com/597bbb9b-42f0-4081-a189-792f5b00fc4c.jpg", "35", "10:5:00", "8", "Combine the fantastic flavors of lasagna and cheeseburgers in an ooey-gooey good casserole!", "General Mills");
+		recipe1.setDetails("35", "10:5:00", "8", "Combine the fantastic flavors of lasagna and cheeseburgers in an ooey-gooey good casserole!");
 		recipe1.addCategory("Dinner");
 		recipe1.addDirection("Spray 13x9-inch (3-quart) baking dish with cooking spray. In 12-inch nonstick skillet, cook beef and onion over medium-high heat 5 to 7 minutes, stirring frequently, until beef is brown; drain. Stir in tomato sauce, water, ketchup and mustard. Simmer 5 minutes, stirring occasionally.");
 		recipe1.addDirection("Meanwhile, in medium bowl, beat egg with fork or wire whisk. Stir in ricotta cheese and 2 cups of the cheese blend.");
