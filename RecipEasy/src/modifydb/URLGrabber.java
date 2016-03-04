@@ -1,28 +1,34 @@
 package modifydb;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class URLGrabber
 {
 	
 	String fileName;
+	String category;
 
 	public URLGrabber(String fileName)
 	{
 		this.fileName = fileName;
+		category = getCategory();
 	}
 	
 	public String getCategory()
 	{
-		String[] category = fileName.split(".txt");
-		return category[0];
+		String[] cat = fileName.split(".txt");
+		category = cat[0];
+		return category;
 	}
 	
-	public ArrayList<String> getLinks() throws IOException 
+	public void populateMasterList() throws IOException 
 	{
 		ArrayList<String> links = new ArrayList<String>();
 		
@@ -39,10 +45,24 @@ public class URLGrabber
 				links.add(line);
 			}
 		}
-	 
+		
 		br.close();
 		
-		return links;
+		try
+		{
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("src/modifydb/CategoryLinks/MasterList.txt", true)));
+		    out.println(category);
+		    for (String link : links)
+		    {
+		    	 out.println(link);
+		    }
+		    out.close();
+		}
+		catch (IOException e) 
+		{
+		    e.printStackTrace();
+		}
+		
+		
 	}
-
 }

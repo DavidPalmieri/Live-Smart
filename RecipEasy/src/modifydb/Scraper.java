@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import data.Recipe;
+import data.RecipeList;
 
 /*Scraper class
  * takes a web address (betty crocker website -> category), and parses out the web
@@ -26,6 +29,63 @@ public class Scraper
 	 */
 	public static void main(String[] args) throws IOException
 	{
+		//Instantiate the MasterList.txt and ErrorList.txt files for use
+		File masterList = new File("src/modifydb/CategoryLinks/MasterList.txt");
+		File errorList = new File("src/modifydb/CategoryLinks/ErrorList.txt");
+		PrintWriter writer = new PrintWriter(masterList);
+		writer.print("");
+		writer.close();
+		writer = new PrintWriter(masterList);
+		writer.print("");
+		writer.close();
+		
+		//Condense all supporting text files to one master list
+		buildMasterList();
+		
+		//Use the master list to create an ArrayList of RecipeLists
+		ArrayList<RecipeList> recipeLists = buildRecipeLists(masterList);
+		
+		//Use the RecipeLists to create individual Recipe objects
+		for (RecipeList list : recipeLists)
+		{
+			if (!list.getCategory().equalsIgnoreCase("temp"))
+			{
+				readRecipeList(list);
+			}
+		}
+		
+		//Now loop back through for all of the recipe urls that did not download properly
+		recipeLists = buildRecipeLists(errorList);
+		
+		//Use the RecipeLists to create individual Recipe objects
+		for (RecipeList list : recipeLists)
+		{
+			if (!list.getCategory().equalsIgnoreCase("temp"))
+			{
+				readRecipeList(list);
+			}
+		}
+		
+		//Print out the remaining urls that had errored downloading twice
+		Scanner sc = new Scanner(errorList);
+		 
+		String line = "";
+		
+		while (sc.hasNextLine())
+		{	
+			line = sc.nextLine();
+			
+			if (line.contains("http://"))
+			{
+				System.out.println(line);
+			}
+		}
+	}	
+			
+	
+	//Use all supprting text files to create one master list with all recipe URLs and categories
+	private static void buildMasterList() throws IOException
+	{
 		//Get every text file containing links to recipes from the directory
 		File catDirectory = new File("src/modifydb/CategoryLinks/");
 		String[] allFileNames = catDirectory.list();
@@ -36,68 +96,123 @@ public class Scraper
 			//linkGrabber object takes a text file full of URLs and parses out recipe URLs
 			URLGrabber linkGrabber = new URLGrabber(fileName);
 			
-			//Get the category that this recipe falls under
-			String category = linkGrabber.getCategory();
-			
-			//Get an ArrayList of the recipe URLs
-			ArrayList<String> urls = linkGrabber.getLinks();
-					
-			//Create aN ArrayList that will hold all of the recipes
-			ArrayList<Recipe> recipes = new ArrayList<Recipe>();
-			
-			//placeholder URL to be updated with the URL of the recipe
-			String url = "";
-			
-			//Loop through the URLs, creating Recipe objects
-			for (int i = 0; i < urls.size(); i++)
-			{
-				url = urls.get(i);
-				Recipe recipe = buildRecipe(url, category);
-				recipes.add(recipe);
-				recipe.printRecipe();
-			}
-			
-			//Send data to be serialized for use in the user interface
-			serialize(recipes, category);
+			//Populate the MasterList.txt document with every recipe URL under each category
+			linkGrabber.populateMasterList();
 		}
-		
 	}
 	
-	private static Recipe buildRecipe(String url, String category) throws IOException
+	//Create an ArrayList that holds all of the URLs of each category (stored as ArrayLists)
+	private static ArrayList<RecipeList> buildRecipeLists(File masterList) throws IOException
 	{
-		//Create a new HtmlParserObject to search the HTML
-		HtmlParser parser = new HtmlParser(url);
+		ArrayList<RecipeList> recipeLists = new ArrayList<RecipeList>();
 		
-		//Get all data of the recipe
-		String title = parser.getTitle();
-		String summary = parser.getSummary();
-		String prepTime = parser.getPrepTime();
-		String totalTime = parser.getTotalTime();
-		String servings = parser.getServings();
-		String[] nutrition = parser.getNutrition();
-		ArrayList<String> ingredients = parser.getIngredients();
-		ArrayList<String> directions = parser.getDirections();
-		ArrayList<String> tips = parser.getTips();		
+		Scanner sc = new Scanner(masterList);
+	 
+		String line = "";
+		RecipeList list = new RecipeList("temp");
 		
-		//Download the recipe image to the package directory "RecipePictures"
-		boolean hasImage = parser.getPicture(title);
-		
-		//Create the Recipe object with the information found and add to the ArrayList
-		Recipe recipe = new Recipe(url, title);
-		recipe.setDetails(prepTime, totalTime, servings, summary);
-		recipe.addCategory(category);
-		if (hasImage == true) 
-		{ 
-			recipe.hasImage(); 
+		while (sc.hasNextLine())
+		{	
+			line = sc.nextLine();
+			
+			if (!line.contains("http://"))
+			{
+				recipeLists.add(list);
+				list = new RecipeList(line);
+			}
+			else
+			{
+				list.add(line);
+			}
 		}
-		recipe.setTips(tips);
-		recipe.setDirections(directions);
-		recipe.setIngredients(ingredients);
-		recipe.setNutritionInfo(nutrition[0], nutrition[1], nutrition[2], nutrition[3], nutrition[4], nutrition[5],
-								nutrition[6], nutrition[7], nutrition[8], nutrition[9], nutrition[10], nutrition[11], 
-								nutrition[12], nutrition[13], nutrition[14], nutrition[15]);
+		sc.close();
 		
-		return recipe;
+		//Re-initialize the error list (for second pass) to note all urls that errored twice
+		File errorList = new File("src/modifydb/CategoryLinks/ErrorList.txt");
+		PrintWriter writer = new PrintWriter(errorList);
+		writer.print("");
+		writer.close();
+				
+		return recipeLists;
+	}
+	
+	//Iterate through the RecipeLists creating Recipe objects
+	private static void readRecipeList(RecipeList list) throws IOException
+	{		
+		//placeholder URL to be updated with the URL of the recipe
+		String url = "";
+		
+		//Loop through the URLs, creating Recipe objects
+		for (int i = 0; i < list.size(); i++)
+		{
+			url = list.get(i);
+			buildRecipe(url, list.getCategory());
+		}
+		
+		//Send data to be serialized for use in the user interface
+		//serialize(recipes, category);
+	
+	}
+	
+	private static void buildRecipe(String url, String category) throws IOException
+	{
+		
+		//Check the database to make sure this recipe doesn't already exist.
+		//If it does, add the category to the recipe and move on
+		//Pseudocode:
+		//if (databse contains url)
+		//{
+		//	  add category to database using recipeID
+		//}
+		//else
+		//{
+			//Create a new HtmlParserObject to search the HTML
+			HtmlParser parser = new HtmlParser(url);
+				
+			//Get all data of the recipe
+			String title = parser.getTitle();
+			String summary = parser.getSummary();
+			String prepTime = parser.getPrepTime();
+			String totalTime = parser.getTotalTime();
+			String servings = parser.getServings();
+			String[] nutrition = parser.getNutrition();
+			ArrayList<String> ingredients = parser.getIngredients();
+			ArrayList<String> directions = parser.getDirections();
+			ArrayList<String> tips = parser.getTips();		
+				
+			//Download the recipe image to the package directory "RecipePictures"
+			boolean hasImage = parser.getPicture(title);
+			
+			//Check to make sure that the website did not timeout while pulling data
+			if (title.equalsIgnoreCase(""))
+			{
+				//Save the url to be re-run at a later time
+				File errorList = new File("src/modifydb/CategoryLinks/ErrorList.txt");
+				PrintWriter writer = new PrintWriter(errorList);
+				writer.print(category);
+				writer.print(url);
+				writer.close();
+			}
+			else
+			{
+				//Create the Recipe object with the information found and add to the ArrayList
+				Recipe recipe = new Recipe(url);
+				recipe.setDetails(title, prepTime, totalTime, servings, summary);
+				recipe.addCategory(category);
+				if (hasImage == true) 
+				{ 
+					recipe.hasImage(); 
+				}
+				recipe.setTips(tips);
+				recipe.setDirections(directions);
+				recipe.setIngredients(ingredients);
+				recipe.setNutritionInfo(nutrition[0], nutrition[1], nutrition[2], nutrition[3], nutrition[4], nutrition[5],
+										nutrition[6], nutrition[7], nutrition[8], nutrition[9], nutrition[10], nutrition[11], 
+										nutrition[12], nutrition[13], nutrition[14], nutrition[15]);
+				recipe.printRecipe();
+				//recipe.commitRecipe();
+			}
+		//}	 
 	}
 	
 	//serialize the ArrayList of recipes for use in the interface

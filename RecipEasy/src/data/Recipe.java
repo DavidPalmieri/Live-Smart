@@ -46,15 +46,15 @@ public class Recipe implements Serializable
 	 * and the web address at which it was discovered.  All other data is
 	 * initialized.
 	 */
-	public Recipe(String address, String title)
+	public Recipe(String address)
 	{
-		//Set name and location of recipe
+		//Set location of recipe
 		this.address = address;
-		this.title = title;
 
 		//Initialize all other information
 		recipeID = null;
 		hasImage = false;
+		title = "";
 		prepTime = "";
 		totalTime = "";
 		servings = "";
@@ -111,8 +111,9 @@ public class Recipe implements Serializable
 	/*Setting the information stored as Strings.
 	 *Null values are acceptable.
 	 */
-	public void setDetails(String prepTime, String totalTime, String servings, String summary) 
+	public void setDetails(String title, String prepTime, String totalTime, String servings, String summary) 
 	{
+		this.title = title;
 		this.prepTime = prepTime;
 		this.totalTime = totalTime;
 		this.servings = servings;
@@ -237,6 +238,11 @@ public class Recipe implements Serializable
 	public void addTip(String tip)
 	{
 		tips.add(tip);
+	}
+	
+	public void commitRecipe()
+	{
+		//commit the recipe to the database
 	}
 	
 	public void printRecipe()
