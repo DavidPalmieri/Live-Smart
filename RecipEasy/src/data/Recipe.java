@@ -15,6 +15,7 @@ public class Recipe implements Serializable
 	private String totalTime;
 	private String servings;
 	private String summary;
+	private Boolean hasImage;
 
 	//Nutrition Information
 	private String servingSize;
@@ -53,6 +54,7 @@ public class Recipe implements Serializable
 
 		//Initialize all other information
 		recipeID = null;
+		hasImage = false;
 		prepTime = "";
 		totalTime = "";
 		servings = "";
@@ -85,6 +87,12 @@ public class Recipe implements Serializable
 	public void setID(int recipeID)
 	{
 		this.recipeID = recipeID;
+	}
+	
+	//If the recipe has an image, it can be found using the recipe title
+	public void hasImage()
+	{
+		hasImage = true;
 	}
 	
 	//Get the recipeID for quick database querying.
@@ -250,6 +258,17 @@ public class Recipe implements Serializable
 			{
 				System.out.print(categories.get(i) + " Recipes,");
 			}		
+		}
+		
+		System.out.println();
+		
+		if (hasImage == true)
+		{
+			System.out.println("Image Name: " + title + ".jpg");
+		}
+		else
+		{
+			System.out.println("No Image Available, Using: NoImage.jpg");	
 		}
 		
 		System.out.println();

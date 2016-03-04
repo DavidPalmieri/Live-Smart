@@ -195,24 +195,32 @@ public class HtmlParser
 		return null;
 	}
 	
-	public void getPicture(String recipeTitle) throws IOException
+	public boolean getPicture(String recipeTitle) throws IOException
 	{
 		String imagePath = "src/modifydb/RecipePictures/" + recipeTitle + ".jpg";
 		String imageURL = parseContent(tagSearch("meta", "image"));
-		URL url = new URL(imageURL);
-		InputStream is = url.openStream();
-		OutputStream os = new FileOutputStream(new File(imagePath));
-
-		byte[] b = new byte[2048];
-		int length;
-
-		while ((length = is.read(b)) != -1) 
+		
+		if(!imageURL.contains("http://www.bettycrocker.com/Images/Icons/BCFacebookThumbnail.png"))
 		{
-			os.write(b, 0, length);
-		}
+			URL url = new URL(imageURL);
+			InputStream is = url.openStream();
+			OutputStream os = new FileOutputStream(new File(imagePath));
 
-		is.close();
-		os.close();
+			byte[] b = new byte[2048];
+			int length;
+
+			while ((length = is.read(b)) != -1) 
+			{
+				os.write(b, 0, length);
+			}
+
+			is.close();
+			os.close();
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	//Parse the html and get all directions

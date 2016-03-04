@@ -30,18 +30,14 @@ public class Scraper
 		File catDirectory = new File("src/modifydb/CategoryLinks/");
 		String[] allFileNames = catDirectory.list();
 		
-		System.out.println(allFileNames.length + " Files to search");
-		
 		//Work through each text file, creating all of the contained recipes
 		for (String fileName : allFileNames)
 		{
 			//linkGrabber object takes a text file full of URLs and parses out recipe URLs
 			URLGrabber linkGrabber = new URLGrabber(fileName);
-			System.out.println(fileName);
 			
 			//Get the category that this recipe falls under
 			String category = linkGrabber.getCategory();
-			System.out.println(category);
 			
 			//Get an ArrayList of the recipe URLs
 			ArrayList<String> urls = linkGrabber.getLinks();
@@ -84,12 +80,16 @@ public class Scraper
 		ArrayList<String> tips = parser.getTips();		
 		
 		//Download the recipe image to the package directory "RecipePictures"
-		parser.getPicture(title);
+		boolean hasImage = parser.getPicture(title);
 		
 		//Create the Recipe object with the information found and add to the ArrayList
 		Recipe recipe = new Recipe(url, title);
 		recipe.setDetails(prepTime, totalTime, servings, summary);
 		recipe.addCategory(category);
+		if (hasImage == true) 
+		{ 
+			recipe.hasImage(); 
+		}
 		recipe.setTips(tips);
 		recipe.setDirections(directions);
 		recipe.setIngredients(ingredients);
