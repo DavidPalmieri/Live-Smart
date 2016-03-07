@@ -37,7 +37,7 @@ public class HtmlParser
 	{
 		String head = html.head().text();
 		String[] trimmed = head.split(" recipe from Betty Crocker");
-		String title = trimmed[0].replaceAll("[^a-zA-Z&&[^- ]]", "");
+		String title = trimmed[0].replaceAll("[^a-zA-Z&&[^- ]]", " ");
 		title = title.replaceAll(" +", " ").trim();
 		return title;
 	}
