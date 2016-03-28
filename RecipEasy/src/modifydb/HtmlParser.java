@@ -37,7 +37,7 @@ public class HtmlParser
 	{
 		String head = html.head().text();
 		String[] trimmed = head.split(" recipe from Betty Crocker");
-		String title = trimmed[0].replaceAll("[^a-zA-Z&&[^- ]]", " ");
+		String title = trimmed[0].replaceAll("’", "").replaceAll("[^a-zA-Z&&[^- ]]", " ");
 		title = title.replaceAll(" +", " ").trim();
 		return title;
 	}
@@ -202,7 +202,7 @@ public class HtmlParser
 		String imagePath = "src/modifydb/RecipePictures/" + recipeTitle + ".jpg";
 		String imageURL = parseContent(tagSearch("meta", "image"));
 		
-		if(!imageURL.contains("http://www.bettycrocker.com/Images/Icons/BCFacebookThumbnail.png"))
+		if(!imageURL.contains("http://www.bettycrocker.com/Images/Icons/BCFacebookThumbnail.png") && !imageURL.contains("recipe-defaultbeautyshot.ashx") )
 		{
 			URL url = new URL(imageURL);
 			InputStream is = url.openStream();

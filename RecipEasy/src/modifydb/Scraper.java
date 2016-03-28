@@ -32,15 +32,15 @@ public class Scraper
 		//Instantiate the MasterList.txt and ErrorList.txt files for use
 		File masterList = new File("src/modifydb/CategoryLinks/MasterList.txt");
 		File errorList = new File("src/modifydb/CategoryLinks/ErrorList.txt");
-		PrintWriter writer = new PrintWriter(masterList);
-		writer.print("");
-		writer.close();
-		writer = new PrintWriter(masterList);
-		writer.print("");
-		writer.close();
+		//PrintWriter writer = new PrintWriter(masterList);
+		//writer.print("");
+		//writer.close();
+		//writer = new PrintWriter(masterList);
+		//writer.print("");
+		//writer.close();
 		
 		//Condense all supporting text files to one master list
-		buildMasterList();
+		//buildMasterList();
 		
 		//Use the master list to create an ArrayList of RecipeLists
 		ArrayList<RecipeList> recipeLists = buildRecipeLists(masterList);
