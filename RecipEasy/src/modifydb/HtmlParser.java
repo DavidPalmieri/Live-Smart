@@ -37,7 +37,7 @@ public class HtmlParser
 	{
 		String head = html.head().text();
 		String[] trimmed = head.split(" recipe from Betty Crocker");
-		String title = trimmed[0].replaceAll("’", "").replaceAll("[^a-zA-Z&&[^- ]]", " ");
+		String title = trimmed[0].replaceAll("'", "").replaceAll("’", "").replaceAll("[^a-zA-Z0-9&&[^- ]]", " ");
 		title = title.replaceAll(" +", " ").trim();
 		return title;
 	}
@@ -157,7 +157,11 @@ public class HtmlParser
 			if(elements.get(i).className().equalsIgnoreCase("nutrition-serving-size"))
 			{
 				String[] text = elements.get(i).text().split("Serving Size: ");
-				nutrition[0] = text[1];
+				if (text.length > 1)
+				{
+					nutrition[0] = text[1];	
+				}
+				
 			}
 		}
 		

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,7 +28,7 @@ public class Scraper
 	 * This method takes the input address and creates an array of recipe addresses
 	 * to loop through to create each recipe object. 
 	 */
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, SQLException
 	{
 		//Instantiate the MasterList.txt and ErrorList.txt files for use
 		File masterList = new File("src/modifydb/CategoryLinks/MasterList.txt");
@@ -35,7 +36,7 @@ public class Scraper
 		//PrintWriter writer = new PrintWriter(masterList);
 		//writer.print("");
 		//writer.close();
-		//writer = new PrintWriter(masterList);
+		//writer = new PrintWriter(errorList);
 		//writer.print("");
 		//writer.close();
 		
@@ -140,8 +141,20 @@ public class Scraper
 	}
 	
 	//Iterate through the RecipeLists creating Recipe objects
-	private static void readRecipeList(RecipeList list) throws IOException
-	{		
+	private static void readRecipeList(RecipeList list) throws IOException, SQLException
+	{	
+		String category = list.getCategory();
+		
+		//Insert the Category into the database
+		QueryDB query = new QueryDB();
+		Integer categoryID = query.getCategoryID(category);
+		
+		if (categoryID == 99999)
+		{
+			DBInsertCategory insertCat = new DBInsertCategory();
+			insertCat.insertCategory(category);
+		}
+		
 		//placeholder URL to be updated with the URL of the recipe
 		String url = "";
 		
@@ -149,7 +162,7 @@ public class Scraper
 		for (int i = 0; i < list.size(); i++)
 		{
 			url = list.get(i);
-			buildRecipe(url, list.getCategory());
+			buildRecipe(url, category);
 		}
 		
 		//Send data to be serialized for use in the user interface
@@ -157,18 +170,24 @@ public class Scraper
 	
 	}
 	
-	private static void buildRecipe(String url, String category) throws IOException
+	private static void buildRecipe(String url, String category) throws IOException, SQLException
 	{
 		
 		//Check the database to make sure this recipe doesn't already exist.
 		//If it does, add the category to the recipe and move on
 		//Pseudocode:
-		//if (databse contains url)
-		//{
-		//	  add category to database using recipeID
-		//}
-		//else
-		//{
+		QueryDB query = new QueryDB();
+		Integer catID = query.getCategoryID(category);
+		Integer recID = query.getRecipeID(url);
+		if (recID != 99999)
+		{
+			//add category relation to database using recipeID
+			DBInsertCategory insCat = new DBInsertCategory();
+			insCat.insertCategoryRelation(recID, catID);
+			System.out.println("Already Exists, ID: " + recID);
+		}
+		else
+		{
 			//Create a new HtmlParserObject to search the HTML
 			HtmlParser parser = new HtmlParser(url);
 				
@@ -212,10 +231,16 @@ public class Scraper
 				recipe.setNutritionInfo(nutrition[0], nutrition[1], nutrition[2], nutrition[3], nutrition[4], nutrition[5],
 										nutrition[6], nutrition[7], nutrition[8], nutrition[9], nutrition[10], nutrition[11], 
 										nutrition[12], nutrition[13], nutrition[14], nutrition[15]);
-				recipe.printRecipe();
-				//recipe.commitRecipe();
+				//recipe.printRecipe();
+				
+				System.out.println(recipe.getDetails()[0]);
+				
+				DBInsertRecipe in = new DBInsertRecipe();
+				recipe = in.insertRecipe(recipe);
+				DBInsertCategory insCat = new DBInsertCategory();
+				insCat.insertCategoryRelation(recipe.getID(), catID);
 			}
-		//}	 
+		}	 
 	}
 	
 	//serialize the ArrayList of recipes for use in the interface
