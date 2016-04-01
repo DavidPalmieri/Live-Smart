@@ -14,6 +14,15 @@ public class QueryDBTest
 
 	public static void main(String[] args)
 	{
+		
+		
+		//queryAllRecipes();
+		//buildAllRecipes();
+		queryAllCategories();
+	}
+	
+	private static void queryAllRecipes()
+	{
 		try
 	    {
 	        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -39,12 +48,9 @@ public class QueryDBTest
 	    {
 	        sqlExcept.printStackTrace();
 	    }
-		
-		queryAll();
-		
 	}
 	
-	private static void queryAll()
+	private static void buildAllRecipes()
 	{
 		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
 		 
@@ -145,5 +151,28 @@ public class QueryDBTest
         recipes.get(4000).printRecipe();
         recipes.get(5000).printRecipe();
         
+	}
+
+	private static void queryAllCategories()
+	{
+		try
+	    {
+	        Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+	        Connection conn = DriverManager.getConnection("jdbc:derby:RecipeDB;create=false;");
+	        
+	        PreparedStatement pstmt = conn.prepareStatement("Select * from RecipeCategory Where RecipeID = ?");
+		    pstmt.setInt(1, 2500);
+	        ResultSet results = pstmt.executeQuery();
+		   
+		    while (results.next())
+		    {
+		    	System.out.println("RecCatID: " + results.getInt(1) + " RecipeID: " + results.getInt(2) + " CategoryID:    " + results.getInt(3));
+		    }
+		  
+	    }
+	    catch (Exception sqlExcept)
+	    {
+	        sqlExcept.printStackTrace();
+	    }
 	}
 }
