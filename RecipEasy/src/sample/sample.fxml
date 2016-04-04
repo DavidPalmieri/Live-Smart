@@ -66,8 +66,8 @@
                <children>
                   <TableView prefHeight="89.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn maxWidth="250.0" prefWidth="175.0" text="Name" />
+                      <TableColumn prefWidth="440.0" text="Description" />
                     </columns>
                   </TableView>
                </children>

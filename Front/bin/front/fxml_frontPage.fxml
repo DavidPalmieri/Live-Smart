@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" hgap="10" prefHeight="414.0" prefWidth="330.0" styleClass="root" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="front.frontPageController">
+  <padding><Insets bottom="10" left="25" right="25" top="25" /></padding>
+   <children>
+     
+     <Text id="welcome-text" text="RecipEasy" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+     
+     <Label text="Keywords:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+     
+     <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+     
+     <Label text="Recipe info:" GridPane.rowIndex="3" />
+     
+     <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Button onAction="#handleSubmitButtonAction" text="SEARCH" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextArea fx:id="recipe" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+   </children>
+  
+  <stylesheets>
+    <URL value="@Login.css" />
+  </stylesheets>
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+  
+</GridPane>
