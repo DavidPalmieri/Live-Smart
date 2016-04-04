@@ -81,6 +81,6 @@
       </SplitPane>
    </center>
    <left>
-      <TreeView prefHeight="632.0" prefWidth="259.0" BorderPane.alignment="CENTER" />
+      <TreeView fx:id="tree" prefHeight="632.0" prefWidth="259.0" BorderPane.alignment="CENTER" />
    </left>
 </BorderPane>
