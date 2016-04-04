@@ -35,7 +35,7 @@
             <HBox spacing="10.0">
                <children>
                   <TextField promptText="username" />
-                  <TextField layoutX="10.0" layoutY="10.0" promptText="password" />
+                  <PasswordField promptText="password" />
                   <Region HBox.hgrow="ALWAYS" />
                   <Button mnemonicParsing="false" onAction="#loginButtonClicked" text="Log In" />
                   <Button layoutX="308.0" layoutY="10.0" mnemonicParsing="false" onAction="#settingsButtonClicked" text="Settings" />
@@ -47,20 +47,40 @@
          </children>
       </VBox>
    </top>
-   <center>
-      <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Recipes will appear here!" wrapText="true" BorderPane.alignment="CENTER" />
-   </center>
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
             <Label text="Awesome Inc. 2016" />
+            <Region HBox.hgrow="ALWAYS" />
+            <ProgressBar prefWidth="200.0" progress="0.0" />
          </children>
          <padding>
             <Insets bottom="2.0" left="4.0" right="2.0" top="2.0" />
          </padding>
       </HBox>
    </bottom>
+   <center>
+      <SplitPane dividerPositions="0.2958199356913183" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TableView prefHeight="89.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="C1" />
+                      <TableColumn prefWidth="75.0" text="C2" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <ListView prefHeight="216.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </center>
    <left>
-      <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <TreeView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </left>
 </BorderPane>
