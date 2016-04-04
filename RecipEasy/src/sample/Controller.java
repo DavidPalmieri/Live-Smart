@@ -1,6 +1,14 @@
 package sample;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+
 public class Controller {
+	
+	@FXML
+	TreeView<String> tree;
+	TreeItem<String> recipesView = null;
 
     public void loginButtonClicked(){
         System.out.println("User logged in...");
