@@ -47,20 +47,20 @@
          </children>
       </VBox>
    </top>
-   <left>
-      <TreeView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </left>
    <center>
       <TextArea prefHeight="200.0" prefWidth="200.0" promptText="Recipes will appear here!" wrapText="true" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Label text="Label" />
+            <Label text="Awesome Inc. 2016" />
          </children>
          <padding>
             <Insets bottom="2.0" left="4.0" right="2.0" top="2.0" />
          </padding>
       </HBox>
    </bottom>
+   <left>
+      <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
 </BorderPane>
