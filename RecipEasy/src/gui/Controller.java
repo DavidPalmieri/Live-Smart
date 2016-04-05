@@ -17,5 +17,10 @@ public class Controller {
     public void settingsButtonClicked(){
         System.out.println("Going to Settings Menu...");
     }
+    
+    public void aboutWindowGo()	{
+    	System.out.println("Loading about page...");
+    	//AboutController.display();
+    }
 
 }
