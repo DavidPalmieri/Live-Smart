@@ -17,8 +17,8 @@ public class QueryDBTest
 		
 		
 		//queryAllRecipes();
-		//buildAllRecipes();
-		queryAllCategories();
+		buildAllRecipes();
+		//queryAllCategories();
 	}
 	
 	private static void queryAllRecipes()
@@ -150,7 +150,16 @@ public class QueryDBTest
         recipes.get(3000).printRecipe();
         recipes.get(4000).printRecipe();
         recipes.get(5000).printRecipe();
-        
+        recipes.get(6000).printRecipe();
+        recipes.get(7000).printRecipe();
+        recipes.get(8000).printRecipe();
+        recipes.get(9000).printRecipe();
+        recipes.get(10000).printRecipe();
+        recipes.get(11000).printRecipe();
+        recipes.get(12000).printRecipe();
+        recipes.get(13000).printRecipe();
+        recipes.get(14000).printRecipe();
+        recipes.get(15000).printRecipe();        
 	}
 
 	private static void queryAllCategories()
