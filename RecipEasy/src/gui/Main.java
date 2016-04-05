@@ -1,4 +1,4 @@
-package sample;
+package gui;
 
 import data.Recipe;
 import javafx.application.Application;
@@ -18,7 +18,7 @@ public class Main extends Application {
 	
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("HomePage.fxml"));
         primaryStage.setTitle("RecipEasy");
         
         //name column
