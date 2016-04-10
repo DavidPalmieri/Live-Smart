@@ -27,15 +27,15 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" onAction="#aboutWindowGo"/>
+                    <MenuItem mnemonicParsing="false" onAction="#aboutWindowGo" text="About" />
                   </items>
                 </Menu>
               </menus>
             </MenuBar>
             <HBox spacing="10.0">
                <children>
-                  <TextField promptText="username" />
-                  <PasswordField promptText="password" />
+                  <TextField fx:id="user" promptText="username" />
+                  <PasswordField fx:id="pw" promptText="password" />
                   <Region HBox.hgrow="ALWAYS" />
                   <Button mnemonicParsing="false" onAction="#loginButtonClicked" text="Log In" />
                   <Button layoutX="308.0" layoutY="10.0" mnemonicParsing="false" onAction="#settingsButtonClicked" text="Settings" />

@@ -1,9 +1,17 @@
 package gui;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+
 public class Controller {	
+	
+	@FXML TextField user;
+	@FXML PasswordField pw;
 
     public void loginButtonClicked(){
-        System.out.println("User logged in...");
+        System.out.printf("%s logged in...\n", user.getText());  
+        System.out.printf("password %s\n", pw.getText());
     }
 
     public void settingsButtonClicked(){
