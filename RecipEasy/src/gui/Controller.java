@@ -20,7 +20,7 @@ public class Controller {
     
     public void aboutWindowGo()	{
     	System.out.println("Loading about page...");
-    	//AboutController.display();
+    	AlertBox.display("Hi", "There");
     }
 
 }
