@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //																					//
-//	DBUsersInterface - Database Interface for Users Table							//
+//	DBUsersIntf - Database Interface for Users Table								//
 //	Author - Chris Costa															//
 //																					//
 //	Description: This class provides methods for accessing information in the Users	//
@@ -29,8 +29,7 @@
 //			Parameters: username - String used to query the database for a specific	//
 //				record.																//
 //			Returns: password - String used to store the encrypted password for the //
-//				specific user.														//
-//																					//
+//				specific user.														//																					
 //																					//
 //		newUser: Uses the database connection to insert a new row into the Users	//
 //			table consisting of the username and password (table: Users, columns:	//
