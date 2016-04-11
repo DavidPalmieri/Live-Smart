@@ -26,7 +26,7 @@ public class Controller {
         dbLookup.close();
         
         //Use Jasypt's password encryptor to verify whether the plain-text and encrypted passwords match
-        if (encryptedPassword != null){
+        if (!encryptedPassword.equalsIgnoreCase("")){
         	StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
     		if (passwordEncryptor.checkPassword(password, encryptedPassword)) {
     			//success, the input password matches the password on file
@@ -36,6 +36,8 @@ public class Controller {
     			//fail, the passwords do not match
     			System.out.println("unsuccessful password match");
     		}	
+        } else { // empty password string = username not found in Users table
+        	System.out.println("username not found");
         }
         
     }
