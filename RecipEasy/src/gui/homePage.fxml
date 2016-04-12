@@ -36,8 +36,10 @@
                <children>
                   <TextField fx:id="user" promptText="username" />
                   <PasswordField fx:id="pw" promptText="password" />
-                  <Region HBox.hgrow="ALWAYS" />
                   <Button mnemonicParsing="false" onAction="#loginButtonClicked" text="Log In" />
+                  <Region HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="search" prefHeight="25.0" prefWidth="291.0" promptText="Recipe Search" />
+                  <Button mnemonicParsing="false" onAction="#searchButtonClicked" text="Search" />
                   <Button layoutX="308.0" layoutY="10.0" mnemonicParsing="false" onAction="#settingsButtonClicked" text="Settings" />
                </children>
                <VBox.margin>

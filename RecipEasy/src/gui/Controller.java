@@ -11,6 +11,7 @@ public class Controller {
 	
 	@FXML TextField user;
 	@FXML PasswordField pw;
+	@FXML TextField search;
 
     public void loginButtonClicked(){
         System.out.printf("%s logged in...\n", user.getText());  	//user: test
@@ -37,13 +38,17 @@ public class Controller {
     			System.out.println("unsuccessful password match");
     		}	
         } else { // empty password string = username not found in Users table
-        	System.out.println("username not found");
+        	System.out.println("username not found\n");
         }
         
     }
 
     public void settingsButtonClicked(){
         System.out.println("Going to Settings Menu...");
+    }
+    
+    public void searchButtonClicked(){
+        System.out.printf("Searching for %s...\n", search.getText());
     }
     
     public void aboutWindowGo()	{
