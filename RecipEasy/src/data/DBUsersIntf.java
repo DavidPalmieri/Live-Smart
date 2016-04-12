@@ -3,8 +3,8 @@
 //	DBUsersIntf - Database Interface for Users Table								//
 //	Author - Chris Costa															//
 //																					//
-//	Description: This class provides methods for accessing information in the Users	//
-//	table of thedatabase.															//
+//	Description: This class provides methods for interacting with  information in 	//
+//	the Useers table of thedatabase.												//
 //																					//
 //																					//
 //	Instance Variables:																//
@@ -53,11 +53,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBUsersIntf 
+public class DBUsersIntf //Database Interface for Users Table.
 {
-	
+	//Database connection used throughout this class.
 	private Connection conn;
 
+	//Attempt to connect to the database. Always call the close method when finished with the DBUsersIntf object.
 	public DBUsersIntf()
 	{
 		try
@@ -65,43 +66,44 @@ public class DBUsersIntf
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             conn = DriverManager.getConnection("jdbc:derby:RecipeDB;create=false;");
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        catch (Exception e) { e.printStackTrace(); }
 		
 	}
 	
+	//Attempt to return the encrypted Password of the given Username, or a blank String if not found.
 	public String getPassword(String username)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		String password = "";
+		String password = ""; //If no password is found, the String stays blank for use in the calling method.
 		
-		try 
+		try //Attempt to query the Users table for records relating to the Username .
 		{
 			pstmt = conn.prepareStatement("Select Password from Users where Username = ?");
 			pstmt.setString(1, username);
 			res = pstmt.executeQuery();
-            if(res.next())
+			
+            if(res.next()) //If a record is found set the password to the first (only) record returned.
             {
             	password = res.getString(1);	
             }
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
-		finally
+		finally //Close all database objects.
 		{
 			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
 		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
 		}
 		
-		return password;
+		return password; //Return the empty String, or encrypted password String if found
 	}
 	
+	//Attempt to inserts a new user (Users table: Username and Password (UserID is auto-generated)) into the database.
 	public void newUser(String username, String password)
 	{
-		PreparedStatement pstmt = null;		
-		try 
+		PreparedStatement pstmt = null;
+		
+		try //Attempt to insert the information into the table
 		{
 			pstmt = conn.prepareStatement("insert into Users (username, password) values (?, ?)");
 			pstmt.setString(1, username);
@@ -109,12 +111,13 @@ public class DBUsersIntf
 			pstmt.executeUpdate();
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
-		finally
+		finally //close all database objects
 		{
 		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
 		}
 	}
 	
+	//Attempt to close the database connection.  This method should always be called when finished with the object.
 	public void close()
 	{
 		try { if (conn != null) conn.close(); } catch (Exception e) { e.printStackTrace(); };

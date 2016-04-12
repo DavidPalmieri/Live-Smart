@@ -3,8 +3,8 @@
 //	DBRatingIntf - Database Interface for Rating Table								//
 //	Author - Chris Costa															//
 //																					//
-//	Description: This class provides methods for accessing information in the 		//
-//	Rating table of thedatabase.													//
+//	Description: This class provides methods for interacting with information in 	//
+//	the Rating table of the database.												//
 //																					//
 //																					//
 //	Instance Variables:																//
@@ -77,11 +77,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DBRatingIntf 
+public class DBRatingIntf //Database Interface for Rating Table.
 {
-
+	//Database connection used throughout this class.
 	private Connection conn;
 	
+	//Attempt to connect to the database. Always call the close method when finished with the DBUsersIntf object.
 	public DBRatingIntf()
 	{
 		try
@@ -95,18 +96,19 @@ public class DBRatingIntf
         }
 	}
 	
+	//Attempt to get the ratings of each recipe that the specified user has rated.
 	public ArrayList<Rating> getAllByUser(int userID)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		ArrayList<Rating> ratings = new ArrayList<Rating>();
+		ArrayList<Rating> ratings = new ArrayList<Rating>(); //Returns an empty ArrayList if no ratings have been made.
 		
-		try 
+		try //Attempt to query the Rating table for records relating to the Username.
 		{
 			pstmt = conn.prepareStatement("Select recipeID, liked, ease, cost from Rating where UserID = ?");
 			pstmt.setInt(1, userID);
 			res = pstmt.executeQuery();
-            while(res.next())
+            while(res.next()) //If records are found, use the fields to create a Rating object for each, and add it to the ArrayList.
             {
             	Rating rating = new Rating(res.getInt(1));
             	rating.setRatings(res.getInt(2), res.getInt(3), res.getInt(4));
@@ -114,7 +116,7 @@ public class DBRatingIntf
             }
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
-		finally
+		finally //Close all database objects.
 		{
 			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
 		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
@@ -122,18 +124,19 @@ public class DBRatingIntf
 		return ratings;
 	}
 	
+	//Attempt to get every rating relating to a specific recipe
 	public ArrayList<Rating> getAllByRecipe(int recipeID)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		ArrayList<Rating> ratings = new ArrayList<Rating>();
+		ArrayList<Rating> ratings = new ArrayList<Rating>(); //Returns an empty ArrayList if no ratings have been made.
 		
-		try 
+		try //Attempt to query the Rating table for records relating to the Recipe.
 		{
 			pstmt = conn.prepareStatement("Select liked, ease, cost from Rating where recipeID = ?");
 			pstmt.setInt(1, recipeID);
 			res = pstmt.executeQuery();
-            while(res.next())
+            while(res.next()) //If records are found, use the fields to create a Rating object for each, and add it to the ArrayList.
             {
             	Rating rating = new Rating(recipeID);
             	rating.setRatings(res.getInt(2), res.getInt(3), res.getInt(4));
@@ -141,7 +144,7 @@ public class DBRatingIntf
             }
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
-		finally
+		finally //Close all database objects.
 		{
 			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
 		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
@@ -149,36 +152,37 @@ public class DBRatingIntf
 		return ratings;
 	}
 	
+	//Attempt to insert a record into the Rating table consisting of the UserID and RecipeID. Returns the newly created RatingID.
 	public int createRating(int userID, int recipeID)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		int ratingID = 0;
+		int ratingID = -1; //If not RatingID is created, returns -1 for error handling.
 		
-		try 
+		try //Attempt to query the Rating table for an existing RatingID for the relationship between the given UserID and RecipeID. 
 		{
 			pstmt = conn.prepareStatement("Select RatingID from Rating where recipeID = ? and userID = ?");
 			pstmt.setInt(1, recipeID);
 			pstmt.setInt(2, userID);
 			res = pstmt.executeQuery();
-			 try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
+			 try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }; //Close the database object for reuse.
             
-			 if(res.next())
+			 if(res.next()) //If the RatingID exists, return it for future use.
             {
-            	ratingID = res.getInt(1);
+            	return res.getInt(1);
             }
-            else
+            else //If the RatingID does not exist, insert a new record into the table to generate a new one.
     		{
     			pstmt = conn.prepareStatement("Insert into Rating (UserID, RatingID) values (?, ?)");
     			pstmt.setInt(1, recipeID);
     			pstmt.setInt(2, userID);
     			pstmt.executeUpdate();
-    			createRating(userID, recipeID);
+    			createRating(userID, recipeID); //Recursively call the function to return the newly generated RatingID.
     		}
 		}
 		
 		catch (SQLException e) { e.printStackTrace(); }
-		finally
+		finally //Close all database objects.
 		{
 			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
 		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
@@ -187,11 +191,12 @@ public class DBRatingIntf
 		return ratingID;
 	}
 	
+	//Attempt to update the Rating table record specified (RatingID) with new ratings (Liked, Ease, Cost).
 	public void updateRating(int ratingID, int liked, int ease, int cost)
 	{
 		PreparedStatement pstmt = null;
 		
-		try 
+		try //Attempt to update the specified record with new values.
 		{
 			pstmt = conn.prepareStatement("Update Rating Set Liked = ?, Ease = ?, Cost = ?  where RatingID = ?");
 			pstmt.setInt(1, liked);
@@ -202,12 +207,13 @@ public class DBRatingIntf
 
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
-		finally
+		finally //Close all database objects.
 		{
 		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
 		}
 	}
 	
+	//Attempt to close the database connection.  This method should always be called when finished with the object.
 	public void close()
 	{
 		try { if (conn != null) conn.close(); } catch (Exception e) { e.printStackTrace(); };
