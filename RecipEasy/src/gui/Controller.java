@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.Random;
+
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import data.DBUsersIntf;
@@ -46,7 +48,11 @@ public class Controller {
     }
 
     public void randomButtonClicked(){
-        System.out.println("Displaying random recipe...");
+        System.out.println("Displaying random recipe...\n");
+        DBUsersIntf dbLookup = new DBUsersIntf();
+        Random random = new Random();        
+        System.out.printf("%d\n", random.nextInt());
+        dbLookup.close();
     }
     
     public void searchButtonClicked(){
