@@ -31,20 +31,22 @@ public class Controller {
         	StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
     		if (passwordEncryptor.checkPassword(password, encryptedPassword)) {
     			//success, the input password matches the password on file
-    			System.out.println("Successful password match");
+    			System.out.println("Successful password match\n");
     		}
     		else {
     			//fail, the passwords do not match
-    			System.out.println("unsuccessful password match");
+    			System.out.println("unsuccessful password match\n");
+    			AlertBox.display("Invalid Password", "Password does not match!");
     		}	
         } else { // empty password string = username not found in Users table
         	System.out.println("username not found\n");
+        	AlertBox.display("Error", "User not found!");
         }
         
     }
 
-    public void settingsButtonClicked(){
-        System.out.println("Going to Settings Menu...");
+    public void randomButtonClicked(){
+        System.out.println("Displaying random recipe...");
     }
     
     public void searchButtonClicked(){
