@@ -320,4 +320,17 @@ public class Recipe implements Serializable
 		System.out.println("Web Address: " + address);
 		System.out.println("\n==========================================================================================================================\n");
 	}
+
+	@Override
+	public String toString() {
+		return "Recipe [recipeID=" + recipeID + ", title=" + title + ", address=" + address + ", prepTime=\n" + prepTime
+				+ ", totalTime=" + totalTime + ", servings=" + servings + ", summary=\n" + summary + ", hasImage="
+				+ hasImage + ", servingSize=" + servingSize + ", calories=\n" + calories + ", calFat=" + calFat
+				+ ", totFat=" + totFat + ", satFat=" + satFat + ", transFat=" + transFat + ", cholesterol="
+				+ cholesterol + ", sodium=" + sodium + ", carbs=" + carbs + ", fiber=" + fiber + ", sugar=" + sugar
+				+ ", protein=\n" + protein + ", vitA=" + vitA + ", vitC=" + vitC + ", calcium=" + calcium + ", iron="
+				+ iron + ", categories=" + categories + ", ingredients=\n" + ingredients + ", directions=\n" + directions
+				+ ", tips=\n" + tips + "]";
+	}
+	
 }

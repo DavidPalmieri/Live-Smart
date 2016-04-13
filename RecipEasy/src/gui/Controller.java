@@ -6,8 +6,11 @@ import java.util.Random;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import data.DBUsersIntf;
+import data.Recipe;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
@@ -20,6 +23,7 @@ public class Controller {
 	@FXML TextField search;
 	@FXML TextArea textArea;
 	@FXML TreeView<String> tree;
+	@FXML TableView<String> tableView;
 
     public void loginButtonClicked(){
         System.out.printf("%s logged in...\n", user.getText());  	//user: test
@@ -54,14 +58,19 @@ public class Controller {
     }
 
     public void randomButtonClicked(){
-        System.out.println("Displaying random recipe...\n");
-        DBUsersIntf dbLookup = new DBUsersIntf();
-        Random random = new Random();        
-        System.out.printf("%d\n", random.nextInt());
-        textArea.setText("Here's a random recipe");
+        System.out.println("Displaying random recipe...");        
+        DBUsersIntf dbLookup = new DBUsersIntf();  
+        
+        Random random = new Random();          
+        System.out.printf("%d\n", random.nextInt());    
+        
+        Recipe recipe = new Recipe(Integer.toString(random.nextInt()));
+        textArea.setText(recipe.toString());
+        
         TreeItem<String> treeItem = new TreeItem<String>();
         treeItem.setValue("Cheese");
-        tree.setRoot(treeItem);
+        tree.setRoot(treeItem);     
+                
         dbLookup.close();
     }
     
