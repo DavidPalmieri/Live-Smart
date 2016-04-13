@@ -8,7 +8,9 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import data.DBUsersIntf;
 import data.Recipe;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -24,6 +26,7 @@ public class Controller {
 	@FXML TextArea textArea;
 	@FXML TreeView<String> tree;
 	@FXML TableView<String> tableView;
+	@FXML ListView<String> listView;
 
     public void loginButtonClicked(){
         System.out.printf("%s logged in...\n", user.getText());  	//user: test
@@ -65,11 +68,10 @@ public class Controller {
         System.out.printf("%d\n", random.nextInt());    
         
         Recipe recipe = new Recipe(Integer.toString(random.nextInt()));
-        textArea.setText(recipe.toString());
+        textArea.setText(recipe.toString());        
         
-        TreeItem<String> treeItem = new TreeItem<String>();
-        treeItem.setValue("Cheese");
-        tree.setRoot(treeItem);     
+        //TODO: Make list of recipes appear here
+        listView.setItems(null);   
                 
         dbLookup.close();
     }

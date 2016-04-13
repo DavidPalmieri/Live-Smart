@@ -83,6 +83,6 @@
       </SplitPane>
    </center>
    <left>
-      <TreeView fx:id="tree" prefHeight="632.0" prefWidth="259.0" BorderPane.alignment="CENTER" />
+      <ListView fx:id="listView" prefHeight="512.0" prefWidth="216.0" BorderPane.alignment="CENTER" />
    </left>
 </BorderPane>
