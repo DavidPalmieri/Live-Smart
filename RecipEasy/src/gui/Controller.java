@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 
 public class Controller {	
 	
@@ -17,6 +19,7 @@ public class Controller {
 	@FXML PasswordField pw;
 	@FXML TextField search;
 	@FXML TextArea textArea;
+	@FXML TreeView<String> tree;
 
     public void loginButtonClicked(){
         System.out.printf("%s logged in...\n", user.getText());  	//user: test
@@ -56,6 +59,9 @@ public class Controller {
         Random random = new Random();        
         System.out.printf("%d\n", random.nextInt());
         textArea.setText("Here's a random recipe");
+        TreeItem<String> treeItem = new TreeItem<String>();
+        treeItem.setValue("Cheese");
+        tree.setRoot(treeItem);
         dbLookup.close();
     }
     
