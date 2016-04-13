@@ -1,5 +1,6 @@
 package gui;
 
+
 import java.util.Random;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
@@ -7,6 +8,7 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import data.DBUsersIntf;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class Controller {	
@@ -14,6 +16,7 @@ public class Controller {
 	@FXML TextField user;
 	@FXML PasswordField pw;
 	@FXML TextField search;
+	@FXML TextArea textArea;
 
     public void loginButtonClicked(){
         System.out.printf("%s logged in...\n", user.getText());  	//user: test
@@ -52,6 +55,7 @@ public class Controller {
         DBUsersIntf dbLookup = new DBUsersIntf();
         Random random = new Random();        
         System.out.printf("%d\n", random.nextInt());
+        textArea.setText("Here's a random recipe");
         dbLookup.close();
     }
     
