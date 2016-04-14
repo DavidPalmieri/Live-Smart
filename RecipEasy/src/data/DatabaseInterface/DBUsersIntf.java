@@ -4,7 +4,7 @@
 //	Author - Chris Costa															//
 //																					//
 //	Description: This class provides methods for interacting with  information in 	//
-//	the Useers table of thedatabase.												//
+//	the Useers table of the database.												//
 //																					//
 //																					//
 //	Instance Variables:																//
@@ -45,7 +45,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 
-package data;
+package data.DatabaseInterface;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

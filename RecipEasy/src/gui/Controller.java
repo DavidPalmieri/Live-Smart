@@ -5,8 +5,8 @@ import java.util.Random;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import data.DBUsersIntf;
-import data.Recipe;
+import data.DatabaseInterface.DBUsersIntf;
+import data.Recipes.Recipe;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package data;
+package data.Users;
 
 public class Rating 
 {

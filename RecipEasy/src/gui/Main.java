@@ -1,6 +1,6 @@
 package gui;
 
-import data.Recipe;
+import data.Recipes.Recipe;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,6 +1,8 @@
-package data;
+package data.Users;
 
 import java.util.ArrayList;
+
+import data.DatabaseInterface.DBRatingIntf;
 
 public class User 
 {
