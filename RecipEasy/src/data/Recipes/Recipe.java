@@ -45,7 +45,7 @@ public class Recipe
 	
 	public String basicInfo()
 	{
-		return basicInfo.toString();
+		return basicInfo.condensedInfo();
 	}
 
 	@Override
