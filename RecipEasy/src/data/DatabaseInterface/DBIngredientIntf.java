@@ -1,3 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////////////
+//																					//
+//	DBIngredientIntf - Database Interface for Ingredient Table						//
+//	Author - Chris Costa															//
+//																					//
+//	Description: This class provides methods for interacting with information in 	//
+//	the Tip table of the database.													//
+//																					//
+//																					//
+//	Instance Variables:																//
+//																					//
+//		conn: A private object of type Connection (java.sql) used to direct access 	//
+//			to the database.  Initialized in the constructor.						//
+//																					//
+//																					//
+//	Constructors																	//
+//																					//
+//		Constructor: Creates a connection to the embedded database that all 		//
+//			subsequent methods use.													//
+//			Parameters: none.														//
+//																					//
+//																					//
+//	Public Methods																	//
+//																					//
+//		getIngredients: Uses the database connection to create a SQL query that		//
+//			returns an Array of all Ingredients related to a recipe (tables: 		//
+//			Ingredient, RecipeIngredient, columns: Ingredient, RecipeID, join: 		//
+//			IngredientID).															//											
+//			Parameters: recipeID - the id of the recipe to be used for query.		//
+//			Returns: ingredients - Array of Strings used to store the text of each 	// 	
+//			ingredient relating to the recipe.										//																								
+//																					//
+//		search: Uses the database connection to create a SQL query returns an Array //
+//			of all recipeIDs that contain an ingredient which has text that matches	//
+//			the given search term (tables: Ingredient, RecipeIngredient, columns:	//
+//			RecipeID, Ingredient, join: IngredientID).  The query uses a unique 	//
+//			constraint in order to avoid repeat recipes in the returned Array.		//
+//			Parameters: searchTerm - A String consisting of a search term that each //
+//			ingredient in the database will be checked to determine whether it is	//
+//			contained in the full ingredient String.								//
+//			Returns: recipes - an Array of integers that relate to specific 		//
+//			RecipeIDs that contain ingredients in which the search term matched.	//
+//																					//
+//		close: closes the connection to the database, if it is open.				//
+//			Parameters: none.														//
+//			Returns: nothing.														//
+//																					//
+//////////////////////////////////////////////////////////////////////////////////////
+
 package data.DatabaseInterface;
 
 import java.sql.Connection;

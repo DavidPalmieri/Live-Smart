@@ -5,6 +5,7 @@ import java.util.Random;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
+import data.DatabaseInterface.DBRecipeIntf;
 import data.DatabaseInterface.DBUsersIntf;
 import data.Recipes.Recipe;
 import javafx.collections.ObservableList;
@@ -61,19 +62,25 @@ public class Controller {
     }
 
     public void randomButtonClicked(){
-        System.out.println("Displaying random recipe...");        
-        DBUsersIntf dbLookup = new DBUsersIntf();  
-        
-        Random random = new Random();          
-        System.out.printf("%d\n", random.nextInt());    
-        
-        Recipe recipe = new Recipe(Integer.toString(random.nextInt()));
+        System.out.println("Displaying random recipe...");      
+
+        //First, create the object that queries the databse
+      	DBRecipeIntf queryDB = new DBRecipeIntf();
+      	//next, create a new recipe object using the recipeID returned from the randomRecipe method
+      	Recipe recipe = new Recipe(queryDB.randomRecipe());
+      	//Now close the Database object
+      	queryDB.close();
+      	//The newly created recipe is only holding a minor amount of its information (Title, times, summary, etc.)
+      	//Next, use the setAllInfo to get the rest of the recipe info (Nutrition, ingredients, instructions, etc.)
+      	recipe.setAllInfo();
+      	//Now, you can use the toString method wherever you need it, or the basicInfo method for menus
+      	System.out.printf("%d\n", recipe.getRecipeID());   
         textArea.setText(recipe.toString());        
         
         //TODO: Make list of recipes appear here
         listView.setItems(null);   
                 
-        dbLookup.close();
+        
     }
     
     public void searchButtonClicked(){

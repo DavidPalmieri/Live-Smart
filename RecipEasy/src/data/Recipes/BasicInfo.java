@@ -45,7 +45,9 @@ public class BasicInfo implements RecipeInfo
 	{
 		String info = "";
 		info += title + "\n\n";
-		info += "Prep Time: " + prepTime + "	Total Time: " + totalTime + "	Serves:" + servings + "\n\n";
+		info += "Prep Time: " + prepTime + "\n";
+		info += "Total Time: " + totalTime + "\n";
+		info += "Serves: " + servings + "\n\n";
 		info += "Summary: " + summary + "\n";
 		return info;
 	}

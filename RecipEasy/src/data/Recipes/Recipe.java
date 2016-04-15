@@ -56,7 +56,7 @@ public class Recipe
 		recipe += basicInfo.toString() + "\n";
 		recipe += categories.toString();
 		recipe += ingredients.toString();
-		//recipe += instructions.toString();
+		recipe += instructions.toString();
 		recipe += tips.toString();
 		recipe += nutrition.toString();
 		recipe += basicInfo.getAddress();

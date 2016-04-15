@@ -1,5 +1,7 @@
 package data.Recipes;
 
+import data.DatabaseInterface.DBInstructionIntf;
+
 public class InstructionList implements RecipeInfo 
 {
 	String[] instructions;
@@ -12,8 +14,9 @@ public class InstructionList implements RecipeInfo
 	@Override
 	public void queryDB(int recipeID) 
 	{
-		//queryDB
-		instructions = null;
+		DBInstructionIntf queryDB = new DBInstructionIntf();
+		instructions = queryDB.getInstructions(recipeID);
+		queryDB.close();
 	}
 	
 	@Override

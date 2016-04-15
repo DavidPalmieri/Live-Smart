@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 //																					//
-//	DBCategoryIntf - Database Interface for Tip Table								//
+//	DBTipIntf - Database Interface for Tip Table									//
 //	Author - Chris Costa															//
 //																					//
 //	Description: This class provides methods for interacting with information in 	//

@@ -119,7 +119,15 @@ public class DBRecipeIntf // Database Interface for Recipe Table.
 				
 			if (res.next()) //Use the returned row of the ResultSet to build the Array of information.
 			{//easily increment through both the array, and returned row of results.
-				for (int i = 0; i < 16; i++) nutrition[i] = res.getString(i + 1);
+				for (int i = 0; i < 16; i++)
+				{
+					String text = res.getString(i + 1);
+					if (text == null)
+					{
+						text = "Not Listed";
+					}
+					nutrition[i] = text;
+				}
 			}
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
