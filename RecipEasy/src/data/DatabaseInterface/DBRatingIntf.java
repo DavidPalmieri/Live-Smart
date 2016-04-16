@@ -167,7 +167,6 @@ public class DBRatingIntf //Database Interface for Rating Table.
 			pstmt.setInt(1, recipeID);
 			pstmt.setInt(2, userID);
 			res = pstmt.executeQuery();
-			 try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }; //Close the database object for reuse.
             
 			 if(res.next()) //If the RatingID exists, return it for future use.
             {
@@ -175,10 +174,15 @@ public class DBRatingIntf //Database Interface for Rating Table.
             }
             else //If the RatingID does not exist, insert a new record into the table to generate a new one.
     		{
-    			pstmt = conn.prepareStatement("Insert into Rating (UserID, RatingID) values (?, ?)");
-    			pstmt.setInt(1, recipeID);
-    			pstmt.setInt(2, userID);
+            	try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }; //Close the database object for reuse.
+            	
+    			pstmt = conn.prepareStatement("Insert into Rating (UserID, RecipeID) values (?, ?)");
+    			pstmt.setInt(1, userID);
+    			pstmt.setInt(2, recipeID);
     			pstmt.executeUpdate();
+    			
+    			try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }; //Close the database object for reuse.
+    			
     			createRating(userID, recipeID); //Recursively call the function to return the newly generated RatingID.
     		}
 		}
@@ -205,7 +209,7 @@ public class DBRatingIntf //Database Interface for Rating Table.
 			pstmt.setInt(2, ease);
 			pstmt.setInt(3, cost);
 			pstmt.setInt(4, ratingID);
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 
 		} 
 		catch (SQLException e) { e.printStackTrace(); }

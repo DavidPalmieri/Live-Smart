@@ -27,15 +27,22 @@
 //			for the record that matches the given username (table: Users, column:	//
 //			Username).																//
 //			Parameters: username - String used to query the database for a specific	//
-//				record.																//
+//			record.																	//
 //			Returns: password - String used to store the encrypted password for the //
-//				specific user.														//																					
+//			specific user.															//																					
+//																					//
+//		getUserID: Uses the database connection to create a SQL query that returns 	//
+//			the userID of the specified username (table: Users, columns: UserID, 	//
+//			Username).																//
+//			Parameters: username - String that holds the username of the specified	//
+//			user.																	//
+//			Returns: userID - an integer containing the UserID of the specified user//
 //																					//
 //		newUser: Uses the database connection to insert a new row into the Users	//
 //			table consisting of the username and password (table: Users, columns:	//
 //			Username, Password).  These fields represent a new user of the app.		//
 //			Parameters: username - String that holds the username of the new user.	//
-//				Password - String that holds the encrypted password of the new user.//
+//			password - String that holds the encrypted password of the new user.	//
 //			Returns: nothing.														//
 //																					//
 //		close: closes the connection to the database, if it is open.				//
@@ -96,6 +103,34 @@ public class DBUsersIntf //Database Interface for Users Table.
 		}
 		
 		return password; //Return the empty String, or encrypted password String if found
+	}
+	
+	//Attempt to return the UserID of the given username.
+	public int getUserID(String username)
+	{
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		int userID = 0;
+		
+		try //Attempt to query the Users table for records relating to the Username .
+		{
+			pstmt = conn.prepareStatement("Select UserID from Users where Username = ?");
+			pstmt.setString(1, username);
+			res = pstmt.executeQuery();
+			
+            if(res.next()) //If a record is found set the userID to the first (only) record returned.
+            {
+            	userID = res.getInt(1);	
+            }
+		} 
+		catch (SQLException e) { e.printStackTrace(); }
+		finally //Close all database objects.
+		{
+			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
+		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
+		}
+		
+		return userID;
 	}
 	
 	//Attempt to inserts a new user (Users table: Username and Password (UserID is auto-generated)) into the database.
