@@ -1,6 +1,7 @@
 package gui;
 
 
+import java.util.List;
 import java.util.Random;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
@@ -8,16 +9,19 @@ import org.jasypt.util.password.StrongPasswordEncryptor;
 import data.DatabaseInterface.DBRecipeIntf;
 import data.DatabaseInterface.DBUsersIntf;
 import data.Recipes.Recipe;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Controller {	
 	
@@ -64,7 +68,7 @@ public class Controller {
     public void randomButtonClicked(){
         System.out.println("Displaying random recipe...");      
 
-        //First, create the object that queries the databse
+        //First, create the object that queries the database
       	DBRecipeIntf queryDB = new DBRecipeIntf();
       	//next, create a new recipe object using the recipeID returned from the randomRecipe method
       	Recipe recipe = new Recipe(queryDB.randomRecipe());
@@ -74,13 +78,11 @@ public class Controller {
       	//Next, use the setAllInfo to get the rest of the recipe info (Nutrition, ingredients, instructions, etc.)
       	recipe.setAllInfo();
       	//Now, you can use the toString method wherever you need it, or the basicInfo method for menus
-      	System.out.printf("%d\n", recipe.getRecipeID());   
-        textArea.setText(recipe.toString());        
+      	System.out.printf("%d\n", recipe.getRecipeID());         	
+        textArea.setText(recipe.toString());
         
-        //TODO: Make list of recipes appear here
-        listView.setItems(null);   
-                
-        
+        populateList();
+        populateTable();
     }
     
     public void searchButtonClicked(){
@@ -90,6 +92,35 @@ public class Controller {
     public void aboutWindowGo()	{
     	System.out.println("Loading about page...");
     	AlertBox.display("About", "Awesome Inc. 2016");
+    }
+    
+    public void populateList(){
+    	System.out.println("populating list...");   
+    	DBRecipeIntf queryDB = new DBRecipeIntf();
+    	
+    	//TODO: make an array of recipe objects
+    	ObservableList<String> recipes = FXCollections.observableArrayList("sample1", "sample2");
+    	
+    	queryDB.close();    	
+    	
+    	//TODO: Make list of recipes from array   	
+        listView.setItems(recipes);   
+    }
+    
+    public void populateTable(){
+    	System.out.println("populating table...");  
+    	
+    	//TODO: make an array of recipe objects
+    	ObservableList<String> recipes = FXCollections.observableArrayList("sample1", "sample2");
+    	tableView.setItems(recipes);
+    	
+    	//TODO: Make list of recipes from array   	
+    	TableColumn<String, String> recipeNamesCol = new TableColumn<>("NameTest");
+    	recipeNamesCol.setCellValueFactory(new PropertyValueFactory("basicInfo"));    	
+    	TableColumn<String, String> recipeDescsCol = new TableColumn<>("DescTest");
+    	recipeNamesCol.setCellValueFactory(new PropertyValueFactory("basicInfo"));   
+    	
+    	tableView.getColumns().setAll(recipeNamesCol, recipeDescsCol);
     }
 
 }
