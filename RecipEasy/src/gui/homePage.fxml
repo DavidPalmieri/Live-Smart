@@ -68,8 +68,8 @@
                <children>
                   <TableView fx:id="tableView" prefHeight="89.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn maxWidth="250.0" prefWidth="175.0" text="Name" />
-                      <TableColumn prefWidth="463.0" text="Description" />
+                      <TableColumn maxWidth="250.0" prefWidth="213.0" text="Name" />
+                      <TableColumn prefWidth="468.0" text="Description" />
                     </columns>
                   </TableView>
                </children>
