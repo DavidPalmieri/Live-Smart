@@ -1,6 +1,6 @@
 package data.Users;
 
-public class Rating 
+public class Rating implements Comparable<Rating>
 {
 	private int recipeID;
 	private int liked;
@@ -37,5 +37,11 @@ public class Rating
 	public int getCost()
 	{
 		return cost;
+	}
+
+	@Override
+	public int compareTo(Rating other) 
+	{		
+		return other.getLiked() - this.liked;
 	}
 }

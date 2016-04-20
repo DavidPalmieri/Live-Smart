@@ -69,7 +69,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Random;
+
+import data.Recipes.Category;
+import data.Recipes.Recipe;
 
 public class DBCategoryIntf //Database Interface for Category Table.
 {
@@ -89,28 +93,23 @@ public class DBCategoryIntf //Database Interface for Category Table.
 	}
 	
 	//Attempt to return an array of all Category names that a recipe (using RecipeID) is a part of.
-	public String[] getCategories(int recipeID)
+	public ArrayList<Category> getCategories(int recipeID)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		String[] categories = {""}; 
+		ArrayList<Category> categories = new ArrayList<Category>(); 
 		
 		try //Attempt to query the RecipeCategory table for CategoryIDs relating to the recipeID, and join the Category 
 		{	//table to get the category name of that category ID.
-			pstmt = conn.prepareStatement("Select Category.Category from Category Inner Join RecipeCategory "
+			pstmt = conn.prepareStatement("Select Category.Category Category.CategoryID from Category Inner Join RecipeCategory "
 					+ "on Category.CategoryID = RecipeCategory.CategoryID where RecipeCategory.RecipeID = ?",
 					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			pstmt.setInt(1, recipeID);
 			res = pstmt.executeQuery();
-			
-			//Get the amount of records returned in the ResultSet to create the array.
-			res.last(); //Set the ResultSet pointer to the last row.
-			categories = new String[res.getRow()]; //Instantiate the array using the row number of the last row.
-			res.beforeFirst(); //Return the ResultSet pointer to the beginning (before it).
 				
-			while (res.next()) //increment through the ResultSet, setting the String of the array to the Category in the ResultSet
+			while (res.next()) //increment through the ResultSet, sadding a new Category using the information returned in the ResultSet
 			{
-				categories[res.getRow()-1] = res.getString(1);  //ResultSet row numbering starts at 1, arrays at 0.  Offset Required.
+				categories.add(new Category(res.getString(1), res.getInt(2)));
 			}
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
@@ -123,35 +122,40 @@ public class DBCategoryIntf //Database Interface for Category Table.
 		return categories; 
 	}
 	
-	//Attempt to get an Array containing all RecipeIDs that fall under the specified CategoryID.
-	public int[] getRecipes(int categoryID)
+	//Attempt to get an ArrayList containing all Recipes that fall under the specified CategoryID.
+	public ArrayList<Recipe> getRecipes(int categoryID)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		int[] recipes = {}; 
+		ArrayList<Integer> recipeIDs = new ArrayList<Integer>(); 
 		
 		try //Attempt to query the RecipeCategory table for RecipeIDs relating to the CategoryID. 
 		{
-			pstmt = conn.prepareStatement("Select RecipeID from RecipeCategory where CategoryID = ?",
-					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			pstmt = conn.prepareStatement("Select RecipeID from RecipeCategory where CategoryID = ?");
 			pstmt.setInt(1, categoryID);
 			res = pstmt.executeQuery();
-			
-			//Get the amount of records returned in the ResultSet to create the array.
-			res.last(); //Set the ResultSet pointer to the last row.
-			recipes = new int[res.getRow()]; //Instantiate the array using the row number of the last row.
-			res.beforeFirst(); //Return the ResultSet pointer to the beginning (before it).
+
 				
-			while (res.next()) //increment through the ResultSet, setting the integer of the array to the RecipeID in the ResultSet.
+			while (res.next()) //increment through the ResultSet, adding the integer value of each recipeID to the ArrayList.
 			{
-				recipes[res.getRow()-1] = res.getInt(1);  //ResultSet row numbering starts at 1, arrays at 0.  Offset Required.
+				recipeIDs.add(res.getInt(1));
 			}
+			
+			
+			
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
 		finally //Close all database objects.
 		{
 			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
 		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
+		}
+		
+		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+		
+		for (int id : recipeIDs)
+		{
+			recipes.add(new Recipe(id));
 		}
 		
 		return recipes; 

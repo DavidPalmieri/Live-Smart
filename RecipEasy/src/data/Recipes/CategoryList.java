@@ -1,10 +1,12 @@
 package data.Recipes;
 
+import java.util.ArrayList;
+
 import data.DatabaseInterface.DBCategoryIntf;
 
 public class CategoryList implements RecipeInfo
 {
-	String[] categories;
+	ArrayList<Category> categories;
 	
 	public CategoryList(int recipeID)
 	{
@@ -23,16 +25,16 @@ public class CategoryList implements RecipeInfo
 	public String toString()
 	{
 		
-		int size = categories.length;
+		int size = categories.size();
 		
-		if (size == 1) return "Category: " + categories[0] + "\n\n";
+		if (size == 1) return "Category: " + categories.get(0) + "\n\n";
 		else
 		{
 			String cat = "Categories: ";
 			
 			for (int i = 0; i < size; i++)
 			{
-				cat += categories[i];
+				cat += categories.get(i);
 				
 				if (i < size - 1) cat += ", ";
 			}
