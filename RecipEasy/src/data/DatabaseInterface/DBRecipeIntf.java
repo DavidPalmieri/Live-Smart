@@ -55,7 +55,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Random;
+
+import data.Recipes.Recipe;
 
 public class DBRecipeIntf // Database Interface for Recipe Table.
 {
@@ -138,6 +141,33 @@ public class DBRecipeIntf // Database Interface for Recipe Table.
 		}
 		
 		return nutrition; 
+	}
+	
+	public ArrayList<Recipe> search(String searchTerm)
+	{
+		PreparedStatement pstmt = null;
+		ResultSet res = null;
+		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
+		
+		try 
+		{   
+			pstmt = conn.prepareStatement("Select  RecipeID from Recipe Where Upper(Title) Like Upper(?)");
+			pstmt.setString(1, "%" + searchTerm + "%");
+			res = pstmt.executeQuery();
+			
+			while (res.next())
+			{
+				recipes.add(new Recipe(res.getInt(1)));
+			}			
+		} 
+		catch (SQLException e) { e.printStackTrace(); }
+		finally //Close all database objects.
+		{
+			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
+		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
+		}
+		
+		return recipes; 
 	}
 	
 	//Attempt to get an array of all Recipes, and select one at random.

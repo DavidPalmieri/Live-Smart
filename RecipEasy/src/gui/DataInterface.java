@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import data.DatabaseInterface.DBCategoryIntf;
 import data.DatabaseInterface.DBIngredientIntf;
+import data.DatabaseInterface.DBRecipeIntf;
 import data.DatabaseInterface.DBUsersIntf;
 import data.Recipes.Category;
 import data.Recipes.Recipe;
@@ -76,6 +77,10 @@ public class DataInterface
 		DBIngredientIntf dbIng = new DBIngredientIntf();
 		uniqueRecipes.addAll(dbIng.search(searchTerm));
 		dbIng.close();
+		
+		DBRecipeIntf dbRec = new DBRecipeIntf();
+		uniqueRecipes.addAll(dbRec.search(searchTerm));
+		dbRec.close();
 		
 		ArrayList<Recipe> recipes = new ArrayList<Recipe>(uniqueRecipes);
 		Collections.sort(recipes);

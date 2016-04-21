@@ -100,6 +100,7 @@ public class Recipe implements Comparable<Recipe>
 	
 	public void setAvgRating()
 	{
+		
 		DBRatingIntf db = new DBRatingIntf();
 		ArrayList<Rating> ratings = db.getAllByRecipe(recipeID);
 		db.close();

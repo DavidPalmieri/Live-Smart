@@ -141,7 +141,7 @@ public class DBRatingIntf //Database Interface for Rating Table.
             while(res.next()) //If records are found, use the fields to create a Rating object for each, and add it to the ArrayList.
             {
             	Rating rating = new Rating(recipeID);
-            	rating.setRatings(res.getInt(2), res.getInt(3), res.getInt(4));
+            	rating.setRatings(res.getInt(1), res.getInt(2), res.getInt(3));
             	ratings.add(rating);
             }
 		} 
@@ -210,7 +210,7 @@ public class DBRatingIntf //Database Interface for Rating Table.
 			pstmt.setInt(3, cost);
 			pstmt.setInt(4, ratingID);
 			pstmt.executeUpdate();
-
+			conn.commit();
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
 		finally //Close all database objects.
