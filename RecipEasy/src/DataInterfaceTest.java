@@ -23,6 +23,8 @@ public class DataInterfaceTest
 		
 		favorites = di.getFavorites(user);
 		
+		search();
+		
 		cin.close();
 	}
 	
@@ -113,6 +115,20 @@ public class DataInterfaceTest
 				user = di.getUser(userID, username);
 			}
 			
+		}
+	}
+	
+	public static void search()
+	{
+		System.out.println("Enter search term: ");
+		String searchTerm = cin.nextLine();
+		searchTerm.replaceAll(" ", "%");
+		
+		ArrayList<Recipe> recipes = di.simpleSearch(searchTerm);
+		
+		for (Recipe recipe : recipes)
+		{
+			System.out.println(recipe.getTitle() + "	Rating: " + recipe.getAvgRating().getLiked());
 		}
 	}
 	

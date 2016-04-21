@@ -21,9 +21,29 @@ public class BasicInfo implements RecipeInfo
 		return address + "\n";
 	}
 	
-	public String condensedInfo()
+	public String getTitle()
 	{
-		return title + "\nPrep Time: " + prepTime + "	Total Time: " + totalTime + "	Serves:" + servings + "\n";
+		return title;
+	}
+	
+	public String getSummary()
+	{
+		return summary;
+	}
+	
+	public String getPrepTime()
+	{
+		return prepTime;
+	}
+
+	public String getTotalTime()
+	{
+		return totalTime;
+	}
+	
+	public String getServings()
+	{
+		return servings;
 	}
 	
 	@Override
@@ -39,17 +59,4 @@ public class BasicInfo implements RecipeInfo
 		servings = basicInfo[4];
 		address = basicInfo[5];
 	}
-	
-	@Override
-	public String toString() 
-	{
-		String info = "";
-		info += title + "\n\n";
-		info += "Prep Time: " + prepTime + "\n";
-		info += "Total Time: " + totalTime + "\n";
-		info += "Serves: " + servings + "\n\n";
-		info += "Summary: " + summary + "\n";
-		return info;
-	}
-
 }

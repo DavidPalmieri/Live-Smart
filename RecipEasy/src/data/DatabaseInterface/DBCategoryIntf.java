@@ -70,6 +70,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 import data.Recipes.Category;
@@ -161,28 +162,22 @@ public class DBCategoryIntf //Database Interface for Category Table.
 		return recipes; 
 	}
 	
-	//Attempt to search through all of the categories for a specific String
-	public int[] search(String searchTerm)
+	//Attempt to search through all of the categories for a specific String and return all recipes of those categories
+	public ArrayList<Recipe> search(String searchTerm)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		int[] categories = {}; 
+		ArrayList<Category> categories = new ArrayList<Category>(); 
 		
 		try //Attempt to query the Category table for CategoryIDs relating to the search term. 
 		{
-			pstmt = conn.prepareStatement("Select CategoryID from Category where Category Like ?",
-					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			pstmt = conn.prepareStatement("Select CategoryID, Category from Category where Upper(Category) Like Upper(?)");
 			pstmt.setString(1, "%" + searchTerm + "%");
 			res = pstmt.executeQuery();
-			
-			//Get the amount of records returned in the ResultSet to create the array.
-			res.last(); //Set the ResultSet pointer to the last row.
-			categories = new int[res.getRow()]; //Instantiate the array using the row number of the last row.
-			res.beforeFirst(); //Return the ResultSet pointer to the beginning (before it).
 				
-			while (res.next()) //increment through the ResultSet, setting the integer of the array to the CategoryID in the ResultSet.
+			while (res.next()) 
 			{
-				categories[res.getRow()-1] = res.getInt(1);  //ResultSet row numbering starts at 1, arrays at 0.  Offset Required.
+				categories.add(new Category(res.getString(2), res.getInt(1)));
 			}
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
@@ -192,7 +187,16 @@ public class DBCategoryIntf //Database Interface for Category Table.
 		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
 		}
 		
-		return categories; 
+		HashSet<Recipe> uniqueRecipes = new HashSet<Recipe>();
+		
+		for (Category category : categories)
+		{	
+			uniqueRecipes.addAll(category.getRecipes());
+		}
+		
+		ArrayList<Recipe> recipes = new ArrayList<Recipe>(uniqueRecipes);
+		
+		return recipes; 
 	}
 	
 	//Attempt to get an array of all Categories, and select one at random.

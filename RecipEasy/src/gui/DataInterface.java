@@ -2,8 +2,12 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 
+import data.DatabaseInterface.DBCategoryIntf;
+import data.DatabaseInterface.DBIngredientIntf;
 import data.DatabaseInterface.DBUsersIntf;
+import data.Recipes.Category;
 import data.Recipes.Recipe;
 import data.Users.Rating;
 import data.Users.User;
@@ -59,6 +63,24 @@ public class DataInterface
 		}
 		
 		return favorites;
+	}
+	
+	public ArrayList<Recipe> simpleSearch(String searchTerm)
+	{
+		HashSet<Recipe> uniqueRecipes = new HashSet<Recipe>();
+		
+		DBCategoryIntf dbCat = new DBCategoryIntf();
+		uniqueRecipes.addAll(dbCat.search(searchTerm));
+		dbCat.close();
+		
+		DBIngredientIntf dbIng = new DBIngredientIntf();
+		uniqueRecipes.addAll(dbIng.search(searchTerm));
+		dbIng.close();
+		
+		ArrayList<Recipe> recipes = new ArrayList<Recipe>(uniqueRecipes);
+		Collections.sort(recipes);
+		
+		return recipes;
 	}
 	
 

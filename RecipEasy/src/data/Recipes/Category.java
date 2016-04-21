@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import data.DatabaseInterface.DBCategoryIntf;
 
-public class Category 
+public class Category implements Comparable<Category>
 {
 	
 	String name;
@@ -15,6 +15,8 @@ public class Category
 	{
 		this.name = name;
 		this.id = id;
+		
+		setRecipes();
 	}
 	
 	public String getName()
@@ -27,17 +29,28 @@ public class Category
 		return id;
 	}
 	
-	public void getRecipes()
+	public void setRecipes()
 	{
 		DBCategoryIntf db = new DBCategoryIntf();
 		recipes = db.getRecipes(id);
 		db.close();
 	}
 	
+	public ArrayList<Recipe> getRecipes()
+	{
+		return recipes;
+	}
+	
 	@Override
 	public String toString()
 	{
 		return name;
+	}
+
+	@Override
+	public int compareTo(Category other) 
+	{
+		return this.getID() - other.getID();
 	}
 
 }

@@ -54,6 +54,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import data.Recipes.Recipe;
 
 public class DBIngredientIntf  //Database Interface for Ingredient Table.
 {
@@ -108,29 +111,23 @@ public class DBIngredientIntf  //Database Interface for Ingredient Table.
 	}
 	
 	//Attempt to search through all of the Ingredients for a specific String and return a list of recipes containing that iingredient.
-	public int[] search(String searchTerm)
+	public ArrayList<Recipe> search(String searchTerm)
 	{
 		PreparedStatement pstmt = null;
 		ResultSet res = null;
-		int[] recipes = {};
+		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
 		
 		try //Attempt to query the Ingredient table for IngredientIDs relating to the search term. Join the RecipeIngredient
-		{   //table to get the RecipeID of each ingredient.  Unique constraint makes sure to disclude repeat RecipeIDs.
+		{   //table to get the RecipeID of each ingredient.  Distinct constraint makes sure to disclude repeat RecipeIDs.
 			
-			pstmt = conn.prepareStatement("Select Unique RecipeIngredient.RecipeID from RecipeIngredient Inner Join Ingredient "
-					+ "on RecipeIngredient.IngredientID = Ingredient.IngredientID where Ingredient.Ingredient Like =?",
-					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			pstmt = conn.prepareStatement("Select Distinct RecipeIngredient.RecipeID from RecipeIngredient Inner Join Ingredient "
+					+ "on RecipeIngredient.IngredientID = Ingredient.IngredientID where Upper(Ingredient.Ingredient) Like Upper(?)");
 			pstmt.setString(1, "%" + searchTerm + "%");
 			res = pstmt.executeQuery();
 			
-			//Get the amount of records returned in the ResultSet to create the array.
-			res.last(); //Set the ResultSet pointer to the last row.
-			recipes = new int[res.getRow()]; //Instantiate the array using the row number of the last row.
-			res.beforeFirst(); //Return the ResultSet pointer to the beginning (before it).
-				
-			while (res.next()) //increment through the ResultSet, setting the integer of the array to the CategoryID in the ResultSet.
+			while (res.next())
 			{
-				recipes[res.getRow()-1] = res.getInt(1);  //ResultSet row numbering starts at 1, arrays at 0.  Offset Required.
+				recipes.add(new Recipe(res.getInt(1)));
 			}			
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
