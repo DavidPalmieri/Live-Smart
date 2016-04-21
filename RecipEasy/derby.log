@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ----------------------------------------------------------------
 Wed Apr 20 22:54:02 EDT 2016:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-36bd-1748-00001db94488 
@@ -11,3 +12,18 @@ os.arch=amd64
 os.version=6.1
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
+=======
+----------------------------------------------------------------
+Wed Apr 20 22:28:02 EDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-36a5-49c5-00000c0f5198 
+on database directory /Users/Yunkai/git/LiveSmart2/RecipEasy/RecipeDB with class loader sun.misc.Launcher$AppClassLoader@659e0bfd 
+Loaded from file:/Users/Yunkai/git/LiveSmart2/RecipEasy/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_71-b15
+user.dir=/Users/Yunkai/git/LiveSmart2/RecipEasy
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.10.5
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+>>>>>>> 4f98648667f310e8cebbb230079f88b79afaa9da
