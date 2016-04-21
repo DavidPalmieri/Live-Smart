@@ -44,12 +44,20 @@ public class loginController {
     		if (passwordEncryptor.checkPassword(password, encryptedPassword)) {
     			//success, the input password matches the password on file
     			System.out.println("Successful password match\n");
-    			actiontarget.setText("Successful password match");
+    			try {
+    		        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+    		                Parent root1 = (Parent) fxmlLoader.load();
+    		                Stage stage = new Stage();
+    		                stage.setScene(new Scene(root1));  
+    		                stage.show();
+    		        } catch(Exception e) {
+    		           e.printStackTrace();
+    		          }
     		}
     		else {
     			//fail, the passwords do not match
-    			System.out.println("unsuccessful password match\n");
-    			actiontarget.setText("unsuccessful password match");
+    			System.out.println("invalid password\n");
+    			actiontarget.setText("invalid password");
     		}	
         } else { // empty password string = username not found in Users table
         	System.out.println("username not found\n");
