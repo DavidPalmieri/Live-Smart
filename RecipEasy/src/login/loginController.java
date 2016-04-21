@@ -10,18 +10,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-
-
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
  
 public class loginController {
     @FXML private Text actiontarget;
     @FXML TextField user;
 	@FXML PasswordField pw;
+	@FXML private GridPane gp;
     
     @FXML protected void handleSubmitButtonAction(ActionEvent event) {
         
@@ -44,12 +43,17 @@ public class loginController {
     		if (passwordEncryptor.checkPassword(password, encryptedPassword)) {
     			//success, the input password matches the password on file
     			System.out.println("Successful password match\n");
+    			
+    			
     			try {
-    		        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+    		        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homePage.fxml"));
     		                Parent root1 = (Parent) fxmlLoader.load();
     		                Stage stage = new Stage();
     		                stage.setScene(new Scene(root1));  
     		                stage.show();
+    		                Stage current = (Stage) gp.getScene().getWindow();
+    		                current.hide();
+    		                
     		        } catch(Exception e) {
     		           e.printStackTrace();
     		          }
@@ -73,6 +77,8 @@ public class loginController {
 	                stage.setTitle("RecipEasy Registration");
 	                stage.setScene(new Scene(root1,300,300));  
 	                stage.show();
+	                Stage current = (Stage) gp.getScene().getWindow();
+	                current.hide();
 	        } catch(Exception e) {
 	           e.printStackTrace();
 	          }

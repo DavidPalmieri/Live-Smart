@@ -17,11 +17,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
  
 public class registrationController {
     @FXML private Text actiontarget;
     @FXML TextField user;
 	@FXML PasswordField pw;
+	@FXML GridPane gp;
     
 /*    @FXML protected void handleSubmitButtonAction(ActionEvent event) {
         
@@ -65,6 +67,8 @@ public class registrationController {
 	                stage.setTitle("RecipEasy");
 	                stage.setScene(new Scene(root1,300,300));  
 	                stage.show();
+	                Stage current = (Stage) gp.getScene().getWindow();
+	                current.hide();
 	        } catch(Exception e) {
 	           e.printStackTrace();
 	          }
