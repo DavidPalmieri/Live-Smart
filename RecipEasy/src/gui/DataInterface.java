@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import data.DatabaseInterface.DBCategoryIntf;
@@ -68,21 +69,29 @@ public class DataInterface
 	
 	public ArrayList<Recipe> simpleSearch(String searchTerm)
 	{
-		HashSet<Recipe> uniqueRecipes = new HashSet<Recipe>();
+		
+		ArrayList<Recipe> allRecipes = new ArrayList<Recipe>();
 		
 		DBCategoryIntf dbCat = new DBCategoryIntf();
-		uniqueRecipes.addAll(dbCat.search(searchTerm));
+		allRecipes.addAll(dbCat.search(searchTerm));
 		dbCat.close();
 		
 		DBIngredientIntf dbIng = new DBIngredientIntf();
-		uniqueRecipes.addAll(dbIng.search(searchTerm));
+		allRecipes.addAll(dbIng.search(searchTerm));
 		dbIng.close();
 		
 		DBRecipeIntf dbRec = new DBRecipeIntf();
-		uniqueRecipes.addAll(dbRec.search(searchTerm));
+		allRecipes.addAll(dbRec.search(searchTerm));
 		dbRec.close();
 		
-		ArrayList<Recipe> recipes = new ArrayList<Recipe>(uniqueRecipes);
+		HashMap<Integer, Recipe> uniqueRecipes = new HashMap<Integer, Recipe>();
+		
+		for (Recipe recipe : allRecipes)
+		{
+			uniqueRecipes.put(recipe.getRecipeID(), recipe);
+		}
+		
+		ArrayList<Recipe> recipes = new ArrayList<Recipe>(uniqueRecipes.values());
 		Collections.sort(recipes);
 		
 		return recipes;

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
@@ -41,6 +42,8 @@ public class DataInterfaceTest
             	rating.setRatings(res.getInt(2), 0, 0);
             	ratings.add(rating);
             }
+            
+            Collections.sort(ratings);
         }
         catch (Exception e)
         {
@@ -56,7 +59,7 @@ public class DataInterfaceTest
 		{
 			System.out.println("RecipeID: " + rating.getrecipeID() + "   Rating:" + rating.getLiked());
 		}
-		
+		System.out.println("\nEnd of Favorties List");
 		
 		cin = new Scanner(System.in);
 		di = new DataInterface();
@@ -170,7 +173,7 @@ public class DataInterfaceTest
 		
 		for (Recipe recipe : recipes)
 		{
-			System.out.println(recipe.getTitle() + "	Rating: " + recipe.getAvgRating().getLiked());
+			System.out.println("RecipeID: " + recipe.getRecipeID() + " " + recipe.getTitle() + "	Rating: " + recipe.getAvgRating().getLiked());
 		}
 	}
 }
