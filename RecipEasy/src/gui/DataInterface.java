@@ -233,7 +233,7 @@ public class DataInterface
       	return recipe;
 	}
 	
-	public void rateRecipe(int userID, int recipeID, int ratingID, int liked, int cost, int ease)
+	public void rateRecipe(int ratingID, int liked, int cost, int ease)
 	{
 		DBRatingIntf dbRat = new DBRatingIntf();
 		dbRat.updateRating(ratingID, liked, ease, cost);
