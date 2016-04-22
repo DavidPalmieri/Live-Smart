@@ -39,14 +39,14 @@ public class RateController {
       }
     }
 @FXML protected void handleSubmitButtonAction(ActionEvent event) {
-        
+        DataInterface di=new DataInterface();
         //Get the fields input by the user
         int satR = Integer.parseInt(satRate.getText());
         int costR = Integer.parseInt(costRate.getText());
         int easeR = Integer.parseInt(easeRate.getText());
-        
-        
-        System.out.printf("%d\n%d\n%d\n", satR, costR, easeR);
+                
+        System.out.printf("UserName"+di.selectRecipe(userID, recipe)+"Recipe"+"\n%d\n%d\n%d\n", satR, costR, easeR);
+        di.rateRecipe(userId, recipeId, ratingID, satR, costR, easeR);
     }
 	public void setRID(int ID){
 		recipeId=ID;

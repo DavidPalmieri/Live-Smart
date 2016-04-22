@@ -20,8 +20,8 @@ import javafx.scene.layout.GridPane;
  
 public class loginController {
     @FXML private Text actiontarget;
-    @FXML TextField user;
-	@FXML PasswordField pw;
+    @FXML private TextField user;
+	@FXML private PasswordField pw;
 	@FXML private GridPane gp;
 	
 	DataInterface di = new DataInterface();
@@ -48,15 +48,17 @@ public class loginController {
     			
     			
     			try {
-    		        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+    		        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/homePage.fxml"));
     		                Parent root1 = (Parent) fxmlLoader.load();
     		                Controller controller = fxmlLoader.<Controller>getController();
     		                controller.setUser(userID, username);
+    		                controller.setUserText(username);
     		                Stage stage = new Stage();
     		                stage.setScene(new Scene(root1));  
     		                stage.show();
     		                Stage current = (Stage) gp.getScene().getWindow();
     		                current.hide();
+    		                
     		                
     		        } catch(Exception e) {
     		           e.printStackTrace();

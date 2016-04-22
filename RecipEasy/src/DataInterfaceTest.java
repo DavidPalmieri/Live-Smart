@@ -146,12 +146,10 @@ public class DataInterfaceTest
 	
 	public static void rateRecipe(Recipe recipe, int ratingID)
 	{
-		int userID = user.getUserID();
-		int recipeID = recipe.getRecipeID();
 		int liked = 0;
 		int ease = 0;
 		int cost = 0;
 		
-		di.rateRecipe(userID, recipeID, ratingID, liked, cost, ease);
+		di.rateRecipe(ratingID, liked, cost, ease);
 	}
 }
