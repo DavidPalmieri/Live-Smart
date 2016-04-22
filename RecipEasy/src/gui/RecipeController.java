@@ -42,8 +42,9 @@ public class RecipeController {
       	//Next, use the setAllInfo to get the rest of the recipe info (Nutrition, ingredients, instructions, etc.)
       	recipe.setAllInfo();
       	//Now, you can use the toString method wherever you need it, or the basicInfo method for menus
-      	System.out.printf("%d\n", recipe.getRecipeID());         	   
+      	System.out.printf("%d\n", recipe.getRecipeID());    
       	
+      	//gets the rating and the basic info.
      	Rating rate=recipe.getAvgRating();
       	BasicInfo info=recipe.getBasicInfo();
       	
@@ -55,8 +56,8 @@ public class RecipeController {
       	//set all the values in the recipe page
       	lTitle.setText(info.getTitle());
       	lCatVal.setText(recipe.getCategories());
-    	lRateVal.setText("Rating: "+Integer.toString(rate.getLiked()));
-    	lBasicInfo.setText("Prep Time: "+info.getPrepTime()+"\nTotal Time:"+info.getTotalTime()+"\n\nServings"+info.getServings()+"\nSummary:"+info.getSummary());
+    	lRateVal.setText("Rating| Satifaction: "+Integer.toString(rate.getLiked()));
+    	lBasicInfo.setText("Prep Time: "+info.getPrepTime()+"\nTotal Time:"+info.getTotalTime()+"\n\nServings: "+info.getServings()+"\nSummary: "+info.getSummary());
       	lNutriInfo.setText(recipe.getNutrition());
     	taInstructions.setText(recipe.getInstructions()+"\n\n"+recipe.getTips());;
     	taIngredients.setText(recipe.getIngredients());
