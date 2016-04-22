@@ -63,7 +63,7 @@ public class Controller {
     
     public void setUserText(String userName)
     {
-    	user.setText("    Hello," + userName);
+    	user.setText("    Hello, " + userName);
     }
     
     public void favoritesClicked()
