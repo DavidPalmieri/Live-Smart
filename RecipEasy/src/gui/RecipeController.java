@@ -36,14 +36,18 @@ public class RecipeController {
 	
 	@FXML private AnchorPane aPane;
 	
+	private int rid=1;
+	private int uid=833;
+	
 	
 	//pop up the rating page to allow for rating recipes
 	public void ratingButClick(){
 		try {
     		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RatingPage.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
-//            Controller controller = fxmlLoader.<Controller>getController();
-//            controller.setUser(userID, username);
+            RateController controller = fxmlLoader.<RateController>getController();
+            controller.setRID(rid);
+            controller.setUID(uid);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));  
             stage.show();
@@ -73,16 +77,15 @@ public class RecipeController {
     	System.out.println("Displaying random recipe...");      
 
         //First, create the object that queries the database
-      	DBRecipeIntf queryDB = new DBRecipeIntf();
+      	DataInterface queryDB = new DataInterface();
       	//next, create a new recipe object using the recipeID returned from the randomRecipe method
-      	Recipe recipe = new Recipe(queryDB.randomRecipe());
-      	//Now close the Database object
-      	queryDB.close();
+      	Recipe recipe = queryDB.randomRecipe();
       	//The newly created recipe is only holding a minor amount of its information (Title, times, summary, etc.)
       	//Next, use the setAllInfo to get the rest of the recipe info (Nutrition, ingredients, instructions, etc.)
       	recipe.setAllInfo();
       	//Now, you can use the toString method wherever you need it, or the basicInfo method for menus
-      	System.out.printf("%d\n", recipe.getRecipeID());    
+      	System.out.printf("%d\n", recipe.getRecipeID()); 
+      	rid=recipe.getRecipeID();
       	
       	//gets the rating and the basic info.
      	Rating rate=recipe.getAvgRating();

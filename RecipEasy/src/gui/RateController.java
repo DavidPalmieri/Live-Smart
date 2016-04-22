@@ -23,6 +23,9 @@ public class RateController {
     @FXML TextField easeRate;
 	@FXML private GridPane gp;
 	
+	int recipeId;
+	int userId;
+	
 	DataInterface di = new DataInterface();
     
     @FXML protected void handleCloseButtonAction(ActionEvent event) {
@@ -45,5 +48,10 @@ public class RateController {
         
         System.out.printf("%d\n%d\n%d\n", satR, costR, easeR);
     }
-    
+	public void setRID(int ID){
+		recipeId=ID;
+	}
+	public void setUID(int ID){
+		userId=ID;
+	}
 }

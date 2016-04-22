@@ -27,7 +27,7 @@
      
      <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <children>
-            <Button onAction="#handleSubmitButtonAction" text="Sign In" />
+            <Button onAction="#handleSubmitButtonAction" text="Submit" />
             <Button onAction="#handleCloseButtonAction" text="Close" />
         </children>
      </HBox>
