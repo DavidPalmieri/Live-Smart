@@ -71,7 +71,7 @@ public class Controller {
     
     public void favoritesClicked()
     {
-    	populateList(di.getFavorites(usr));
+    	populateList(di.getFavoriteRecipes(di.getFavoriteRatings(usr)));
     }
 
     public void randomButtonClicked(){        

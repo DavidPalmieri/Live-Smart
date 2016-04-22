@@ -13,6 +13,11 @@ public class CategoryList implements RecipeInfo
 		queryDB(recipeID);
 	}
 	
+	public ArrayList<Category> getCategories()
+	{
+		return categories;
+	}
+	
 	@Override
 	public void queryDB(int recipeID) 
 	{

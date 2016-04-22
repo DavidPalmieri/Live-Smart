@@ -98,6 +98,10 @@ public class Recipe implements Comparable<Recipe>
 		return nutrition.toString();
 	}
 	
+	public CategoryList getCategoryList()
+	{
+		return categories;
+	}
 	
 	public void setBasicInfo() 
 	{
@@ -159,6 +163,11 @@ public class Recipe implements Comparable<Recipe>
 		categories = new CategoryList(recipeID);
 		ingredients = new IngredientList(recipeID);
 		instructions = new InstructionList(recipeID);
+	}
+	
+	public void setCategories()
+	{
+		categories = new CategoryList(recipeID);
 	}
 	
 	public void setCombinedRating()
