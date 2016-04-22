@@ -1,8 +1,15 @@
 ----------------------------------------------------------------
+<<<<<<< HEAD
 Fri Apr 22 01:23:45 EDT 2016:
 Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-3c6c-831c-00000a2d0f98 
 on database directory C:\Users\dave\Documents\GitHub\LiveSmart\RecipEasy\RecipeDB with class loader sun.misc.Launcher$AppClassLoader@4e0e2f2a 
 Loaded from file:/C:/Users/dave/Documents/GitHub/LiveSmart/RecipEasy/derby.jar
+=======
+Thu Apr 21 22:21:45 EDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-3bc5-e408-00001db94578 
+on database directory C:\Users\Chris\RecipEasy\LiveSmart\RecipEasy\RecipeDB with class loader sun.misc.Launcher$AppClassLoader@4e0e2f2a 
+Loaded from file:/C:/Users/Chris/RecipEasy/LiveSmart/RecipEasy/derby.jar
+>>>>>>> origin/master
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_60-b27
 user.dir=C:\Users\dave\Documents\GitHub\LiveSmart\RecipEasy

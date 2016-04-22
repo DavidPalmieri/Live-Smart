@@ -17,7 +17,9 @@ public class Recipe implements Comparable<Recipe>
 	private IngredientList ingredients;
 	private InstructionList instructions;
 	private TipList tips;
+	private Rating userRating;
 	private Rating avgRating;
+	private Rating combinedRating;
 
 	public Recipe(int recipeID)
 	{
@@ -25,7 +27,7 @@ public class Recipe implements Comparable<Recipe>
 		setBasicInfo();
 		setAvgRating();
 		
-		
+		userRating = null;
 		nutrition = null;
 		categories = null;
 		ingredients = null;
@@ -102,6 +104,11 @@ public class Recipe implements Comparable<Recipe>
 		basicInfo = new BasicInfo(recipeID);			
 	}
 	
+	public void setUserRating(Rating rating)
+	{
+		userRating = rating;
+	}
+	
 	public void setAvgRating()
 	{
 		
@@ -153,12 +160,45 @@ public class Recipe implements Comparable<Recipe>
 		ingredients = new IngredientList(recipeID);
 		instructions = new InstructionList(recipeID);
 	}
+	
+	public void setCombinedRating()
+	{		
+		if (userRating == null)
+		{
+			combinedRating = avgRating;
+		}
+		else
+		{			
+			int liked = userRating.getLiked();
+			int ease = userRating.getEase();
+			int cost = userRating.getCost();
+			
+			if (liked == 0)
+			{
+				liked = avgRating.getLiked();
+			}
+			
+			if (ease == 0)
+			{
+				ease = avgRating.getEase();
+			}
+			
+			if (cost == 0)
+			{
+				cost = avgRating.getCost();
+			}
+			
+			combinedRating = new Rating(recipeID);
+			combinedRating.setRatings(liked, ease, cost);			
+		}
+	}
 
 	@Override
 	public int compareTo(Recipe other) 
 	{
 		return this.avgRating.compareTo(other.getAvgRating());
 	}
+	
 	
 	@Override
 	public boolean equals(Object other) 

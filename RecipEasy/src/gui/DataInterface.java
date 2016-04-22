@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 import data.DatabaseInterface.DBCategoryIntf;
 import data.DatabaseInterface.DBIngredientIntf;
+import data.DatabaseInterface.DBRatingIntf;
 import data.DatabaseInterface.DBRecipeIntf;
 import data.DatabaseInterface.DBUsersIntf;
 import data.Recipes.Category;
@@ -97,7 +98,18 @@ public class DataInterface
 		return recipes;
 	}
 	
-
+	public int selectRecipe(int userID, Recipe recipe)
+	{
+		DBRatingIntf dbRat = new DBRatingIntf();
+		int ratingID = dbRat.createRating(userID, recipe.getRecipeID());
+		dbRat.close();
+		return ratingID;
+	}
 	
-
+	public void rateRecipe(int userID, int recipeID, int ratingID, int liked, int cost, int ease)
+	{
+		DBRatingIntf dbRat = new DBRatingIntf();
+		dbRat.updateRating(ratingID, liked, ease, cost);
+		dbRat.close();
+	}
 }
