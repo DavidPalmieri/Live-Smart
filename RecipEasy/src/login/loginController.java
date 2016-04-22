@@ -5,6 +5,7 @@ package login;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import data.DatabaseInterface.DBUsersIntf;
+import gui.DataInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +22,8 @@ public class loginController {
     @FXML TextField user;
 	@FXML PasswordField pw;
 	@FXML private GridPane gp;
+	
+	DataInterface di = new DataInterface();
     
     @FXML protected void handleSubmitButtonAction(ActionEvent event) {
         
@@ -33,12 +36,10 @@ public class loginController {
         String password = pw.getText();
         
         //Open a connection to the DB and get the encrypted password for the given username
-        DBUsersIntf dbLookup = new DBUsersIntf();
-        String encryptedPassword = dbLookup.getPassword(username);
-        dbLookup.close();
+        String encryptedPassword = di.getPassword(username);
         
         //Use Jasypt's password encryptor to verify whether the plain-text and encrypted passwords match
-        if (!encryptedPassword.equalsIgnoreCase("")){
+        if (di.getUserID(username) != 0){ //If username is not found in database, userID of 0 is returned
         	StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
     		if (passwordEncryptor.checkPassword(password, encryptedPassword)) {
     			//success, the input password matches the password on file
@@ -70,7 +71,10 @@ public class loginController {
     }
     
 @FXML protected void handleRegistrationButtonAction(ActionEvent event) {
-	 try {
+	 
+	
+	
+	try {
 	        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml_register.fxml"));
 	                Parent root1 = (Parent) fxmlLoader.load();
 	                Stage stage = new Stage();

@@ -106,6 +106,14 @@ public class DataInterface
 		return ratingID;
 	}
 	
+	public Recipe randomRecipe()
+	{
+		DBRecipeIntf queryDB = new DBRecipeIntf();
+      	Recipe recipe = new Recipe(queryDB.randomRecipe());
+      	queryDB.close();
+      	return recipe;
+	}
+	
 	public void rateRecipe(int userID, int recipeID, int ratingID, int liked, int cost, int ease)
 	{
 		DBRatingIntf dbRat = new DBRatingIntf();

@@ -1,13 +1,10 @@
 package gui;
 
 
-import java.util.List;
-import java.util.Random;
+import java.util.ArrayList;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import data.DatabaseInterface.DBRecipeIntf;
-import data.DatabaseInterface.DBUsersIntf;
 import data.Recipes.Recipe;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +29,8 @@ public class Controller {
 	@FXML TreeView<String> tree;
 	@FXML TableView<String> tableView;
 	@FXML ListView<String> listView;
+	
+	private DataInterface di = new DataInterface();
 
     public void loginButtonClicked(){
         System.out.printf("%s logged in...\n", user.getText());  	//user: test
@@ -42,9 +41,7 @@ public class Controller {
         String password = pw.getText();
         
         //Open a connection to the DB and get the encrypted password for the given username
-        DBUsersIntf dbLookup = new DBUsersIntf();
-        String encryptedPassword = dbLookup.getPassword(username);
-        dbLookup.close();
+        String encryptedPassword = di.getPassword(username);
         
         //Use Jasypt's password encryptor to verify whether the plain-text and encrypted passwords match
         if (!encryptedPassword.equalsIgnoreCase("")){
@@ -65,28 +62,17 @@ public class Controller {
         
     }
 
-    public void randomButtonClicked(){
-        System.out.println("Displaying random recipe...");      
-
-        //First, create the object that queries the database
-      	DBRecipeIntf queryDB = new DBRecipeIntf();
-      	//next, create a new recipe object using the recipeID returned from the randomRecipe method
-      	Recipe recipe = new Recipe(queryDB.randomRecipe());
-      	//Now close the Database object
-      	queryDB.close();
-      	//The newly created recipe is only holding a minor amount of its information (Title, times, summary, etc.)
-      	//Next, use the setAllInfo to get the rest of the recipe info (Nutrition, ingredients, instructions, etc.)
-      	recipe.setAllInfo();
-      	//Now, you can use the toString method wherever you need it, or the basicInfo method for menus
-      	System.out.printf("%d\n", recipe.getRecipeID());         	
-        textArea.setText(recipe.toString());
-        
-        populateList();
-        populateTable();
+    public void randomButtonClicked(){        
+      	Recipe recipe = di.randomRecipe();
+      	recipe.setAllInfo();    	
+        textArea.setText(recipe.toString());        
     }
     
     public void searchButtonClicked(){
-        System.out.printf("Searching for %s...\n", search.getText());
+    	String searchTerm = search.getText();
+        searchTerm = searchTerm.replaceAll(" ", "%");
+		ArrayList<Recipe> recipes = di.simpleSearch(searchTerm);
+		populateList(recipes);	
     }
     
     public void aboutWindowGo()	{
@@ -94,17 +80,13 @@ public class Controller {
     	AlertBox.display("About", "Awesome Inc. 2016");
     }
     
-    public void populateList(){
-    	System.out.println("populating list...");   
-    	DBRecipeIntf queryDB = new DBRecipeIntf();
-    	
-    	//TODO: make an array of recipe objects
-    	ObservableList<String> recipes = FXCollections.observableArrayList("sample1", "sample2");
-    	
-    	queryDB.close();    	
-    	
-    	//TODO: Make list of recipes from array   	
-        listView.setItems(recipes);   
+    public void populateList(ArrayList<Recipe> recipeList){
+    	ObservableList<String> recipes = FXCollections.observableArrayList();
+    	for (Recipe r : recipeList)
+    	{
+    		recipes.add(r.getTitle());
+    	}
+    	listView.setItems(recipes);   
     }
     
     public void populateTable(){

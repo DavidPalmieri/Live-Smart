@@ -15,7 +15,7 @@
      
      <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
      
-     <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+     <TextField fx:id="user" GridPane.columnIndex="1" GridPane.rowIndex="1" />
      
      <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
      
@@ -23,6 +23,7 @@
      
      <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <children>
+         	<Button onAction="#handleCancelButtonAction" text="Cancel" />
             <Button onAction="#handleSubmitButtonAction" text="Submit" />
         </children>
      </HBox>

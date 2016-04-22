@@ -222,7 +222,10 @@ public class Recipe implements Comparable<Recipe>
 	{
 		String recipe = "";
 		
-		recipe += basicInfo.toString() + "\n";
+		recipe += this.getTitle() + "\n";
+		recipe += "Prep Time: " + this.getPrepTime() + "\n";
+		recipe += "Total Time: " + this.getTotalTime() + "\n";
+		recipe += "Servings: " + this.getServings() + "\n";
 		recipe += categories.toString();
 		recipe += ingredients.toString();
 		recipe += instructions.toString();

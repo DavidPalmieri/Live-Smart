@@ -102,7 +102,7 @@ public class DBCategoryIntf //Database Interface for Category Table.
 		
 		try //Attempt to query the RecipeCategory table for CategoryIDs relating to the recipeID, and join the Category 
 		{	//table to get the category name of that category ID.
-			pstmt = conn.prepareStatement("Select Category.Category Category.CategoryID from Category Inner Join RecipeCategory "
+			pstmt = conn.prepareStatement("Select Category.Category, Category.CategoryID from Category Inner Join RecipeCategory "
 					+ "on Category.CategoryID = RecipeCategory.CategoryID where RecipeCategory.RecipeID = ?",
 					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			pstmt.setInt(1, recipeID);

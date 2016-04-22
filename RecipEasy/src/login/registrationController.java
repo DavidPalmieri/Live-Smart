@@ -5,6 +5,7 @@ package login;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import data.DatabaseInterface.DBUsersIntf;
+import gui.DataInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,44 +23,56 @@ import javafx.scene.layout.GridPane;
 public class registrationController {
     @FXML private Text actiontarget;
     @FXML TextField user;
-	@FXML PasswordField pw;
+	@FXML PasswordField passwordField;
+	@FXML PasswordField passwordField1;
 	@FXML GridPane gp;
     
-/*    @FXML protected void handleSubmitButtonAction(ActionEvent event) {
-        
-        
-        System.out.printf("%s logged in...\n", user.getText());  	//user: test
-        System.out.printf("password %s\n", pw.getText());			//password: password
-        
-        //Get the fields input by the user
-        String username = user.getText();
-        String password = pw.getText();
-        
-        //Open a connection to the DB and get the encrypted password for the given username
-        DBUsersIntf dbLookup = new DBUsersIntf();
-        String encryptedPassword = dbLookup.getPassword(username);
-        dbLookup.close();
-        
-        //Use Jasypt's password encryptor to verify whether the plain-text and encrypted passwords match
-        if (!encryptedPassword.equalsIgnoreCase("")){
-        	StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-    		if (passwordEncryptor.checkPassword(password, encryptedPassword)) {
-    			//success, the input password matches the password on file
-    			System.out.println("Successful password match\n");
-    			actiontarget.setText("Successful password match");
-    		}
-    		else {
-    			//fail, the passwords do not match
-    			System.out.println("unsuccessful password match\n");
-    			actiontarget.setText("unsuccessful password match");
-    		}	
-        } else { // empty password string = username not found in Users table
-        	System.out.println("username not found\n");
-        	actiontarget.setText("username not found");
-        }
-    }
-   */ 
     @FXML protected void handleSubmitButtonAction(ActionEvent event) {
+        
+        DataInterface di = new DataInterface();
+        
+      //Get the fields input by the user
+        String username = user.getText();
+        String password = passwordField.getText();
+        String passwordCheck = passwordField1.getText();
+		
+		int userID = di.getUserID(username);
+		if (userID != 0)
+		{
+			actiontarget.setText("Username already taken");
+		}
+		else
+		{
+			if (!password.contentEquals(passwordCheck))
+			{
+				actiontarget.setText("Passwords do not match");
+			}
+			else
+			{
+				StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+				String encryptedPassword = passwordEncryptor.encryptPassword(password);	
+				di.registerAccount(username, encryptedPassword);
+				
+				System.out.println("Account successfully created");
+
+				try {
+	        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homePage.fxml"));
+	                Parent root1 = (Parent) fxmlLoader.load();
+	                Stage stage = new Stage();
+	                stage.setScene(new Scene(root1));  
+	                stage.show();
+	                Stage current = (Stage) gp.getScene().getWindow();
+	                current.hide();
+	                
+	        } catch(Exception e) {
+	           e.printStackTrace();
+	        	}
+			}
+			
+		}
+    }
+   
+    @FXML protected void handleCancelButtonAction(ActionEvent event) {
 	 
     	try {
 	        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml_login.fxml"));
@@ -76,5 +89,6 @@ public class registrationController {
         
         
 	}
+	
 }
 
