@@ -15,20 +15,18 @@
          <children>
             <MenuBar>
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="Recipes">
                   <items>
-                   	<MenuItem mnemonicParsing="false" onAction="#favoritesClicked" text="Favorites" />
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                  	<MenuItem mnemonicParsing="false" text="Random" />
+                  	<MenuItem mnemonicParsing="false" text="Browse" />
+                  	<MenuItem mnemonicParsing="false" onAction="#favoritesClicked" text="Favorites" />
+                   	<MenuItem mnemonicParsing="false" text="Suggestions" />                   
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="Tools">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#aboutWindowGo" text="About" />
+                    <MenuItem mnemonicParsing="false" onAction="#aboutWindowGo" text="Help" />
+                    <MenuItem mnemonicParsing="false" onAction="#logoutButtonClicked" text="Logout" />
                   </items>
                 </Menu>
               </menus>
