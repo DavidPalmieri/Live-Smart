@@ -1,10 +1,4 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
@@ -23,44 +17,6 @@ public class DataInterfaceTest
 	
 	public static void main(String[] args)
 	{
-		
-		Connection conn;
-		PreparedStatement pstmt = null;
-		ResultSet res = null;
-		ArrayList<Rating> ratings = new ArrayList<Rating>(); //Returns an empty ArrayList if no ratings have been made.
-		
-		try
-        {
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-            conn = DriverManager.getConnection("jdbc:derby:RecipeDB;create=false;");
-                        
-            pstmt = conn.prepareStatement("Select recipeID, liked from Rating");
-			res = pstmt.executeQuery();
-            while(res.next()) //If records are found, use the fields to create a Rating object for each, and add it to the ArrayList.
-            {
-            	Rating rating = new Rating(res.getInt(1));
-            	rating.setRatings(res.getInt(2), 0, 0);
-            	ratings.add(rating);
-            }
-            
-            Collections.sort(ratings);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-		finally //Close all database objects.
-		{
-			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
-		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
-		}
-		
-		for (Rating rating : ratings)
-		{
-			System.out.println("RecipeID: " + rating.getrecipeID() + "   Rating:" + rating.getLiked());
-		}
-		System.out.println("\nEnd of Favorties List");
-		
 		cin = new Scanner(System.in);
 		di = new DataInterface();
 		
@@ -153,7 +109,7 @@ public class DataInterfaceTest
 			{
 				StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 				String encryptedPassword = passwordEncryptor.encryptPassword(password);	
-				//di.registerAccount(username, encryptedPassword);
+				di.registerAccount(username, encryptedPassword);
 				
 				System.out.println("Account successfully created");
 				userID = di.getUserID(username);
@@ -163,7 +119,7 @@ public class DataInterfaceTest
 		}
 	}
 	
-	public static void search()
+	public static ArrayList<Recipe> search()
 	{
 		System.out.println("Enter search term: ");
 		String searchTerm = cin.nextLine();
@@ -175,5 +131,27 @@ public class DataInterfaceTest
 		{
 			System.out.println("RecipeID: " + recipe.getRecipeID() + " " + recipe.getTitle() + "	Rating: " + recipe.getAvgRating().getLiked());
 		}
+		
+		return recipes;
+	}
+	
+	public static Recipe selectRecipe(Recipe recipe)
+	{
+		recipe.setAllInfo();
+		int ratingID = di.selectRecipe(user.getUserID(), recipe);
+		
+		
+		return recipe;
+	}
+	
+	public static void rateRecipe(Recipe recipe, int ratingID)
+	{
+		int userID = user.getUserID();
+		int recipeID = recipe.getRecipeID();
+		int liked = 0;
+		int ease = 0;
+		int cost = 0;
+		
+		di.rateRecipe(userID, recipeID, ratingID, liked, cost, ease);
 	}
 }
