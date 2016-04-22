@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Fri Apr 22 13:53:01 EDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-3f1a-7b8b-000002eed228 
-on database directory C:\Users\Chris\git\LiveSmart2\RecipEasy\RecipeDB with class loader sun.misc.Launcher$AppClassLoader@4e0e2f2a 
-Loaded from file:/C:/Users/Chris/git/LiveSmart2/RecipEasy/derby.jar
+Fri Apr 22 15:07:21 EDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-3f5e-8911-000005682478 
+on database directory C:\Users\Cat\Documents\GitHub\LiveSmart\RecipEasy\RecipeDB with class loader sun.misc.Launcher$AppClassLoader@4e0e2f2a 
+Loaded from file:/C:/Users/Cat/Documents/GitHub/LiveSmart/RecipEasy/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_60-b27
-user.dir=C:\Users\Chris\git\LiveSmart2\RecipEasy
-os.name=Windows 7
+user.dir=C:\Users\Cat\Documents\GitHub\LiveSmart\RecipEasy
+os.name=Windows 10
 os.arch=amd64
-os.version=6.1
+os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
