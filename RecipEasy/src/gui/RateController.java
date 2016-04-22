@@ -5,6 +5,7 @@ package gui;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import data.DatabaseInterface.DBUsersIntf;
+import data.Recipes.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +24,7 @@ public class RateController {
     @FXML TextField easeRate;
 	@FXML private GridPane gp;
 	
-	int recipeId;
+	private Recipe recipe;
 	int userId;
 	
 	DataInterface di = new DataInterface();
@@ -45,11 +46,13 @@ public class RateController {
         int costR = Integer.parseInt(costRate.getText());
         int easeR = Integer.parseInt(easeRate.getText());
                 
-        System.out.printf("UserName"+di.selectRecipe(userID, recipe)+"Recipe"+"\n%d\n%d\n%d\n", satR, costR, easeR);
-        di.rateRecipe(userId, recipeId, ratingID, satR, costR, easeR);
+        System.out.printf("UserName: "+userId+"\nRecipe: "+recipe.getTitle()+"\n\n%d\n%d\n%d\n", satR, costR, easeR);
+        int rateId = di.selectRecipe(userId, recipe);
+        di.rateRecipe(rateId, satR, costR, easeR);
+        System.out.printf("Done rating");
     }
-	public void setRID(int ID){
-		recipeId=ID;
+	public void setRep(Recipe rec){
+		recipe=rec;
 	}
 	public void setUID(int ID){
 		userId=ID;

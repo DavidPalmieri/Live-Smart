@@ -36,7 +36,7 @@ public class RecipeController {
 	
 	@FXML private AnchorPane aPane;
 	
-	private int rid=1;
+	private Recipe rid;
 	private int uid=833;
 	
 	
@@ -46,7 +46,7 @@ public class RecipeController {
     		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RatingPage.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             RateController controller = fxmlLoader.<RateController>getController();
-            controller.setRID(rid);
+            controller.setRep(rid);
             controller.setUID(uid);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));  
@@ -85,7 +85,7 @@ public class RecipeController {
       	recipe.setAllInfo();
       	//Now, you can use the toString method wherever you need it, or the basicInfo method for menus
       	System.out.printf("%d\n", recipe.getRecipeID()); 
-      	rid=recipe.getRecipeID();
+      	rid=recipe;
       	
       	//gets the rating and the basic info.
      	Rating rate=recipe.getAvgRating();
