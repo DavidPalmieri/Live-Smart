@@ -5,6 +5,7 @@ package login;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import data.DatabaseInterface.DBUsersIntf;
+import gui.Controller;
 import gui.DataInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,8 +39,8 @@ public class loginController {
         //Open a connection to the DB and get the encrypted password for the given username
         String encryptedPassword = di.getPassword(username);
         
-        //Use Jasypt's password encryptor to verify whether the plain-text and encrypted passwords match
-        if (di.getUserID(username) != 0){ //If username is not found in database, userID of 0 is returned
+        int userID = di.getUserID(username); //If username is not found in database, userID of 0 is returned
+        if (userID != 0){ 
         	StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
     		if (passwordEncryptor.checkPassword(password, encryptedPassword)) {
     			//success, the input password matches the password on file
@@ -49,6 +50,8 @@ public class loginController {
     			try {
     		        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homePage.fxml"));
     		                Parent root1 = (Parent) fxmlLoader.load();
+    		                Controller controller = fxmlLoader.<Controller>getController();
+    		                controller.setUser(userID, username);
     		                Stage stage = new Stage();
     		                stage.setScene(new Scene(root1));  
     		                stage.show();

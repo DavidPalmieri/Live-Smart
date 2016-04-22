@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import data.Recipes.Recipe;
+import data.Users.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -30,6 +31,7 @@ public class Controller {
 	@FXML TableView<String> tableView;
 	@FXML ListView<String> listView;
 	
+	private User usr;
 	private DataInterface di = new DataInterface();
 
     public void loginButtonClicked(){
@@ -61,6 +63,16 @@ public class Controller {
         }
         
     }
+    
+    public void setUser(int userID, String userName)
+    {
+    	usr = new User(userID, userName);
+    }
+    
+    public void favoritesClicked()
+    {
+    	populateList(di.getFavorites(usr));
+    }
 
     public void randomButtonClicked(){        
       	Recipe recipe = di.randomRecipe();
@@ -82,8 +94,7 @@ public class Controller {
     
     public void populateList(ArrayList<Recipe> recipeList){
     	ObservableList<String> recipes = FXCollections.observableArrayList();
-    	for (Recipe r : recipeList)
-    	{
+    	for (Recipe r : recipeList){
     		recipes.add(r.getTitle());
     	}
     	listView.setItems(recipes);   
