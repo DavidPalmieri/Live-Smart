@@ -22,7 +22,7 @@ public class DataInterfaceTest
 		
 		loginOrRegister();
 		
-		favorites = di.getFavorites(user);
+		//favorites = di.getFavorites(user);
 		
 		search();
 		
