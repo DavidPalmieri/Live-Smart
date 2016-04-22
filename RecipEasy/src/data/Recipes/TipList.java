@@ -24,13 +24,19 @@ public class TipList implements RecipeInfo
 	{
 		int size = tips.length;
 		
+		if (size<0) {
 		String tip = "Tips:\n";
 		
 		for(int i = 0; i < size; i++)
 		{
 			tip += tips[i] + "\n";
 		}
-		
 		return tip + "\n";
+			
+		}
+		else {
+			String tip = "Sorry there are no tips";
+			return tip;
+		}
 	}
 }

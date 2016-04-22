@@ -8,6 +8,7 @@ import data.DatabaseInterface.DBUsersIntf;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
+import data.Recipes.BasicInfo;
 import data.Recipes.Recipe;
 import data.Users.Rating;
 import javafx.fxml.FXML;
@@ -20,7 +21,7 @@ public class RecipeController {
 	@FXML Label lCatVal;
 	@FXML Label lRateVal;
 	@FXML Label lBasicInfo;
-	@FXML Label lNutriInfo;
+	@FXML TextArea lNutriInfo;
 	@FXML TextArea taInstructions;
 	@FXML TextArea taIngredients;
 	@FXML ImageView imgPic;
@@ -41,28 +42,25 @@ public class RecipeController {
       	//Next, use the setAllInfo to get the rest of the recipe info (Nutrition, ingredients, instructions, etc.)
       	recipe.setAllInfo();
       	//Now, you can use the toString method wherever you need it, or the basicInfo method for menus
-      	System.out.printf("%d\n", recipe.getRecipeID());         	
-      	System.out.printf(recipe.toString());
+      	System.out.printf("%d\n", recipe.getRecipeID());         	   
       	
-//      	Rating rate=recipe.getAvgRating();
-      	
+     	Rating rate=recipe.getAvgRating();
+      	BasicInfo info=recipe.getBasicInfo();
       	
 //      	until picture getting method is made
 //      	Image pic=recipe.Picture;
-//      	Image pic=new Image("gui/Noimage.jpg");
-//      	
-//      	
-//      	
-//      	lTitle.setText(recipe.getTitle());
-//      	lCatVal.setText(recipe.getCategories());
-//    	lRateVal.setText(Integer.toString(rate.getLiked()));
-//    	lBasicInfo.setText("Prep Time: "+recipe.getPrepTime()+"\nTotal Time:"+recipe.getTotalTime()+"\n\nServings"+recipe.getServings()+"\nSummary:"+recipe.getSummary());
-//    	lNutriInfo.setText("Nutrition Info:\n"+recipe.getNutrition());;
-//    	taInstructions.setText("Instructions:\n"+recipe.getInstructions()+"\n\nTips:\n"+recipe.getTips());;
-//    	taIngredients.setText("Ingredients:\n"+recipe.getIngredients());;
-//    	imgPic.setImage(pic);
-//      	
+      	Image pic=new Image("gui/Noimage.jpg");
+      	
+      	
+      	//set all the values in the recipe page
+      	lTitle.setText(info.getTitle());
+      	lCatVal.setText(recipe.getCategories());
+    	lRateVal.setText("Rating: "+Integer.toString(rate.getLiked()));
+    	lBasicInfo.setText("Prep Time: "+info.getPrepTime()+"\nTotal Time:"+info.getTotalTime()+"\n\nServings"+info.getServings()+"\nSummary:"+info.getSummary());
+      	lNutriInfo.setText(recipe.getNutrition());
+    	taInstructions.setText(recipe.getInstructions()+"\n\n"+recipe.getTips());;
+    	taIngredients.setText(recipe.getIngredients());
+    	imgPic.setImage(pic);
         
     }
-    }
-    
+}

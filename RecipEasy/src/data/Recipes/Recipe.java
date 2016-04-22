@@ -31,7 +31,10 @@ public class Recipe implements Comparable<Recipe>
 		ingredients = null;
 		instructions = null;
 	}
-
+	public BasicInfo getBasicInfo()
+	{
+		return basicInfo;
+	}
 	public int getRecipeID()
 	{
 		return recipeID;
@@ -44,7 +47,8 @@ public class Recipe implements Comparable<Recipe>
 	
 	public String getTitle()
 	{
-		return basicInfo.getTitle();
+		String fix=basicInfo.getTitle();
+		return fix;
 	}
 	
 	public String getSummary()

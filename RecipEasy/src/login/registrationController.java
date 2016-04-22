@@ -60,7 +60,8 @@ public class registrationController {
     }
    */ 
     @FXML protected void handleSubmitButtonAction(ActionEvent event) {
-	 try {
+	 
+    	try {
 	        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml_login.fxml"));
 	                Parent root1 = (Parent) fxmlLoader.load();
 	                Stage stage = new Stage();

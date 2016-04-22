@@ -1,5 +1,7 @@
 package gui;
 
+import java.net.URL;
+
 import data.Recipes.Recipe;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,8 +17,9 @@ public class RecipeMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("RecipePage.fxml"));
-        primaryStage.setTitle("RecipEasy");        
-        primaryStage.setScene(new Scene(root, 900, 600));
+        primaryStage.setTitle("RecipEasy"); 
+        Scene scene=new Scene(root, 900, 600);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
