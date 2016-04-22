@@ -11,6 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
@@ -20,53 +24,46 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 public class Controller {	
 	
-	@FXML TextField user;
+	@FXML Label user;
 	@FXML PasswordField pw;
 	@FXML TextField search;
 	@FXML TextArea textArea;
 	@FXML TreeView<String> tree;
 	@FXML TableView<String> tableView;
 	@FXML ListView<String> listView;
+	@FXML BorderPane bp;
 	
 	private User usr;
 	private DataInterface di = new DataInterface();
 
-    public void loginButtonClicked(){
-        System.out.printf("%s logged in...\n", user.getText());  	//user: test
-        System.out.printf("password %s\n", pw.getText());			//password: password
-        
-        //Get the fields input by the user
-        String username = user.getText();
-        String password = pw.getText();
-        
-        //Open a connection to the DB and get the encrypted password for the given username
-        String encryptedPassword = di.getPassword(username);
-        
-        //Use Jasypt's password encryptor to verify whether the plain-text and encrypted passwords match
-        if (!encryptedPassword.equalsIgnoreCase("")){
-        	StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
-    		if (passwordEncryptor.checkPassword(password, encryptedPassword)) {
-    			//success, the input password matches the password on file
-    			System.out.println("Successful password match\n");
-    		}
-    		else {
-    			//fail, the passwords do not match
-    			System.out.println("unsuccessful password match\n");
-    			AlertBox.display("Invalid Password", "Password does not match!");
-    		}	
-        } else { // empty password string = username not found in Users table
-        	System.out.println("username not found\n");
-        	AlertBox.display("Error", "User not found!");
-        }
-        
+    public void logoutButtonClicked(){
+        Stage current = (Stage) bp.getScene().getWindow();
+        current.hide();
+        try {
+    		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/login/fxml_login.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));  
+            stage.show();
+            
+    } catch(Exception e) {
+       e.printStackTrace();
+      }
     }
     
     public void setUser(int userID, String userName)
     {
     	usr = new User(userID, userName);
+    }
+    
+    public void setUserText(String userName)
+    {
+    	user.setText("    Hello," + userName);
     }
     
     public void favoritesClicked()
