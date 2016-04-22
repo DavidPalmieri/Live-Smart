@@ -5,6 +5,7 @@ package login;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import data.DatabaseInterface.DBUsersIntf;
+import gui.Controller;
 import gui.DataInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -58,6 +59,8 @@ public class registrationController {
 				try {
 	        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homePage.fxml"));
 	                Parent root1 = (Parent) fxmlLoader.load();
+	                Controller controller = fxmlLoader.<Controller>getController();
+	                controller.setUser(userID, username);
 	                Stage stage = new Stage();
 	                stage.setScene(new Scene(root1));  
 	                stage.show();
