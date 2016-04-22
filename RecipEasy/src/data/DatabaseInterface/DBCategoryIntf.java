@@ -70,6 +70,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -158,6 +159,8 @@ public class DBCategoryIntf //Database Interface for Category Table.
 		{
 			recipes.add(new Recipe(id));
 		}
+		
+		Collections.sort(recipes);
 		
 		return recipes; 
 	}

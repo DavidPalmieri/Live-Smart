@@ -148,15 +148,44 @@ public class DataInterface
 		 
 		 ArrayList<Integer> top5 = new ArrayList<Integer>();
 		 top5.add(top.get(0).getKey());
+		 top5.add(top.get(1).getKey());
+		 top5.add(top.get(2).getKey());
+		 top5.add(top.get(3).getKey());
+		 top5.add(top.get(4).getKey());
+			
+		 ArrayList<Recipe> topRecipes = new ArrayList<Recipe>();
+
+		 DBCategoryIntf dbCat = new DBCategoryIntf();
+		 
+		 for (Integer catID : top5)
+		 {
+			 ArrayList<Recipe> tempRecipes = dbCat.getRecipes(catID);
+			 topRecipes.add(tempRecipes.get(0));
+			 topRecipes.add(tempRecipes.get(1));
+			 topRecipes.add(tempRecipes.get(2));
+			 topRecipes.add(tempRecipes.get(3));
+			 topRecipes.add(tempRecipes.get(4));
+		 }
 		
-		
-		return null;
+		 dbCat.close();
+		 
+		 HashMap<Integer, Recipe> uniqueRecipes = new HashMap<Integer, Recipe>();
+			
+			for (Recipe recipe : topRecipes)
+			{
+				uniqueRecipes.put(recipe.getRecipeID(), recipe);
+			}
+			
+			topRecipes = new ArrayList<Recipe>(uniqueRecipes.values());
+			Collections.sort(topRecipes);
+		 
+		return topRecipes;
 	}
 	
 	//This method credited to Marco13 of StackOverflow
 	//http://stackoverflow.com/questions/21465821/how-to-get-5-highest-values-from-a-hashmap
 	private static <K, V extends Comparable<? super V>> List<Entry<K, V>> findGreatest(Map<K, V> map, int n)
-{
+	{
     Comparator<? super Entry<K, V>> comparator = 
         new Comparator<Entry<K, V>>()
     {
