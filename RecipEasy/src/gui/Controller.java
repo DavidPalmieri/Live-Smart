@@ -1,11 +1,14 @@
 package gui;
 
 
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
+import data.Recipes.BasicInfo;
 import data.Recipes.Recipe;
+import data.Users.Rating;
 import data.Users.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,15 +27,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Controller {	
 	
 	@FXML Label user;
-	@FXML PasswordField pw;
+	@FXML Label lTitle;
 	@FXML TextField search;
-	@FXML TextArea textArea;
+	@FXML TextArea taInfo;
+	@FXML TextArea taSum;
+	@FXML ImageView imgPic;
 	@FXML TreeView<String> tree;
 	@FXML TableView<String> tableView;
 	@FXML ListView<String> listView;
@@ -40,6 +47,7 @@ public class Controller {
 	
 	private User usr;
 	private DataInterface di = new DataInterface();
+	private Recipe recipe;
 
     public void logoutButtonClicked(){
         Stage current = (Stage) bp.getScene().getWindow();
@@ -77,9 +85,33 @@ public class Controller {
     }
 
     public void randomButtonClicked(){        
-      	Recipe recipe = di.randomRecipe();
-      	recipe.setAllInfo();    	
-        textArea.setText(recipe.toString());        
+      	recipe = di.randomRecipe();
+      	BasicInfo info = recipe.getBasicInfo();
+      	Rating rate = recipe.getAvgRating();
+      	
+      	Image pic=new Image("gui/NoImage.jpg", 674, 320, false, false);
+      	
+      	lTitle.setText(info.getTitle());
+      	taInfo.setText("Rating:\nSatisfaction: "+rate.getLiked()+" | Ease: "+rate.getEase()+" | Cost: "+rate.getCost()+
+      			"\nPrep Time: "+info.getPrepTime()+"\nTotal Time:"+info.getTotalTime()+"\nServings: "+info.getServings());
+      	taSum.setText(/*recipe.getCategory()+"\n\n"+*/info.getSummary());
+      	
+      	imgPic.setImage(pic);
+    }
+    
+    public void newRecipe(){
+        try {
+    		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/RecipePage.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            RecipeController controller = fxmlLoader.< RecipeController>getController();
+            controller.load(usr.getUserID(),recipe);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));  
+            stage.show();
+            
+    } catch(Exception e) {
+       e.printStackTrace();
+      }
     }
     
     public void searchButtonClicked(){

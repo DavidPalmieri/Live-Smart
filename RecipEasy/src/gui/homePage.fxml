@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -65,17 +67,19 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="819.0">
                <children>
-                  <TableView fx:id="tableView" prefHeight="89.0" prefWidth="398.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <columns>
-                      <TableColumn maxWidth="250.0" prefWidth="213.0" text="Name" />
-                      <TableColumn prefWidth="468.0" text="Description" />
-                    </columns>
-                  </TableView>
+                  <Label fx:id="lTitle" layoutX="14.0" layoutY="14.0">
+                     <font>
+                        <Font name="Arial" size="20.0" />
+                     </font>
+                  </Label>
+                  <TextArea fx:id="taInfo" layoutX="14.0" layoutY="37.0" prefHeight="133.0" prefWidth="230.0" wrapText="true" />
+                  <TextArea fx:id="taSum" layoutX="254.0" layoutY="37.0" prefHeight="133.0" prefWidth="423.0" wrapText="true" />
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="328.0" prefWidth="682.0">
                <children>
-                  <TextArea fx:id="textArea" prefHeight="329.0" prefWidth="639.0" promptText="Recipes appear here" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ImageView fx:id="imgPic" fitHeight="320.0" fitWidth="674.0" pickOnBounds="true" preserveRatio="true" />
+                  <Button layoutX="583.0" layoutY="302.0" mnemonicParsing="false" onAction="#newRecipe" text="Recipe Lookup" />
                </children>
             </AnchorPane>
         </items>

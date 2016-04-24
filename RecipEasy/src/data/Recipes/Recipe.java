@@ -1,9 +1,13 @@
 package data.Recipes;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FilenameFilter;
+
 
 import data.DatabaseInterface.DBRatingIntf;
 import data.Users.Rating;
+import javafx.scene.image.Image;
 
 public class Recipe implements Comparable<Recipe>
 {
@@ -201,7 +205,7 @@ public class Recipe implements Comparable<Recipe>
 			combinedRating.setRatings(liked, ease, cost);			
 		}
 	}
-
+	
 	@Override
 	public int compareTo(Recipe other) 
 	{

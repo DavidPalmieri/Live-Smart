@@ -1,6 +1,5 @@
 package gui;
 
-import java.net.URL;
 
 import data.Recipes.Recipe;
 import javafx.application.Application;
