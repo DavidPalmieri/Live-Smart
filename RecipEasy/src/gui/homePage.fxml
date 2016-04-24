@@ -20,7 +20,7 @@
                   	<MenuItem mnemonicParsing="false" text="Random" />
                   	<MenuItem mnemonicParsing="false" text="Browse" />
                   	<MenuItem mnemonicParsing="false" onAction="#favoritesClicked" text="Favorites" />
-                   	<MenuItem mnemonicParsing="false" text="Suggestions" />                   
+                   	<MenuItem mnemonicParsing="false" onAction="#suggestionsClicked" text="Suggestions" />                   
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Tools">

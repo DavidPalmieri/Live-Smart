@@ -110,7 +110,7 @@ public class DataInterface
 		return recipes;
 	}
 	
-	public static ArrayList<Recipe> suggestions(ArrayList<Rating> favorites)
+	public ArrayList<Recipe> getSuggestedRecipes(ArrayList<Rating> favorites)
 	{
 		ArrayList<Recipe> topFavorites = new ArrayList<Recipe>();
 		
@@ -127,9 +127,11 @@ public class DataInterface
 		
 		for (Recipe r : topFavorites)
 		{
+			r.setCategories();
 			CategoryList c = r.getCategoryList();
+			ArrayList<Category> cats = c.getCategories();
 			
-			for (Category cat : c.getCategories())
+			for (Category cat : cats)
 			{
 				int categoryID = cat.getID();
 				

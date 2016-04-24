@@ -70,6 +70,11 @@ public class Controller {
     {
     	populateList(di.getFavoriteRecipes(di.getFavoriteRatings(usr)));
     }
+    
+    public void suggestionsClicked()
+    {
+    	populateList(di.getSuggestedRecipes(di.getFavoriteRatings(usr)));
+    }
 
     public void randomButtonClicked(){        
       	Recipe recipe = di.randomRecipe();
