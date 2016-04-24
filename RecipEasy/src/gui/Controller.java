@@ -1,10 +1,7 @@
 package gui;
 
 
-import java.net.URL;
 import java.util.ArrayList;
-
-import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import data.Category;
 import data.DataGrabber;
@@ -14,21 +11,16 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -77,6 +69,8 @@ public class Controller {
     
     public void favoritesClicked()
     {
+    	recipe = null;
+        selectedRecipeChanged();
     	DataGrabber dg = new DataGrabber();
     	populateList(dg.getFavorites(usr.getUserID()));
     	dg.close();
@@ -84,12 +78,16 @@ public class Controller {
     
     public void suggestionsClicked()
     {
+    	recipe = null;
+        selectedRecipeChanged();
     	DataGrabber dg = new DataGrabber();
     	populateList(dg.getSuggestions(usr.getUserID()));
     	dg.close();
     }
 
-    public void randomButtonClicked(){ 
+    public void randomButtonClicked(){
+    	recipe = null;
+        selectedRecipeChanged(); 
     	DataGrabber dg = new DataGrabber();
       	int recipeID = dg.getRandomRecipe();
       	recipe = new Recipe(recipeID);
@@ -98,33 +96,9 @@ public class Controller {
       	
       	Image pic=new Image("gui/NoImage.jpg", 674, 320, false, false);
       	
-      	int liked = recipe.getRating().displayRating().get(0);
-      	int ease = recipe.getRating().displayRating().get(1);
-      	int cost = recipe.getRating().displayRating().get(2);
-      	
 
-      	ArrayList<Category> categories = recipe.getCategories();
-      	String categoryText = "";
-      	
-      	for (int i = 0; i < categories.size(); i++)
-      	{
-      		if (i < categories.size() - 1)
-      		{
-      			categoryText += categories.get(i).getName() + ", ";
-      		}
-      		else
-      		{
-      			categoryText += categories.get(i).getName();
-      		}
-      	}
-      	
-      	
-      	lTitle.setText(recipe.getTitle());
-      	taInfo.setText("Rating:\nSatisfaction: "+ liked +" | Ease: "+ ease +" | Cost: "+ cost +
-      			"\n\nPrep Time: "+ recipe.getPrepTime() +"\nTotal Time:"+ recipe.getTotalTime()+"\nServings: "+ recipe.getServings());
-      	taSum.setText(categoryText +"\n"+ recipe.getSummary());
-      	
-      	imgPic.setImage(pic);
+        selectedRecipeChanged();
+        
     	dg.close();
     }
     
@@ -145,6 +119,8 @@ public class Controller {
     }
     
     public void searchButtonClicked(){
+    	recipe = null;
+        selectedRecipeChanged();
     	DataGrabber dg = new DataGrabber();
     	String searchTerm = search.getText();
         searchTerm = searchTerm.replaceAll(" ", "%");
@@ -165,7 +141,10 @@ public class Controller {
     		r = dg.getRecipe(r);
     		recipes.add(r.getTitle());
     	}
+    	
+    	
     	listView.setItems(recipes);
+    	
     	listView.getSelectionModel().selectedItemProperty()
     	.addListener(new ChangeListener<String>() {
         	public void changed(ObservableValue<? extends String> ov,
@@ -173,11 +152,26 @@ public class Controller {
             int num = listView.getSelectionModel().getSelectedIndex();
             recipe = recipeList.get(num);
           	
-          	int liked = recipe.getRating().displayRating().get(0);
+            selectedRecipeChanged();
+          }
+        });
+    	dg.close(); 
+    }
+    
+    public void selectedRecipeChanged()
+    {
+    	if (recipe == null)
+    	{
+    		lTitle.setText("");
+          	taInfo.setText("");
+          	taSum.setText("");
+    	}
+    	else
+    	{
+    		int liked = recipe.getRating().displayRating().get(0);
           	int ease = recipe.getRating().displayRating().get(1);
           	int cost = recipe.getRating().displayRating().get(2);
           	
-
           	ArrayList<Category> categories = recipe.getCategories();
           	String categoryText = "";
           	
@@ -199,27 +193,6 @@ public class Controller {
           			"\n\nPrep Time: "+ recipe.getPrepTime() +"\nTotal Time:"+ recipe.getTotalTime()+"\nServings: "+ recipe.getServings());
           	taSum.setText(categoryText +"\n"+ recipe.getSummary());
           	
-          	
-        	dg.close();
-          }
-        });
-    	dg.close();   
+    	}
     }
-    
-    public void populateTable(){
-    	System.out.println("populating table...");  
-    	
-    	//TODO: make an array of recipe objects
-    	ObservableList<String> recipes = FXCollections.observableArrayList("sample1", "sample2");
-    	tableView.setItems(recipes);
-    	
-    	//TODO: Make list of recipes from array   	
-    	TableColumn<String, String> recipeNamesCol = new TableColumn<>("NameTest");
-    	recipeNamesCol.setCellValueFactory(new PropertyValueFactory("basicInfo"));    	
-    	TableColumn<String, String> recipeDescsCol = new TableColumn<>("DescTest");
-    	recipeNamesCol.setCellValueFactory(new PropertyValueFactory("basicInfo"));   
-    	
-    	tableView.getColumns().setAll(recipeNamesCol, recipeDescsCol);
-    }
-
 }

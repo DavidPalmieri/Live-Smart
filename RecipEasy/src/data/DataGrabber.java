@@ -514,13 +514,13 @@ public class DataGrabber
 			pstmt.setString(1, "%" + searchTerm + "%");
 			res = pstmt.executeQuery();
 			
-			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
-		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
-			
 			while (res.next()) 
 			{
 				categories.add(new Category(res.getString(2), res.getInt(1)));
 			}
+			
+			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
+		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
 			
 			for (Category category : categories)
 			{				
@@ -539,15 +539,15 @@ public class DataGrabber
 			pstmt = conn.prepareStatement("Select Distinct RecipeIngredient.RecipeID from RecipeIngredient Inner Join Ingredient "
 					+ "on RecipeIngredient.IngredientID = Ingredient.IngredientID where Upper(Ingredient.Ingredient) Like Upper(?)");
 			pstmt.setString(1, "%" + searchTerm + "%");
-			res = pstmt.executeQuery();
-			
-			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
-		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
+			res = pstmt.executeQuery();	
 			
 			while (res.next())
 			{
 				uniqueRecipeIDs.add(res.getInt(1));
 			}
+			
+			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
+		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
 			
 			//Attempt to queryt the Recipe table for Recipe titles that contain the search term
 			pstmt = conn.prepareStatement("Select  RecipeID from Recipe Where Upper(Title) Like Upper(?)");
