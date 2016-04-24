@@ -4,9 +4,8 @@ package login;
  
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import data.DatabaseInterface.DBUsersIntf;
+import data.DataGrabber;
 import gui.Controller;
-import gui.DataInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +23,7 @@ public class loginController {
 	@FXML private PasswordField pw;
 	@FXML private GridPane gp;
 	
-	DataInterface di = new DataInterface();
+	DataGrabber dg = new DataGrabber();
     
     @FXML protected void handleSubmitButtonAction(ActionEvent event) {
         
@@ -37,9 +36,9 @@ public class loginController {
         String password = pw.getText();
         
         //Open a connection to the DB and get the encrypted password for the given username
-        String encryptedPassword = di.getPassword(username);
         
-        int userID = di.getUserID(username); //If username is not found in database, userID of 0 is returned
+        int userID = dg.getUserID(username); //If username is not found in database, userID of 0 is returned
+        String encryptedPassword = dg.getPassword(userID);
         if (userID != 0){ 
         	StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
     		if (passwordEncryptor.checkPassword(password, encryptedPassword)) {
@@ -47,23 +46,24 @@ public class loginController {
     			System.out.println("Successful password match\n");
     			
     			
-    			try {
-    		        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/homePage.fxml"));
-    		                Parent root1 = (Parent) fxmlLoader.load();
-    		                Controller controller = fxmlLoader.<Controller>getController();
-    		                controller.setUser(userID, username);
-    		                controller.setUserText(username);
-    		                Stage stage = new Stage();
-    		                stage.setScene(new Scene(root1));  
-    		                stage.show();
-    		                Stage current = (Stage) gp.getScene().getWindow();
-    		                current.hide();
-    		                
-    		                
-    		        } catch(Exception e) {
-    		           e.printStackTrace();
-    		          }
-    		}
+        		try {
+        			dg.close();
+        			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/homePage.fxml"));
+    	            Parent root1 = (Parent) fxmlLoader.load();
+    	            Controller controller = fxmlLoader.<Controller>getController();
+    	            controller.setUser(userID, username);
+    	            controller.setUserText(username);
+    	            Stage stage = new Stage();
+    	            stage.setScene(new Scene(root1));  
+    	            stage.show();
+    	            Stage current = (Stage) gp.getScene().getWindow();
+    	            current.hide();
+    	                
+    	                
+        			} catch(Exception e) {
+    	           e.printStackTrace();
+    	          }
+        		}
     		else {
     			//fail, the passwords do not match
     			System.out.println("invalid password\n");

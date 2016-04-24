@@ -1,6 +1,7 @@
 
 package gui;
  
+import data.DataGrabber;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
@@ -15,9 +16,9 @@ public class RateController {
     @FXML TextField easeRate;
 	@FXML private GridPane gp;
 	
-	int rateId;
+	int userID;
+	int recipeID;
 	
-	DataInterface di = new DataInterface();
     
     @FXML protected void handleCloseButtonAction(ActionEvent event) {
         
@@ -30,18 +31,20 @@ public class RateController {
       }
     }
 @FXML protected void handleSubmitButtonAction(ActionEvent event) {
-        DataInterface di=new DataInterface();
+		DataGrabber dg = new DataGrabber();
         //Get the fields input by the user
         int satR = Integer.parseInt(satRate.getText());
         int costR = Integer.parseInt(costRate.getText());
         int easeR = Integer.parseInt(easeRate.getText());
 
-        di.rateRecipe(rateId, satR, costR, easeR);
+        dg.rateRecipe(userID, recipeID, satR, costR, easeR);
+        dg.close();
 
         Stage current = (Stage) gp.getScene().getWindow();
         current.close();
     }
-	public void setRtID(int r){
-		rateId=r;
+	public void setVars(int rec, int usr){
+		recipeID=rec;
+		userID = usr;
 	}
 }

@@ -4,9 +4,8 @@ package login;
  
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import data.DatabaseInterface.DBUsersIntf;
+import data.DataGrabber;
 import gui.Controller;
-import gui.DataInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,14 +29,14 @@ public class registrationController {
     
     @FXML protected void handleSubmitButtonAction(ActionEvent event) {
         
-        DataInterface di = new DataInterface();
+        DataGrabber dg = new DataGrabber();
         
       //Get the fields input by the user
         String username = user.getText();
         String password = passwordField.getText();
         String passwordCheck = passwordField1.getText();
 		
-		int userID = di.getUserID(username);
+		int userID = dg.getUserID(username);
 		if (userID != 0)
 		{
 			actiontarget.setText("Username already taken");
@@ -52,11 +51,12 @@ public class registrationController {
 			{
 				StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 				String encryptedPassword = passwordEncryptor.encryptPassword(password);	
-				di.registerAccount(username, encryptedPassword);
+				dg.newUser(username, encryptedPassword);
 				
 				System.out.println("Account successfully created");
 
 				try {
+					dg.close();
 	        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homePage.fxml"));
 	                Parent root1 = (Parent) fxmlLoader.load();
 	                Controller controller = fxmlLoader.<Controller>getController();

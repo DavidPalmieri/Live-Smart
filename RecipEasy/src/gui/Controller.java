@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import data.Recipes.BasicInfo;
-import data.Recipes.Recipe;
-import data.Users.Rating;
-import data.Users.User;
+import data.Category;
+import data.DataGrabber;
+import data.Recipe;
+import data.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -46,7 +46,6 @@ public class Controller {
 	@FXML BorderPane bp;
 	
 	private User usr;
-	private DataInterface di = new DataInterface();
 	private Recipe recipe;
 
     public void logoutButtonClicked(){
@@ -76,32 +75,60 @@ public class Controller {
     
     public void favoritesClicked()
     {
-    	populateList(di.getFavoriteRecipes(di.getFavoriteRatings(usr)));
+    	DataGrabber dg = new DataGrabber();
+    	populateList(dg.getFavorites(usr.getUserID()));
+    	dg.close();
     }
     
     public void suggestionsClicked()
     {
-    	populateList(di.getSuggestedRecipes(di.getFavoriteRatings(usr)));
+    	DataGrabber dg = new DataGrabber();
+    	populateList(dg.getSuggestions(usr.getUserID()));
+    	dg.close();
     }
 
-    public void randomButtonClicked(){        
-      	recipe = di.randomRecipe();
-      	recipe.setAllInfo();
-      	BasicInfo info = recipe.getBasicInfo();
-      	Rating rate = recipe.getAvgRating();
+    public void randomButtonClicked(){ 
+    	DataGrabber dg = new DataGrabber();
+      	int recipeID = dg.getRandomRecipe();
+      	recipe = new Recipe(recipeID);
+      	recipe = dg.getRecipe(recipe);
+      	recipe = dg.getRatings(recipe);
       	
       	Image pic=new Image("gui/NoImage.jpg", 674, 320, false, false);
       	
-      	lTitle.setText(info.getTitle());
-      	taInfo.setText("Rating:\nSatisfaction: "+rate.getLiked()+" | Ease: "+rate.getEase()+" | Cost: "+rate.getCost()+
-      			"\n\nPrep Time: "+info.getPrepTime()+"\nTotal Time:"+info.getTotalTime()+"\nServings: "+info.getServings());
-      	taSum.setText(recipe.getCategories()+"\n"+info.getSummary());
+      	int liked = recipe.getRating().displayRating().get(0);
+      	int ease = recipe.getRating().displayRating().get(1);
+      	int cost = recipe.getRating().displayRating().get(2);
+      	
+
+      	ArrayList<Category> categories = recipe.getCategories();
+      	String categoryText = "";
+      	
+      	for (int i = 0; i < categories.size(); i++)
+      	{
+      		if (i < categories.size() - 1)
+      		{
+      			categoryText += categories.get(i).getName() + ", ";
+      		}
+      		else
+      		{
+      			categoryText += categories.get(i).getName();
+      		}
+      	}
+      	
+      	
+      	lTitle.setText(recipe.getTitle());
+      	taInfo.setText("Rating:\nSatisfaction: "+ liked +" | Ease: "+ ease +" | Cost: "+ cost +
+      			"\n\nPrep Time: "+ recipe.getPrepTime() +"\nTotal Time:"+ recipe.getTotalTime()+"\nServings: "+ recipe.getServings());
+      	taSum.setText(categoryText +"\n"+ recipe.getSummary());
       	
       	imgPic.setImage(pic);
+    	dg.close();
     }
     
     public void newRecipe(){
         try {
+        	
     		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/RecipePage.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             RecipeController controller = fxmlLoader.< RecipeController>getController();
@@ -116,10 +143,12 @@ public class Controller {
     }
     
     public void searchButtonClicked(){
+    	DataGrabber dg = new DataGrabber();
     	String searchTerm = search.getText();
         searchTerm = searchTerm.replaceAll(" ", "%");
-		ArrayList<Recipe> recipes = di.simpleSearch(searchTerm);
-		populateList(recipes);	
+		ArrayList<Recipe> recipes = dg.search(searchTerm);
+		populateList(recipes);
+    	dg.close();	
     }
     
     public void aboutWindowGo()	{
@@ -128,11 +157,14 @@ public class Controller {
     }
     
     public void populateList(ArrayList<Recipe> recipeList){
+    	DataGrabber dg = new DataGrabber();
     	ObservableList<String> recipes = FXCollections.observableArrayList();
     	for (Recipe r : recipeList){
+    		r = dg.getRecipe(r);
     		recipes.add(r.getTitle());
     	}
-    	listView.setItems(recipes);   
+    	listView.setItems(recipes);
+    	dg.close();   
     }
     
     public void populateTable(){

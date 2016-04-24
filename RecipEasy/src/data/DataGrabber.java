@@ -146,7 +146,7 @@ public class DataGrabber
 				}
 				else
 				{
-					categories.add(new Category(res.getString(7), res.getInt(8)));
+					categories.add(new Category(res.getString(7), res.getInt(8)));					
 				}
 			}
 		} 
@@ -297,6 +297,34 @@ public class DataGrabber
 		}
 
 		return recipe;
+	}
+	
+	public int getRandomRecipe()
+	{
+		ResultSet res = null;
+		ArrayList<Integer> recipeIDs = new ArrayList<Integer>();
+		
+		//First, get an array of all recipes, along with a size to set the range for a random number generator.
+		try //Attempt to query the Recipe table for all RecipeIDs. 
+		{
+			res = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("Select RecipeID from Recipe");
+				
+			while (res.next()) //increment through the ResultSet, setting the integer of the array to the RecipeID in the ResultSet.
+			{
+				recipeIDs.add(res.getInt(1));  //ResultSet row numbering starts at 1, arrays at 0.  Offset Required.
+			}
+		} 
+		catch (SQLException e) { e.printStackTrace(); }
+		finally //Close all database objects.
+		{
+			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
+		}
+		
+		//Next, use the size of the array to create a new Random number generator, and select a random index of the array as our random recipeID.
+		Random random = new Random();
+		double rndNum = recipeIDs.size() * random.nextDouble();
+	       
+		return recipeIDs.get((int)rndNum); 
 	}
 	
 	//Returns an ArrayList of skeleton Recipes with just their User Rating set
