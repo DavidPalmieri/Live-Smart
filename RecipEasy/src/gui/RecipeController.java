@@ -69,7 +69,7 @@ public class RecipeController {
 		rateID=di.selectRecipe(uID, r);
 		this.uID=uID;
 		recipe = r;
-		
+		recipe.setAllInfo();
 		//gets the rating and the basic info.
      	Rating rate=recipe.getAvgRating();
       	BasicInfo info=recipe.getBasicInfo();
@@ -81,12 +81,12 @@ public class RecipeController {
       	
       	//set all the values in the recipe page
       	lTitle.setText(info.getTitle());
-//      	lCatVal.setText(recipe.getCategories());
-    	lRateVal.setText("Ratings:\nSatisfaction: "+rate.getLiked()+" | Ease: "+rate.getEase()+" | Cost: "+rate.getCost());
+      	lCatVal.setText(recipe.getCategories());
+    	lRateVal.setText("Ratings: Satisfaction: "+rate.getLiked()+" | Ease: "+rate.getEase()+" | Cost: "+rate.getCost());
     	lBasicInfo.setText("Prep Time: "+info.getPrepTime()+"\nTotal Time:"+info.getTotalTime()+"\n\nServings: "+info.getServings()+"\nSummary: "+info.getSummary());
-//      	lNutriInfo.setText(recipe.getNutrition());
-//    	taInstructions.setText(recipe.getInstructions()+"\n\n"+recipe.getTips());
-//    	taIngredients.setText(recipe.getIngredients());
+      	lNutriInfo.setText(recipe.getNutrition());
+    	taInstructions.setText(recipe.getInstructions()+"\n\n"+recipe.getTips());
+    	taIngredients.setText(recipe.getIngredients());
     	imgPic.setImage(pic);
 	}
 	

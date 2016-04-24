@@ -86,6 +86,7 @@ public class Controller {
 
     public void randomButtonClicked(){        
       	recipe = di.randomRecipe();
+      	recipe.setAllInfo();
       	BasicInfo info = recipe.getBasicInfo();
       	Rating rate = recipe.getAvgRating();
       	
@@ -93,8 +94,8 @@ public class Controller {
       	
       	lTitle.setText(info.getTitle());
       	taInfo.setText("Rating:\nSatisfaction: "+rate.getLiked()+" | Ease: "+rate.getEase()+" | Cost: "+rate.getCost()+
-      			"\nPrep Time: "+info.getPrepTime()+"\nTotal Time:"+info.getTotalTime()+"\nServings: "+info.getServings());
-      	taSum.setText(/*recipe.getCategory()+"\n\n"+*/info.getSummary());
+      			"\n\nPrep Time: "+info.getPrepTime()+"\nTotal Time:"+info.getTotalTime()+"\nServings: "+info.getServings());
+      	taSum.setText(recipe.getCategories()+"\n"+info.getSummary());
       	
       	imgPic.setImage(pic);
     }
