@@ -1,16 +1,9 @@
 package gui;
 
-import java.util.List;
-import java.util.Random;
 
-import data.Rating;
-import data.Recipe;
-import data.DatabaseInterface.DBRecipeIntf;
-import data.DatabaseInterface.DBUsersIntf;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import data.Recipes.BasicInfo;
+import data.Recipes.Recipe;
+import data.Users.Rating;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,8 +29,10 @@ public class RecipeController {
 	
 	@FXML private AnchorPane aPane;
 	
-	private Recipe rid;
-	private int uid=833;
+	private Recipe recipe;
+	private int rateID;
+	private int uID;
+	private DataInterface di = new DataInterface();
 	
 	
 	//pop up the rating page to allow for rating recipes
@@ -46,8 +41,7 @@ public class RecipeController {
     		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RatingPage.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             RateController controller = fxmlLoader.<RateController>getController();
-            controller.setRep(rid);
-            controller.setUID(uid);
+            controller.setRtID(rateID);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));  
             stage.show();
@@ -71,21 +65,47 @@ public class RecipeController {
 	} 
 	
 	
+	public void load(int uID, Recipe r){
+		rateID=di.selectRecipe(uID, r);
+		this.uID=uID;
+		recipe = r;
+		recipe.setAllInfo();
+		//gets the rating and the basic info.
+     	Rating rate=recipe.getAvgRating();
+      	BasicInfo info=recipe.getBasicInfo();
+      	
+
+//      	String picFile=recipe.getPicture();
+      	Image pic=new Image("gui/NoImage.jpg", 285, 230, false, false);
+      	
+      	
+      	//set all the values in the recipe page
+      	lTitle.setText(info.getTitle());
+      	lCatVal.setText(recipe.getCategories());
+    	lRateVal.setText("Ratings: Satisfaction: "+rate.getLiked()+" | Ease: "+rate.getEase()+" | Cost: "+rate.getCost());
+    	lBasicInfo.setText("Prep Time: "+info.getPrepTime()+"\nTotal Time:"+info.getTotalTime()+"\n\nServings: "+info.getServings()+"\nSummary: "+info.getSummary());
+      	lNutriInfo.setText(recipe.getNutrition());
+    	taInstructions.setText(recipe.getInstructions()+"\n\n"+recipe.getTips());
+    	taIngredients.setText(recipe.getIngredients());
+    	imgPic.setImage(pic);
+	}
+	
 
    //generate a random recipe and display the info for testing.
     public void randomButtonClicked(){
     	System.out.println("Displaying random recipe...");      
 
         //First, create the object that queries the database
-      	DataInterface queryDB = new DataInterface();
+      	
       	//next, create a new recipe object using the recipeID returned from the randomRecipe method
-      	Recipe recipe = queryDB.randomRecipe();
+      	Recipe recipe = di.randomRecipe();
       	//The newly created recipe is only holding a minor amount of its information (Title, times, summary, etc.)
       	//Next, use the setAllInfo to get the rest of the recipe info (Nutrition, ingredients, instructions, etc.)
       	recipe.setAllInfo();
       	//Now, you can use the toString method wherever you need it, or the basicInfo method for menus
       	System.out.printf("%d\n", recipe.getRecipeID()); 
-      	rid=recipe;
+
+      	rateID=di.selectRecipe(uID, recipe);
       	
       	//gets the rating and the basic info.
      	Rating rate=recipe.getAvgRating();

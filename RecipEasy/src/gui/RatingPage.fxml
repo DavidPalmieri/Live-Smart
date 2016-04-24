@@ -19,11 +19,11 @@
      
      <Label text="Cost: " GridPane.columnIndex="0" GridPane.rowIndex="2" />
      
-     <PasswordField fx:id="costRate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+     <TextField fx:id="costRate" GridPane.columnIndex="1" GridPane.rowIndex="2" />
      
      <Label text="Ease: " GridPane.columnIndex="0" GridPane.rowIndex="3" />
      
-     <PasswordField fx:id="easeRate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+     <TextField fx:id="easeRate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
      
      <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <children>

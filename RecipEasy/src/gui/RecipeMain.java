@@ -1,7 +1,5 @@
 package gui;
 
-import java.net.URL;
-
 import data.Recipe;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
