@@ -10,6 +10,8 @@ import data.Category;
 import data.DataGrabber;
 import data.Recipe;
 import data.User;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -164,6 +166,43 @@ public class Controller {
     		recipes.add(r.getTitle());
     	}
     	listView.setItems(recipes);
+    	listView.getSelectionModel().selectedItemProperty()
+    	.addListener(new ChangeListener<String>() {
+        	public void changed(ObservableValue<? extends String> ov,
+              String old_val, String new_val) {
+            int num = listView.getSelectionModel().getSelectedIndex();
+            recipe = recipeList.get(num);
+          	
+          	int liked = recipe.getRating().displayRating().get(0);
+          	int ease = recipe.getRating().displayRating().get(1);
+          	int cost = recipe.getRating().displayRating().get(2);
+          	
+
+          	ArrayList<Category> categories = recipe.getCategories();
+          	String categoryText = "";
+          	
+          	for (int i = 0; i < categories.size(); i++)
+          	{
+          		if (i < categories.size() - 1)
+          		{
+          			categoryText += categories.get(i).getName() + ", ";
+          		}
+          		else
+          		{
+          			categoryText += categories.get(i).getName();
+          		}
+          	}
+          	
+          	
+          	lTitle.setText(recipe.getTitle());
+          	taInfo.setText("Rating:\nSatisfaction: "+ liked +" | Ease: "+ ease +" | Cost: "+ cost +
+          			"\n\nPrep Time: "+ recipe.getPrepTime() +"\nTotal Time:"+ recipe.getTotalTime()+"\nServings: "+ recipe.getServings());
+          	taSum.setText(categoryText +"\n"+ recipe.getSummary());
+          	
+          	
+        	dg.close();
+          }
+        });
     	dg.close();   
     }
     
