@@ -4,6 +4,7 @@ package gui;
  
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
+import data.Recipe;
 import data.DatabaseInterface.DBUsersIntf;
 import data.Recipes.*;
 import javafx.event.ActionEvent;

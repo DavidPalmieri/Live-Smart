@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import org.jasypt.util.password.StrongPasswordEncryptor;
 
-import data.Recipes.Recipe;
-import data.Users.User;
+import data.Recipe;
+import data.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;

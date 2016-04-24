@@ -3,14 +3,14 @@ package gui;
 import java.util.List;
 import java.util.Random;
 
+import data.Rating;
+import data.Recipe;
 import data.DatabaseInterface.DBRecipeIntf;
 import data.DatabaseInterface.DBUsersIntf;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import data.Recipes.BasicInfo;
-import data.Recipes.Recipe;
-import data.Users.Rating;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

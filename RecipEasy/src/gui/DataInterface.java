@@ -10,16 +10,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
 
+import data.Category;
+import data.CategoryList;
+import data.Rating;
+import data.Recipe;
+import data.User;
 import data.DatabaseInterface.DBCategoryIntf;
 import data.DatabaseInterface.DBIngredientIntf;
 import data.DatabaseInterface.DBRatingIntf;
 import data.DatabaseInterface.DBRecipeIntf;
 import data.DatabaseInterface.DBUsersIntf;
-import data.Recipes.Category;
-import data.Recipes.CategoryList;
-import data.Recipes.Recipe;
-import data.Users.Rating;
-import data.Users.User;
 
 public class DataInterface 
 {

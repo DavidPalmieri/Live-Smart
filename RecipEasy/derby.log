@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sat Apr 23 19:20:49 EDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-456c-f746-00001aecf448 
+Sun Apr 24 07:56:29 EDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0154-4820-ca26-00001de1dbd8 
 on database directory C:\Users\Chris\RecipEasy\LiveSmart\RecipEasy\RecipeDB with class loader sun.misc.Launcher$AppClassLoader@4e0e2f2a 
 Loaded from file:/C:/Users/Chris/RecipEasy/LiveSmart/RecipEasy/derby.jar
 java.vendor=Oracle Corporation
@@ -11,18 +11,3 @@ os.arch=amd64
 os.version=6.1
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
-Sat Apr 23 19:35:05 EDT 2016 Thread[Finalizer,8,system] (XID = 4850250), (SESSIONID = 3233455), (DATABASE = RecipeDB), (DRDAID = null), Cleanup action starting
-Sat Apr 23 19:35:05 EDT 2016 Thread[Finalizer,8,system] (XID = 4850250), (SESSIONID = 3233455), (DATABASE = RecipeDB), (DRDAID = null), Failed Statement is: null with 1 parameters begin parameter #1: 13612 :end parameter 
-java.lang.OutOfMemoryError: GC overhead limit exceeded
-	at java.util.Collections$UnmodifiableCollection.iterator(Unknown Source)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.resetSavepoints(Unknown Source)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.doRollback(Unknown Source)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.userRollback(Unknown Source)
-	at org.apache.derby.impl.jdbc.TransactionResourceImpl.rollback(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.close(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedConnection.finalize(Unknown Source)
-	at java.lang.System$2.invokeFinalize(Unknown Source)
-	at java.lang.ref.Finalizer.runFinalizer(Unknown Source)
-	at java.lang.ref.Finalizer.access$100(Unknown Source)
-	at java.lang.ref.Finalizer$FinalizerThread.run(Unknown Source)
-Cleanup action completed
