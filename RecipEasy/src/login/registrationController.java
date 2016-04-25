@@ -57,15 +57,16 @@ public class registrationController {
 
 				try {
 					dg.close();
-	        		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homePage.fxml"));
-	                Parent root1 = (Parent) fxmlLoader.load();
-	                Controller controller = fxmlLoader.<Controller>getController();
-	                controller.setUser(userID, username);
-	                Stage stage = new Stage();
-	                stage.setScene(new Scene(root1));  
-	                stage.show();
-	                Stage current = (Stage) gp.getScene().getWindow();
-	                current.hide();
+        			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/homePage.fxml"));
+    	            Parent root1 = (Parent) fxmlLoader.load();
+    	            Controller controller = fxmlLoader.<Controller>getController();
+    	            controller.setUser(userID, username);
+    	            controller.setUserText(username);
+    	            Stage stage = new Stage();
+    	            stage.setScene(new Scene(root1));  
+    	            stage.show();
+    	            Stage current = (Stage) gp.getScene().getWindow();
+    	            current.hide();
 	                
 	        } catch(Exception e) {
 	           e.printStackTrace();
