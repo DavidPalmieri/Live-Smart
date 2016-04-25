@@ -150,7 +150,7 @@ public class Controller {
         	public void changed(ObservableValue<? extends String> ov,
               String old_val, String new_val) {
             int num = listView.getSelectionModel().getSelectedIndex();
-            recipe = recipeList.get(num);
+            if (num != -1) recipe = recipeList.get(num);
           	
             selectedRecipeChanged();
           }
