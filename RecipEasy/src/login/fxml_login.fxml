@@ -23,7 +23,7 @@
      
      <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <children>
-            <Button onAction="#handleSubmitButtonAction" text="Sign In" />
+            <Button defaultButton="true" onAction="#handleSubmitButtonAction" text="Sign In" />
             <Button onAction="#handleRegistrationButtonAction" text="Registration" />
         </children>
      </HBox>
