@@ -601,10 +601,11 @@ public class DataGrabber
 			pstmt.setInt(1, recipeID);
 			pstmt.setInt(2, userID);
 			res = pstmt.executeQuery();
-			try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }; //Close the database object for reuse.
-            
+			
 			 if(res.next()) //If the RatingID exists, update that row
             {
+				 try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }; //Close the database object for reuse.
+		            
             	ratingID =  res.getInt(1);
             	
             	pstmt = conn.prepareStatement("Update Rating Set Liked = ?, Ease = ?, Cost = ?  where RatingID = ?");
@@ -617,6 +618,8 @@ public class DataGrabber
             }
             else //If the RatingID does not exist, insert a new record into the table to generate a new one.
     		{
+            	try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }; //Close the database object for reuse.
+                
     			pstmt = conn.prepareStatement("Insert into Rating (UserID, RecipeID, Liked, Ease, Cost) values (?, ?, ?, ?, ?)");
     			pstmt.setInt(1, userID);
     			pstmt.setInt(2, recipeID);
