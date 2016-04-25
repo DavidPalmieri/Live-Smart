@@ -3,7 +3,6 @@ package gui;
 
 import java.util.ArrayList;
 
-import data.Category;
 import data.DataGrabber;
 import data.Recipe;
 import data.User;
@@ -171,27 +170,11 @@ public class Controller {
     		int liked = recipe.getRating().displayRating().get(0);
           	int ease = recipe.getRating().displayRating().get(1);
           	int cost = recipe.getRating().displayRating().get(2);
-          	
-          	ArrayList<Category> categories = recipe.getCategories();
-          	String categoryText = "";
-          	
-          	for (int i = 0; i < categories.size(); i++)
-          	{
-          		if (i < categories.size() - 1)
-          		{
-          			categoryText += categories.get(i).getName() + ", ";
-          		}
-          		else
-          		{
-          			categoryText += categories.get(i).getName();
-          		}
-          	}
-          	
-          	
+
           	lTitle.setText(recipe.getTitle());
           	taInfo.setText("Rating:\nSatisfaction: "+ liked +" | Ease: "+ ease +" | Cost: "+ cost +
           			"\n\nPrep Time: "+ recipe.getPrepTime() +"\nTotal Time:"+ recipe.getTotalTime()+"\nServings: "+ recipe.getServings());
-          	taSum.setText(categoryText +"\n"+ recipe.getSummary());
+          	taSum.setText(recipe.getCategories() +"\n"+ recipe.getSummary());
           	
     	}
     }

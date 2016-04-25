@@ -119,29 +119,99 @@ public class Recipe implements Comparable<Recipe>
 		return rating;
 	}
 	
-	public ArrayList<Category> getCategories()
+	public String getCategories()
 	{
-		return categories;
+		String categoryText = "";
+		
+		for (int i = 0; i < categories.size(); i++)
+      	{
+      		if (i < categories.size() - 1)
+      		{
+      			categoryText += categories.get(i).getName() + ", ";
+      		}
+      		else
+      		{
+      			categoryText += categories.get(i).getName();
+      		}
+      	}
+		
+		return categoryText;
 	}
 	
-	public ArrayList<String> getIngredients()
+	public String getIngredients()
 	{
-		return ingredients;
+      	String ingredientText = "";
+      	
+    	for (int i = 0; i < ingredients.size(); i++)
+      	{
+      		if (i < ingredients.size() - 1)
+      		{
+      			ingredientText += ingredients.get(i) + "\n";
+      		}
+      		else
+      		{
+      			ingredientText += ingredients.get(i);
+      		}
+      	}
+    	
+    	return ingredientText;
 	}
 	
-	public ArrayList<String> getInstructions()
+	public String getInstructions()
 	{
-		return instructions;
+		String instructionText = "";
+
+    	for (int i = 0; i < instructions.size(); i++)
+      	{
+      		if (i < instructions.size() - 1)
+      		{
+      			instructionText += instructions.get(i) + "\n";
+      		}
+      		else
+      		{
+      			instructionText += instructions.get(i);
+      		}
+      	}
+		
+		return instructionText;
 	}
 	
-	public ArrayList<String> getTips()
+	public String getTips()
 	{
-		return tips;
+		String tipText = "";
+
+    	for (int i = 0; i < tips.size(); i++)
+      	{
+      		if (i < instructions.size() - 1)
+      		{
+      			tipText += tips.get(i) + "\n";
+      		}
+      		else
+      		{
+      			tipText += tips.get(i);
+      		}
+      	}
+
+		return tipText;
 	}
 	
-	public ArrayList<String> getNutrition()
+	public String getNutrition()
 	{
-		return nutrition;
+String nutritionText = "";
+      	
+    	for (int i = 0; i < nutrition.size(); i++)
+      	{
+      		if (i < nutrition.size() - 1)
+      		{
+      			nutritionText += nutrition.get(i) + "\n";
+      		}
+      		else
+      		{
+      			nutritionText += nutrition.get(i);
+      		}
+      	}
+    	
+    	return nutritionText;
 	}
 
 	@Override

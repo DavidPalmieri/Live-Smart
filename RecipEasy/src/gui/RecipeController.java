@@ -110,90 +110,16 @@ public class RecipeController {
       	
       	int liked = recipe.getRating().displayRating().get(0);
       	int ease = recipe.getRating().displayRating().get(1);
-      	int cost = recipe.getRating().displayRating().get(2);
-      	
-
-      	ArrayList<Category> categories = recipe.getCategories();
-      	String categoryText = "";
-      	ArrayList<String> nutrition = recipe.getNutrition();
-      	String nutritionText = "";
-      	ArrayList<String> ingredients = recipe.getIngredients();
-      	String ingredientText = "";
-      	ArrayList<String> instructions = recipe.getInstructions();
-      	String instructionText = "";
-      	ArrayList<String> tips = recipe.getTips();
-      	String tipText = "";
-     
-      	for (int i = 0; i < categories.size(); i++)
-      	{
-      		if (i < categories.size() - 1)
-      		{
-      			categoryText += categories.get(i).getName() + ", ";
-      		}
-      		else
-      		{
-      			categoryText += categories.get(i).getName();
-      		}
-      	}
-      	
-    	for (int i = 0; i < nutrition.size(); i++)
-      	{
-      		if (i < nutrition.size() - 1)
-      		{
-      			nutritionText += nutrition.get(i) + "\n";
-      		}
-      		else
-      		{
-      			nutritionText += nutrition.get(i);
-      		}
-      	}
-    	
-    	for (int i = 0; i < ingredients.size(); i++)
-      	{
-      		if (i < ingredients.size() - 1)
-      		{
-      			ingredientText += ingredients.get(i) + "\n";
-      		}
-      		else
-      		{
-      			ingredientText += ingredients.get(i);
-      		}
-      	}
-
-    	for (int i = 0; i < instructions.size(); i++)
-      	{
-      		if (i < instructions.size() - 1)
-      		{
-      			instructionText += instructions.get(i) + "\n";
-      		}
-      		else
-      		{
-      			instructionText += instructions.get(i);
-      		}
-      	}
-
-    	for (int i = 0; i < tips.size(); i++)
-      	{
-      		if (i < instructions.size() - 1)
-      		{
-      			tipText += tips.get(i) + "\n";
-      		}
-      		else
-      		{
-      			tipText += tips.get(i);
-      		}
-      	}
-
-    	
+      	int cost = recipe.getRating().displayRating().get(2);    	
       	
       	//set all the values in the recipe page
       	lTitle.setText(recipe.getTitle());
-      	lCatVal.setText(categoryText);
+      	lCatVal.setText(recipe.getCategories());
     	lRateVal.setText("Ratings: Satisfaction: "+liked+" | Ease: "+ease+" | Cost: "+cost);
     	lBasicInfo.setText("Prep Time: "+recipe.getPrepTime()+"\nTotal Time:"+recipe.getTotalTime()+"\n\nServings: "+recipe.getServings()+"\nSummary: "+recipe.getSummary());
-      	lNutriInfo.setText(nutritionText);
-    	taInstructions.setText(instructionText+"\n\n"+tipText);
-    	taIngredients.setText(ingredientText);
+      	lNutriInfo.setText(recipe.getNutrition());
+    	taInstructions.setText(recipe.getInstructions()+"\n\n"+recipe.getTips());
+    	taIngredients.setText(recipe.getIngredients());
     	imgPic.setImage(pic);
     	dg.close();
     }
