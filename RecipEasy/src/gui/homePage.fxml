@@ -19,7 +19,7 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Recipes">
                   <items>
-                  	<MenuItem mnemonicParsing="false" text="Random" />
+                  	<MenuItem mnemonicParsing="false" onAction="#randomButtonClicked" text="Random" />
                   	<MenuItem mnemonicParsing="false" text="Browse" />
                   	<MenuItem mnemonicParsing="false" onAction="#favoritesClicked" text="Favorites" />
                    	<MenuItem mnemonicParsing="false" onAction="#suggestionsClicked" text="Suggestions" />                   
@@ -40,7 +40,7 @@
                   <Button mnemonicParsing="false" onAction="#logoutButtonClicked" text="Log Out" />
                   <Region HBox.hgrow="ALWAYS" />
                   <TextField fx:id="search" prefHeight="25.0" prefWidth="291.0" promptText="Recipe Search" />
-                  <Button mnemonicParsing="false" onAction="#searchButtonClicked" text="Search" />
+                  <Button defaultButton="true" mnemonicParsing="false" onAction="#searchButtonClicked" text="Search" />
                   <Button layoutX="308.0" layoutY="10.0" mnemonicParsing="false" onAction="#randomButtonClicked" text="Random" />
                </children>
                <VBox.margin>

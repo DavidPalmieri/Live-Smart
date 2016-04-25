@@ -21,16 +21,17 @@
      
      <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
      
+      <Label text="Password:" GridPane.rowIndex="3" />
+      <PasswordField fx:id="passwordField1" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+     
      <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <children>
          	<Button onAction="#handleCancelButtonAction" text="Cancel" />
-            <Button onAction="#handleSubmitButtonAction" text="Submit" />
+            <Button defaultButton="true" onAction="#handleSubmitButtonAction" text="Submit" />
         </children>
      </HBox>
      
      <Text fx:id="actiontarget" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-      <Label text="Password:" GridPane.rowIndex="3" />
-      <PasswordField fx:id="passwordField1" GridPane.columnIndex="1" GridPane.rowIndex="3" />
    </children>
   
   <stylesheets>
