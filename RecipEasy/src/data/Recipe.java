@@ -119,6 +119,11 @@ public class Recipe implements Comparable<Recipe>
 		return rating;
 	}
 	
+	public ArrayList<Category> getCategoryList()
+	{
+		return categories;
+	}
+	
 	public String getCategories()
 	{
 		String categoryText = "";

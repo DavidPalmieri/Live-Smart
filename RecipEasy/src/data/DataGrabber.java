@@ -387,7 +387,7 @@ public class DataGrabber
 			
 			if (recipe.getRating().displayRating().get(0) >= 4)
 			{
-				categories.addAll(recipe.getCategories());
+				categories.addAll(recipe.getCategoryList());
 			}
 		}
 		
