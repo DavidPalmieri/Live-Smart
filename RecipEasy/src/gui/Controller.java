@@ -1,6 +1,7 @@
 package gui;
 
 
+import java.io.File;
 import java.util.ArrayList;
 
 import data.DataGrabber;
@@ -134,6 +135,7 @@ public class Controller {
     }
     
     public void populateList(ArrayList<Recipe> recipeList){
+    	imgPic.setImage(null);
     	DataGrabber dg = new DataGrabber();
     	ObservableList<String> recipes = FXCollections.observableArrayList();
     	for (Recipe r : recipeList){
@@ -149,7 +151,11 @@ public class Controller {
         	public void changed(ObservableValue<? extends String> ov,
               String old_val, String new_val) {
             int num = listView.getSelectionModel().getSelectedIndex();
-            if (num != -1) recipe = recipeList.get(num);
+            if (num != -1)
+            {
+            	recipe = recipeList.get(num);
+            	
+            }
           	
             selectedRecipeChanged();
           }
@@ -167,6 +173,19 @@ public class Controller {
     	}
     	else
     	{
+    		Image img = null;
+
+        	File imgPath = new File("RecipePictures/" + recipe.getTitle() + ".jpg");
+        	if (imgPath.isFile())
+        	{
+        		img = new Image(imgPath.toURI().toString());
+        	}
+        	else
+        	{
+        		img = new Image(new File("RecipePictures/NoImage.jpg").toURI().toString());
+        	}
+    		
+    		
     		int liked = recipe.getRating().displayRating().get(0);
           	int ease = recipe.getRating().displayRating().get(1);
           	int cost = recipe.getRating().displayRating().get(2);
@@ -175,6 +194,8 @@ public class Controller {
           	taInfo.setText("Rating:\nSatisfaction: "+ liked +" | Ease: "+ ease +" | Cost: "+ cost +
           			"\n\nPrep Time: "+ recipe.getPrepTime() +"\nTotal Time:"+ recipe.getTotalTime()+"\nServings: "+ recipe.getServings());
           	taSum.setText(recipe.getCategories() +"\n"+ recipe.getSummary());
+          	
+          	imgPic.setImage(img);
           	
     	}
     }

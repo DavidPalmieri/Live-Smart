@@ -1,9 +1,7 @@
 package gui;
 
 
-import java.util.ArrayList;
-
-import data.Category;
+import java.io.File;
 import data.DataGrabber;
 import data.Recipe;
 import javafx.fxml.FXML;
@@ -104,9 +102,23 @@ public class RecipeController {
     public void setText(Recipe recipe)
     {
     	DataGrabber dg = new DataGrabber();
-//  	until picture getting method is made
-//  	Image pic=recipe.Picture;
-    	Image pic=new Image("gui/NoImage.jpg", 285, 230, false, false);
+    	Image img = null;
+
+    	File imgPath = new File("RecipePictures/" + recipe.getTitle() + ".jpg");
+    	if (imgPath.isFile())
+    	{
+    		img = new Image(imgPath.toURI().toString());
+    	}
+    	else
+    	{
+    		img = new Image(new File("RecipePictures/NoImage.jpg").toURI().toString());
+    	}
+    	
+    	
+    	
+
+    	
+    	
       	
       	int liked = recipe.getRating().displayRating().get(0);
       	int ease = recipe.getRating().displayRating().get(1);
@@ -120,7 +132,7 @@ public class RecipeController {
       	lNutriInfo.setText(recipe.getNutrition());
     	taInstructions.setText(recipe.getInstructions()+"\n\n"+recipe.getTips());
     	taIngredients.setText(recipe.getIngredients());
-    	imgPic.setImage(pic);
+    	imgPic.setImage(img);
     	dg.close();
     }
 }
