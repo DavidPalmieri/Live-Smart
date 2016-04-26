@@ -624,7 +624,10 @@ public class DataGrabber
 		//Add the userIDs to the new ArrayList
 		for (int i = 0; i < 5; i++)
 		{
-			top5UserIDs.add(topFiveUsers.get(i).getKey());
+			if (topFiveUsers.size() > i)
+			{
+				top5UserIDs.add(topFiveUsers.get(i).getKey());
+			}
 		}
 		
 		//Now reset the uniqueRecipeIDs list and add all of those 5 users favorites to it
