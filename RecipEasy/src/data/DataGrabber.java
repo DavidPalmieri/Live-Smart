@@ -573,14 +573,83 @@ public class DataGrabber
 		//Lists of recipes are built using the top similar users' favorites, and are sorted for
 		//the top rated
 		
+		Map<Integer, Integer> countUsers = new HashMap<Integer, Integer>();
+		
 		for (Recipe recipe : favorites)
 		{
 			recipe = getRecipe(recipe);
 			
 			if (recipe.getRating().displayRating().get(0) >= 4)
 			{
-				
+				try  //Attempt to query the database for all users that have rated this recipe, and add them to a 
+					 //HashMap thats counts the occurrence rate that their favorites overlap with the current user's
+				{
+									
+					pstmt = conn.prepareStatement("Select UserID from Rating where RecipeID = ?");
+					pstmt.setInt(1, recipe.getRecipeID());
+					res = pstmt.executeQuery();
+			
+					while (res.next()) //Add the users to the HashMap
+					{
+						int otherUser = res.getInt(1);
+						
+						//If the HashMap does not yet contain this userID, add it and set its value (occurence) to 1
+						if (!(countUsers.containsKey(otherUser)))
+						{
+							countUsers.put(otherUser, 1);
+						}
+						//Otherwise, get the previous occurence of that userID, incrememnt it, and update it
+						else
+						{
+							int occurence = countUsers.get(otherUser) + 1;
+							countUsers.replace(otherUser, occurence);
+						}
+					}	
+				}
+				catch (SQLException e) { e.printStackTrace(); }
+				finally //Close all database objects.
+				{
+					try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
+				    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
+				}
 			}
+		}
+		
+		//Now use the Map of related users to find the 5 most commonly overlapping user (most similar likes)
+		List<Entry<Integer, Integer>> topFiveUsers = findGreatest(countUsers, 5);
+		
+		//Create an ArrayList of the userIDs of those 5 top related users
+		ArrayList<Integer> top5UserIDs = new ArrayList<Integer>();
+		
+		//Add the userIDs to the new ArrayList
+		for (int i = 0; i < 5; i++)
+		{
+			top5UserIDs.add(topFiveUsers.get(i).getKey());
+		}
+		
+		//Now reset the uniqueRecipeIDs list and add all of those 5 users favorites to it
+		HashSet<Recipe> uniqueUserRecipes = new HashSet<Recipe>();
+		
+		for (int otherUserID : top5UserIDs)
+		{
+			uniqueUserRecipes.addAll(getFavorites(otherUserID));
+		}
+		
+		//Set the average ratings for each of these recipes
+		for (Recipe recipe : uniqueUserRecipes)
+		{
+			recipe = getRatings(recipe);
+		}
+		
+		//Now add the newly generated recipes to an ArrayList to be sorted
+		uniqueRecipes = new ArrayList<Recipe>(uniqueUserRecipes);
+		
+		Collections.sort(uniqueRecipes);
+		
+		//Get the 25 highest rated recipes from this list and add them to the suggestions
+		for (int i = 0; i < 25; i++)
+		{
+			suggestions.add(uniqueRecipes.get(i));
 		}
 		
 		//Return the ArrayList of suggested recipes
