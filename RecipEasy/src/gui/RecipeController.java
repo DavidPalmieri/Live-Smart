@@ -13,9 +13,17 @@ import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+/**
+ * The RecipeController is the code behind the RecipePage.
+ * It contains the user and recipe IDs as well as the 
+ * JavaFX controls that will be accessed by the controller
+ * It also has handlers for closing the window as well as 
+ * opening a window for Rating the recipe and cresting a 
+ * new random recipe.
+ */
 public class RecipeController {	
 	
-	//give the controller access to graphic controls
+	//Give the controller access to graphic controls
 	@FXML Label lTitle;
 	@FXML Label lCatVal;
 	@FXML Label lRateVal;
@@ -29,16 +37,20 @@ public class RecipeController {
 	
 	@FXML private AnchorPane aPane;
 	
+	//stores the user and recipe IDs
 	private Recipe recipe;
 	private int uID;	
 	
-	//pop up the rating page to allow for rating recipes
+	/*
+	 * Pops up the rating page to allow for rating recipes 
+	 * as well as set the userID and the recipeID in the rate controller
+	 */
 	public void ratingButClick(){
 		try {
     		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("RatingPage.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             RateController controller = fxmlLoader.<RateController>getController();
-            controller.setVars(recipe.getRecipeID(), uID);
+            controller.setVars(recipe, uID,this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));  
             stage.show();
@@ -61,49 +73,55 @@ public class RecipeController {
       }
 	} 
 	
-	
-	public void load(int uID, Recipe r){
+	/*
+	 * Loads the recipe page as well sets the instance variables
+	 * 
+	 * Contains a DataGrabber to interact with the database
+	 * Then it sets the instance variables and gets the recipe
+	 * information. Then it calls the setText method to display
+	 * the info.
+	 */
+	public void load(int uID, Recipe r)
+	{
+		//Creates the DataGrabber which is used to access the database
 		DataGrabber dg = new DataGrabber();
+		//set the instance variables
 		this.uID=uID;
 		recipe = r;
       	recipe = dg.getRecipeDetails(recipe);
+      	//Close the DataGrabber
       	dg.close();
+      	//Calls the setText method to display the info to the page
       	setText(recipe);
-      	
 	}
 	
 
    //generate a random recipe and display the info for testing.
     public void randomButtonClicked(){
     	DataGrabber dg = new DataGrabber();
-    	System.out.println("Displaying random recipe...");      
-
-        //First, create the object that queries the database
-      	
-      	//next, create a new recipe object using the recipeID returned from the randomRecipe method
+    	System.out.println("Displaying random recipe...");     
+    	
+      	//generates a random recipe id and makes a new recipe with it
       	int recipeID = dg.getRandomRecipe();
-      	Recipe recipe = new Recipe(recipeID);
-      	//The newly created recipe is only holding a minor amount of its information (Title, times, summary, etc.)
-      	//Next, use the setAllInfo to get the rest of the recipe info (Nutrition, ingredients, instructions, etc.)
+      	recipe = new Recipe(recipeID);
+      	
+      	//set the details for the recipe
       	recipe = dg.getRecipe(recipe);
       	recipe = dg.getRatings(recipe);
       	recipe = dg.getRecipeDetails(recipe);
-      	//Now, you can use the toString method wherever you need it, or the basicInfo method for menus
-      	System.out.printf("%d\n", recipe.getRecipeID()); 
 
       	dg.close();
 
-      	setText(recipe);
-    	
-    	
-        
+      	//Calls the setText method to display recipe to the page
+      	setText(recipe);      
     }
     
+    //Displays all of the recipe info
     public void setText(Recipe recipe)
     {
-    	DataGrabber dg = new DataGrabber();
+    	
+    	//Finds and displays the image into an imageview
     	Image img = null;
-
     	File imgPath = new File("RecipePictures/" + recipe.getTitle() + ".jpg");
     	if (imgPath.isFile())
     	{
@@ -111,15 +129,11 @@ public class RecipeController {
     	}
     	else
     	{
+    		//If the file is not found set it to be the NoImage
     		img = new Image(new File("RecipePictures/NoImage.jpg").toURI().toString());
     	}
     	
-    	
-    	
-
-    	
-    	
-      	
+    	//gets the ratings for the recipe
       	int liked = recipe.getRating().displayRating().get(0);
       	int ease = recipe.getRating().displayRating().get(1);
       	int cost = recipe.getRating().displayRating().get(2);    	
@@ -133,6 +147,5 @@ public class RecipeController {
     	taInstructions.setText(recipe.getInstructions()+"\n\n"+recipe.getTips());
     	taIngredients.setText(recipe.getIngredients());
     	imgPic.setImage(img);
-    	dg.close();
     }
 }

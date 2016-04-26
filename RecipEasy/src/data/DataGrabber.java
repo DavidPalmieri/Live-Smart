@@ -444,6 +444,7 @@ public class DataGrabber
             		Rating rating = new Rating();
                 	Recipe recipe = new Recipe(res.getInt(1));
                 	//set the returned rating values as the user rating, and add it to the recipe
+                	rating.addRating(res.getInt(2), res.getInt(3), res.getInt(4));
                 	rating.setUserRating(res.getInt(2), res.getInt(3), res.getInt(4));
                 	recipe.setRating(rating);
                 	//add the recipe to the list of favorite recipes

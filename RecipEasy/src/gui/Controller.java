@@ -25,7 +25,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
+/**
+ * The Controller is the code behind the HomePage.
+ * It contains the userID and recipe as well as the 
+ * JavaFX controls that will be accessed by the controller
+ * It also has handlers for logout,
+ */
 public class Controller {	
 	
 	@FXML Label user;
@@ -72,8 +77,10 @@ public class Controller {
     	recipe = null;
         selectedRecipeChanged();
     	DataGrabber dg = new DataGrabber();
-    	populateList(dg.getFavorites(usr.getUserID()));
+    	ArrayList<Recipe> fav=dg.getFavorites(usr.getUserID());
     	dg.close();
+    	populateList(fav);
+    	
     }
     
     public void suggestionsClicked()
@@ -81,8 +88,9 @@ public class Controller {
     	recipe = null;
         selectedRecipeChanged();
     	DataGrabber dg = new DataGrabber();
-    	populateList(dg.getSuggestions(usr.getUserID()));
+    	ArrayList<Recipe> fav=dg.getFavorites(usr.getUserID());
     	dg.close();
+    	populateList(fav);
     }
 
     public void randomButtonClicked(){
@@ -125,18 +133,20 @@ public class Controller {
     	{
     		searchTerm = searchTerm.replaceAll(" ", "%");
     		ArrayList<Recipe> recipes = dg.search(searchTerm);
+    		dg.close();	
     		populateList(recipes);
     	}
-        
-    	dg.close();	
+    	dg.close();
     }
     
     
     public void populateList(ArrayList<Recipe> recipeList){
     	imgPic.setImage(null);
+    	listView.setItems(null);
     	DataGrabber dg = new DataGrabber();
     	ObservableList<String> recipes = FXCollections.observableArrayList();
     	for (Recipe r : recipeList){
+    		r=dg.getRatings(r);
     		r = dg.getRecipe(r);
     		recipes.add(r.getTitle());
     	}
@@ -154,7 +164,6 @@ public class Controller {
             	recipe = recipeList.get(num);
             	
             }
-          	
             selectedRecipeChanged();
           }
         });
