@@ -569,6 +569,20 @@ public class DataGrabber
 		
 		
 		
+		//Part two involves getting a list of users who share similar interests to the user
+		//Lists of recipes are built using the top similar users' favorites, and are sorted for
+		//the top rated
+		
+		for (Recipe recipe : favorites)
+		{
+			recipe = getRecipe(recipe);
+			
+			if (recipe.getRating().displayRating().get(0) >= 4)
+			{
+				
+			}
+		}
+		
 		//Return the ArrayList of suggested recipes
 		return suggestions;
 	}

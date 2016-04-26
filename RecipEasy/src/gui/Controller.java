@@ -93,9 +93,6 @@ public class Controller {
       	recipe = new Recipe(recipeID);
       	recipe = dg.getRecipe(recipe);
       	recipe = dg.getRatings(recipe);
-      	
-      	Image pic=new Image("gui/NoImage.jpg", 674, 320, false, false);
-      	
 
         selectedRecipeChanged();
         
