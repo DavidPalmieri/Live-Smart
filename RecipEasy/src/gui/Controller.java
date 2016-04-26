@@ -88,7 +88,7 @@ public class Controller {
     	recipe = null;
         selectedRecipeChanged();
     	DataGrabber dg = new DataGrabber();
-    	ArrayList<Recipe> fav=dg.getFavorites(usr.getUserID());
+    	ArrayList<Recipe> fav=dg.getSuggestions(usr.getUserID());
     	dg.close();
     	populateList(fav);
     }
