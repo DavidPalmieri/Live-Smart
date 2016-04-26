@@ -203,11 +203,8 @@ public class DataGrabber
 		try // Attempt to query the database for the basic recipe information relating to the specified recipeID.
 		{
 			pstmt = conn.prepareStatement("Select Recipe.Title, Recipe.Summary, Recipe.PrepTime, Recipe.TotalTime, "
-					+ "Recipe.Servings, Recipe.Url, Category.Category, Category.CategoryID, "
-					+ "Rating.Liked, Rating.Ease, Rating.Cost "
+					+ "Recipe.Servings, Recipe.Url, Rating.Liked, Rating.Ease, Rating.Cost "
 					+ "from Recipe "
-					+ "Left Join RecipeCategory On Recipe.RecipeID = RecipeCategory.RecipeID "
-					+ "Left Join Category On RecipeCategory.CategoryID = Category.CategoryID "
 					+ "Left Join Rating On Recipe.RecipeID = Rating.RecipeID "
 					+ "where Recipe.RecipeID = ?",
 					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -215,23 +212,30 @@ public class DataGrabber
 			pstmt.setInt(1, recipeID);
 			res = pstmt.executeQuery();
 
-			while (res.next()) // Use the returned rows of the ResultSet to build the Recipe object.
+			if (res.next()) // Use the returned rows of the ResultSet to build the Recipe object.
 			{
-				if(res.getRow() == 1)  //Using the first row, fill in all of the standard information
-				{
-					//Get the information, and update the recipe
-					recipe.setDetails(res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6));
-					rating.setUserRating(res.getInt(9), res.getInt(10), res.getInt(11));
-					recipe.setRating(rating);
-					
-					//add the category to the ArrayList
-					categories.add(new Category(res.getString(7), res.getInt(8)));
-				}
-				else  //For the rest of the rows, continue adding the categories
-				{
-					categories.add(new Category(res.getString(7), res.getInt(8)));					
-				}
+				recipe.setDetails(res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6));
+				rating.setUserRating(res.getInt(7), res.getInt(8), res.getInt(9));
+				
 			}
+			
+			try { if (res != null) res.close(); } catch (Exception e) { e.printStackTrace(); };
+		    try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); };
+			
+			pstmt = conn.prepareStatement("Select Category.Category, Category.CategoryID "
+					+ "From Category "
+					+ "Left Join RecipeCategory on Category.CategoryID = RecipeCategory.CategoryID "
+					+ "Where RecipeID = ?",
+					ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+					
+			pstmt.setInt(1, recipeID);
+			res = pstmt.executeQuery();
+			
+			while(res.next())
+			{
+				categories.add(new Category(res.getString(1), res.getInt(2)));
+			}
+			
 		} 
 		catch (SQLException e) { e.printStackTrace(); }
 		finally //Close all database objects.

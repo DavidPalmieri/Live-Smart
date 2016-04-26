@@ -66,8 +66,8 @@ public class Rating implements Comparable<Rating>
 	//Create a new Rating object, initializing all instance variables
 	public Rating()
 	{
-		userRating = new Rate(0, 0, 0);
-		avgRating = new Rate(0, 0, 0);
+		//userRating = new Rate(0, 0, 0);
+		//avgRating = new Rate(0, 0, 0);
 		ratings = new ArrayList<Rate>();
 	}
 	
