@@ -123,9 +123,14 @@ public class Controller {
         selectedRecipeChanged();
     	DataGrabber dg = new DataGrabber();
     	String searchTerm = search.getText();
-        searchTerm = searchTerm.replaceAll(" ", "%");
-		ArrayList<Recipe> recipes = dg.search(searchTerm);
-		populateList(recipes);
+    	
+    	if (!searchTerm.equalsIgnoreCase(""))
+    	{
+    		searchTerm = searchTerm.replaceAll(" ", "%");
+    		ArrayList<Recipe> recipes = dg.search(searchTerm);
+    		populateList(recipes);
+    	}
+        
     	dg.close();	
     }
     

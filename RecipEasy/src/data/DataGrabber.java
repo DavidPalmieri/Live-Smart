@@ -604,9 +604,11 @@ public class DataGrabber
 			
 			 if(res.next()) //If the RatingID exists, update that row
             {
-				 try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }; //Close the database object for reuse.
-		            
+				 
             	ratingID =  res.getInt(1);
+            	
+            	try { if (pstmt != null) pstmt.close(); } catch (Exception e) { e.printStackTrace(); }; //Close the database object for reuse.
+	            
             	
             	pstmt = conn.prepareStatement("Update Rating Set Liked = ?, Ease = ?, Cost = ?  where RatingID = ?");
     			pstmt.setInt(1, liked);
