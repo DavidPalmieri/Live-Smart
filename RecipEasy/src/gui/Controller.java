@@ -131,10 +131,6 @@ public class Controller {
     	dg.close();	
     }
     
-    public void aboutWindowGo()	{
-    	System.out.println("Loading about page...");
-    	AlertBox.display("About", "Awesome Inc. 2016");
-    }
     
     public void populateList(ArrayList<Recipe> recipeList){
     	imgPic.setImage(null);

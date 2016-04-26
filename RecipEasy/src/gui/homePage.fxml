@@ -23,12 +23,6 @@
                    	<MenuItem mnemonicParsing="false" onAction="#suggestionsClicked" text="Suggestions" />                   
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Tools">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#aboutWindowGo" text="Help" />
-                    <MenuItem mnemonicParsing="false" onAction="#logoutButtonClicked" text="Logout" />
-                  </items>
-                </Menu>
               </menus>
             </MenuBar>
             <HBox spacing="10.0">
