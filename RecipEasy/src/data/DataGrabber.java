@@ -49,6 +49,9 @@
 //			The first part is the categorical suggestion algorithm;										//
 //			It is based off of the idea that if a user likes more recipes from a specific category, 	//
 //			they are more likely to like recipes from that same category								//
+//			Part two involves getting a list of users who share similar interests to the user			//
+//			Lists of recipes are built using the top similar users' favorites, and are sorted for the 	//
+//			the top rated																				//		
 //																										//
 //		search(String searchTerm): ArrayList<Recipe>													//
 //			return an ArrayList of Recipes that contain the search term either in the title, in the 	//
@@ -463,6 +466,8 @@ public class DataGrabber
 	//return an ArrayList of suggested recipes, based off of previous rating history
 	public ArrayList<Recipe> getSuggestions(int userID)
 	{
+	//Part one: Categorical suggestions
+		
 		//First, get the favorites of the user (recipes rated 3 or higher)
 		ArrayList<Recipe> favorites = getFavorites(userID);
 		//Initialize an ArrayList to hold categories
@@ -566,15 +571,12 @@ public class DataGrabber
 			recipe = getRecipe(recipe);
 			suggestions.add(recipe);
 		}
+
 		
-		
-		
-		//Part two involves getting a list of users who share similar interests to the user
-		//Lists of recipes are built using the top similar users' favorites, and are sorted for
-		//the top rated
-		
+	//Part two: Similar user
 		Map<Integer, Integer> countUsers = new HashMap<Integer, Integer>();
 		
+		//Using the favorites, create a list of users who have rated the same recipes highly
 		for (Recipe recipe : favorites)
 		{
 			recipe = getRecipe(recipe);
