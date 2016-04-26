@@ -55,6 +55,7 @@ public class registrationController {
 				
 				System.out.println("Account successfully created");
 
+				userID = dg.getUserID(username);
 				try {
 					dg.close();
         			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/gui/homePage.fxml"));
