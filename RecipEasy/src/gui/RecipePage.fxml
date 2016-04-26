@@ -41,10 +41,7 @@
                                               <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
                                              <children>
-                                                <Label fx:id="lCatVal" GridPane.rowIndex="1">
-                                                   <font>
-                                                      <Font name="Arial" size="12.0" />
-                                                   </font></Label>
+                                                <Label fx:id="lCatVal" GridPane.rowIndex="1" />
                                                 <Label fx:id="lRateVal" />
                                              </children>
                                           </GridPane>
