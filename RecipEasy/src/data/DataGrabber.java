@@ -215,7 +215,18 @@ public class DataGrabber
 			if (res.next()) // Use the returned rows of the ResultSet to build the Recipe object.
 			{
 				recipe.setDetails(res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6));
-				rating.setUserRating(res.getInt(7), res.getInt(8), res.getInt(9));
+				
+				Integer like=res.getInt(7);
+				Integer cost=res.getInt(8);
+				Integer ease=res.getInt(9);
+				
+				if(like==null)
+					like=0;
+				if(cost==null)
+					cost=0;
+				if(ease==null)
+					ease=0;
+				rating.setUserRating(like, cost, ease);
 				
 			}
 			
