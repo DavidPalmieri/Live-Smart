@@ -19,8 +19,6 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Recipes">
                   <items>
-                  	<MenuItem mnemonicParsing="false" onAction="#randomButtonClicked" text="Random" />
-                  	<MenuItem mnemonicParsing="false" text="Browse" />
                   	<MenuItem mnemonicParsing="false" onAction="#favoritesClicked" text="Favorites" />
                    	<MenuItem mnemonicParsing="false" onAction="#suggestionsClicked" text="Suggestions" />                   
                   </items>
