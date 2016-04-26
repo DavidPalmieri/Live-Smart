@@ -15,14 +15,15 @@
      
      <Label text="User Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
      
-     <TextField fx:id="user" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+     <Label text="Password:" GridPane.rowIndex="3" />
      
      <Label text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
      
-     <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+     <TextField fx:id="user" GridPane.columnIndex="1" GridPane.rowIndex="1" />
      
-      <Label text="Password:" GridPane.rowIndex="3" />
-      <PasswordField fx:id="passwordField1" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+     <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      
+     <PasswordField fx:id="passwordField1" GridPane.columnIndex="1" GridPane.rowIndex="3" />
      
      <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <children>
